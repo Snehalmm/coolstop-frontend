@@ -3,7 +3,7 @@ import { useState } from "react";
 import usePostApi from "../../utils/usePostApi";
 import { useForm } from "react-hook-form";
 import { Path } from "../../utils/apiService";
-import StarRating from "../../components/Product/StarRating";
+import StarRating from "../Product/StarRating";
 
 const ReviewModel = (props) => {
   const [qualityRating, setQualityRating] = useState(0);

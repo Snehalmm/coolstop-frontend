@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AdressModal from "../Modal/AdressModal";
+import AdressModal from "../modal/AdressModal";
 const AddressBook = () => {
   const [adressModal, setAdressModal] = useState();
 
