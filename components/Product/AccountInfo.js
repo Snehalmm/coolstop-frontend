@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddressBook from "./AddressBook";
 import MyAccountList from "./MyAccountList";
-import ChangePassword from "../modal/ChangePassword";
+import ChangePassword from "../Modal/ChangePassword";
 const AccountInfo = () => {
   const [userDetails, setUserDetails] = useState();
   const [showPasswordModal, setShowPasswordModal] = useState(false);

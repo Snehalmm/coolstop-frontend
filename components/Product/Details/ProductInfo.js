@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import ReviewModel from "../../modal/ReviewModel";
-import EmiView from "../../modal/EmiView";
+import ReviewModel from "../../Modal/ReviewModel";
+import EmiView from "../../Modal/EmiView";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { cartActions } from "../../../stores/slices/cartSlice";
