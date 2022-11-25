@@ -28,12 +28,16 @@ const Reviews = () => {
               <h4>What Our Customers Are Saying</h4>
             </div>
             {reviewsData !== null &&
-              reviewsData.data.map((item, index) => (
-                <div className="revblock" key={index}>
-                  <p>{item.attributes.reviewComment}</p>
-                  <span>{item.attributes.name}</span>
-                </div>
-              ))}
+              reviewsData.data.map((item, index) => {
+                return (
+                  item.attributes.showOnHome && (
+                    <div className="revblock" key={index}>
+                      <p>{item.attributes.reviewComment}</p>
+                      <span>{item.attributes.name}</span>
+                    </div>
+                  )
+                );
+              })}
 
             {/* <div className="revblock" key={reviewIndex}>
               <p>{reviewItem.reviewComment}</p>

@@ -1,7 +1,75 @@
 import OrderInstructions from "./OrderInstructions";
 import OrderSummary from "./OrderSummary";
+import usePostApi from "../../utils/usePostApi";
+import { Path } from "../../utils/apiService";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { States } from "../../utils/data/states";
 
 const DeliveryAddressTable = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const cartItems = useSelector((state) => {
+    return state.cart.cartItems;
+  });
+  const cartDetails = useSelector((state) => {
+    return state.cart.cartDetails;
+  });
+  const userDetails = useSelector((state) => state.user.userDetails.user);
+  const {
+    isLoading: createOrderLoading,
+    error: createOrderError,
+    data: createOrderData,
+    sendHTTPPostRequest: createOrderApi,
+  } = usePostApi();
+
+  let createObj = {};
+  const findArray = [];
+  cartItems.map((item) => {
+    createObj = {
+      itemName: item.name,
+      itemAmt: item.csp,
+      quantity: item.qty,
+      product: item.id,
+    };
+
+    findArray.push(createObj);
+  });
+
+  const onSubmit = (data) => {
+    let orderData = {
+      data: {
+        emailId: userDetails.email,
+        amount: Math.floor(cartDetails.totalAmt),
+        paymentStatus: "unpaid",
+        paymentMode: null,
+        orderStatus: "pending",
+        shippedDate: null,
+        itemDetails: findArray,
+        billingAddress: {
+          houseNo: data.cshouseno,
+          address: data.csadr1,
+          townOrCity: data.cscity,
+          country: data.cscounty,
+          postcode: data.cspostcode,
+        },
+        shippingAddress: {
+          houseNo: data.cshouseno,
+          address: data.csadr1,
+          townOrCity: data.cscity,
+          country: data.cscounty,
+          postcode: Number(data.cspostcode),
+        },
+        users_permissions_user: userDetails.id,
+      },
+    };
+    createOrderApi(Path.order, orderData);
+  };
+
   return (
     <>
       <section className="grid-container">
@@ -16,166 +84,263 @@ const DeliveryAddressTable = () => {
                   <h2>Delivery Address</h2>
                 </div>
               </div>
-              <div className="ckh-frm-con">
-                <div className="ckh-frm-0">
-                  <label htmlFor="cspostcode">
-                    Enter Your Postcode to find your shipping address
-                  </label>
-                  <div className="idpc_autocomplete">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="ckh-frm-con">
+                  <div className="ckh-frm-1">
+                    <label htmlFor="cspostcode">Postcode</label>
                     <input
                       type="text"
-                      id="csfindaddress"
-                      name="csfindaddress"
-                      className="fields_className"
-                      aria-describedby="l1gx22-abide-error"
-                      autoComplete="off"
-                      aria-autocomplete="list"
+                      id="cspostcode"
+                      // readOnly
+                      {...register("cspostcode", {
+                        required: true,
+                      })}
                     />
-                    <ul className="hidden idpc_ul"></ul>
+                    <span className="form-error">
+                      Please enter your post code
+                    </span>
+                  </div>
+
+                  <div className="ckh-frm-2">
+                    <label htmlFor="cshouseno">
+                      Organisation / House Name / No.
+                    </label>
+                    <input
+                      type="text"
+                      id="cshouseno"
+                      {...register("cshouseno", {
+                        required: true,
+                      })}
+                    />
+                    {errors.cshouseno &&
+                      errors.cshouseno.type === "required" && (
+                        <span className="error-message">
+                          Please enter your house or office number/name
+                        </span>
+                      )}
+                  </div>
+
+                  <div className="ckh-frm-3">
+                    <label htmlFor="csadr1">Address</label>
+                    <input
+                      type="text"
+                      id="csadr1"
+                      {...register("csadr1", {
+                        required: true,
+                      })}
+                    />
+                    {errors.cshouseno &&
+                      errors.cshouseno.type === "required" && (
+                        <span className=" error-message">
+                          Please enter your address.
+                        </span>
+                      )}
+                  </div>
+
+                  <div className="ckh-frm-4">
+                    <label htmlFor="cscity">Town or City</label>
+                    <input
+                      type="text"
+                      id="cscity"
+                      {...register("cscity", {
+                        required: true,
+                      })}
+                    />
+                    {errors.cscity && errors.cscity.type === "required" && (
+                      <span className=" error-message">
+                        Please enter your city
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="ckh-frm-5">
+                    <label htmlFor="cscounty">State</label>
+                    <select
+                      id="cscounty"
+                      {...register("csstate", {
+                        required: true,
+                      })}
+                    >
+                      <option></option>
+                      {States.map((state, index) => (
+                        <option value={state.state_id} key={index}>
+                          {state.state_name}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* <select
+                      id="cscounty"
+                      {...register("csstate", {
+                        required: true,
+                      })}
+                    >
+                      {States.map((state, index) => {
+                        <option key={index}>{state.state_name}</option>;
+                      })}
+                    </select> */}
+                    {errors.csstate && errors.csstate.type === "required" && (
+                      <span className=" error-message">
+                        Please select your State
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="ckh-frm-5">
+                    <label htmlFor="cscounty">County</label>
+                    <input
+                      type="text"
+                      id="cscounty"
+                      {...register("cscounty", {
+                        required: true,
+                      })}
+                    />
+                    {errors.cscounty && errors.cscounty.type === "required" && (
+                      <span className=" error-message">
+                        Please enter your county
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="ckh-frm-6">
+                    <label htmlFor="csfname">First Name</label>
+                    <input
+                      type="text"
+                      id="csfname"
+                      {...register("csfname", {
+                        required: true,
+                      })}
+                    />
+                    {errors.csfname && errors.csfname.type === "required" && (
+                      <span className=" error-message">
+                        Please enter your first name
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="ckh-frm-7">
+                    <label htmlFor="cslname">Last Name</label>
+                    <input
+                      type="text"
+                      id="cslname"
+                      {...register("cslname", {
+                        required: true,
+                      })}
+                    />
+                    {errors.cslname && errors.cslname.type === "required" && (
+                      <span className=" error-message">
+                        Please enter your last name
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="ckh-frm-1">
+                    <label htmlFor="rmail">
+                      Email{" "}
+                      <span>(your account will be created after checkout)</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="rmail"
+                      {...register("email", {
+                        required: true,
+                        pattern:
+                          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      })}
+                    />
+                    {errors.email && errors.email.type === "required" && (
+                      <span className=" error-message">
+                        Please enter your email address
+                      </span>
+                    )}
+                    {errors.email && errors.email.type === "pattern" && (
+                      <p className="error-message">
+                        Please write a valid email
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="ckh-frm-1">
+                    <label htmlFor="cscontactno">Delivery Contact No.</label>
+                    <input
+                      type="text"
+                      maxLength="10"
+                      autoComplete="off"
+                      id="cscontactno"
+                      {...register("cscontactno", {
+                        required: true,
+                        pattern:
+                          /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+                      })}
+                    />
+                    {errors.cscontactno &&
+                      errors.cscontactno.type === "required" && (
+                        <span className=" error-message">
+                          Please enter your Delivery Contact No.
+                        </span>
+                      )}
+                    {errors.cscontactno &&
+                      errors.cscontactno.type === "pattern" && (
+                        <span className="error-message">
+                          Please write a valid contact number
+                        </span>
+                      )}
+                  </div>
+
+                  <div className="ckh-frm-10">
+                    <label htmlFor="shipping_address">
+                      <input
+                        type="checkbox"
+                        name="shipping_address"
+                        id="shipping_address"
+                        defaultChecked
+                      />{" "}
+                      Billing Address is same as Delivery Address
+                    </label>
+                    <input
+                      name="hdnBUID"
+                      type="hidden"
+                      id="hdnBUID"
+                      defaultValue="0"
+                    />
+                    <label htmlFor="chktercon">
+                      <input
+                        type="checkbox"
+                        name="chktercon"
+                        id="shipping_address"
+                        defaultChecked
+                      />{" "}
+                      I agree to{" "}
+                      <a
+                        href="#"
+                        className="ckhagree"
+                        data-toggle="trm-con-modal"
+                      >
+                        terms & conditions
+                      </a>
+                    </label>
+                    <input
+                      name="hdnBUID"
+                      type="hidden"
+                      id="hdnBUID"
+                      defaultValue="0"
+                    />
+                  </div>
+
+                  <div className="bw-right-chk-batn">
+                    <button
+                      id="btnshippingInfo"
+                      className="deliveryclassName"
+                      // onClick={createOrderhandler}
+                    >
+                      <svg viewBox="0 0 24 24">
+                        <path d="M 13.619141 1.7519531 C 13.319328 1.7000156 13 1.9189844 13 2.2714844 L 13 4 L 10 4 C 9.448 4 9 4.448 9 5 C 9 5.552 9.448 6 10 6 L 13 6 L 13 7.7285156 C 13 8.1975156 13.568391 8.4316094 13.900391 8.0996094 L 16.423828 5.5761719 C 16.741828 5.2571719 16.741828 4.7418281 16.423828 4.4238281 L 13.900391 1.8984375 C 13.817391 1.8154375 13.719078 1.7692656 13.619141 1.7519531 z M 4.0742188 2.0039062 L 3.0039062 2.0078125 C 2.4519063 2.0108125 2.0058125 2.4616719 2.0078125 3.0136719 C 2.0108125 3.5656719 2.4616719 4.0108125 3.0136719 4.0078125 L 4.0839844 4.0039062 L 7.5117188 11.908203 L 6.3144531 13.824219 C 5.9144531 14.464219 5.8937656 15.272641 6.2597656 15.931641 C 6.6257656 16.590641 7.3221719 17 8.0761719 17 L 19 17 C 19.552 17 20 16.552 20 16 C 20 15.448 19.552 15 19 15 L 8.0761719 15 L 8.0117188 14.882812 L 9.1875 13 L 16.521484 13 C 17.247484 13 17.916578 12.606656 18.267578 11.972656 L 21.896484 5.4414062 C 22.164484 4.9594062 21.989812 4.3500312 21.507812 4.0820312 C 21.024812 3.8130313 20.416438 3.9877031 20.148438 4.4707031 L 16.521484 11 L 9.2851562 11 L 5.9296875 3.234375 C 5.6186875 2.486375 4.8852187 1.9999062 4.0742188 2.0039062 z M 8 18 A 2 2 0 0 0 6 20 A 2 2 0 0 0 8 22 A 2 2 0 0 0 10 20 A 2 2 0 0 0 8 18 z M 18 18 A 2 2 0 0 0 16 20 A 2 2 0 0 0 18 22 A 2 2 0 0 0 20 20 A 2 2 0 0 0 18 18 z" />
+                      </svg>{" "}
+                      Continue to Payment
+                    </button>
                   </div>
                 </div>
-
-                <div className="ckh-frm-1">
-                  <label htmlFor="cspostcode">Postcode</label>
-                  <input
-                    type="text"
-                    id="cspostcode"
-                    name="cspostcode"
-                    readOnly
-                    required
-                  />
-                  <span className="form-error">
-                    Please enter your post code
-                  </span>
-                </div>
-
-                <div className="ckh-frm-2">
-                  <label htmlFor="cshouseno">
-                    Organisation / House Name / No.
-                  </label>
-                  <input type="text" id="cshouseno" name="cshouseno" required />
-                  <span className="form-error">
-                    Please enter your house or office number/name
-                  </span>
-                </div>
-
-                <div className="ckh-frm-3">
-                  <label htmlFor="csadr1">Address</label>
-                  <input type="text" id="csadr1" name="csadr1" required />
-                  <span className="form-error">Please enter your address.</span>
-                </div>
-
-                <div className="ckh-frm-4">
-                  <input
-                    type="text"
-                    id="csadr2"
-                    name="csadr2"
-                    // style={{ display: none }}
-                  />
-                  <label htmlFor="cscity">Town or City</label>
-                  <input type="text" id="cscity" name="cscity" required />
-                  <span className="form-error">Please enter your city</span>
-                </div>
-
-                <div className="ckh-frm-5">
-                  <label htmlFor="cscounty">County</label>
-                  <input type="text" id="cscounty" name="cscounty" required />
-                  <span className="form-error">Please enter your county</span>
-                </div>
-
-                <div className="ckh-frm-6">
-                  <label htmlFor="csfname">First Name</label>
-                  <input type="text" id="csfname" name="csfname" required />
-                  <span className="form-error">
-                    Please enter your first name
-                  </span>
-                </div>
-
-                <div className="ckh-frm-7">
-                  <label htmlFor="cslname">Last Name</label>
-                  <input type="text" id="cslname" name="cslname" required />
-                  <span className="form-error">
-                    Please enter your last name
-                  </span>
-                </div>
-
-                <div className="ckh-frm-1">
-                  <label htmlFor="rmail">
-                    Email{" "}
-                    <span>(your account will be created after checkout)</span>
-                  </label>
-                  <input type="email" id="rmail" name="rmail" required />
-                  <span className="form-error">
-                    Please enter your email address
-                  </span>
-                </div>
-
-                <div className="ckh-frm-1">
-                  <label htmlFor="cscontactno">Delivery Contact No.</label>
-                  <input
-                    type="text"
-                    id="cscontactno"
-                    name="cscontactno"
-                    required
-                  />
-                  <span className="form-error">
-                    Please enter your Delivery Contact No.
-                  </span>
-                </div>
-
-                <div className="ckh-frm-10">
-                  <label htmlFor="shipping_address">
-                    <input
-                      type="checkbox"
-                      name="shipping_address"
-                      id="shipping_address"
-                      defaultChecked
-                    />{" "}
-                    Billing Address is same as Delivery Address
-                  </label>
-                  <input
-                    name="hdnBUID"
-                    type="hidden"
-                    id="hdnBUID"
-                    defaultValue="0"
-                  />
-                  <label htmlFor="chktercon">
-                    <input
-                      type="checkbox"
-                      name="chktercon"
-                      id="shipping_address"
-                      defaultChecked
-                    />{" "}
-                    I agree to{" "}
-                    <a
-                      href="#"
-                      className="ckhagree"
-                      data-toggle="trm-con-modal"
-                    >
-                      terms & conditions
-                    </a>
-                  </label>
-                  <input
-                    name="hdnBUID"
-                    type="hidden"
-                    id="hdnBUID"
-                    defaultValue="0"
-                  />
-                </div>
-
-                <div className="bw-right-chk-batn">
-                  <button
-                    type="submit"
-                    id="btnshippingInfo"
-                    className="deliveryclassName"
-                  >
-                    <svg viewBox="0 0 24 24">
-                      <path d="M 13.619141 1.7519531 C 13.319328 1.7000156 13 1.9189844 13 2.2714844 L 13 4 L 10 4 C 9.448 4 9 4.448 9 5 C 9 5.552 9.448 6 10 6 L 13 6 L 13 7.7285156 C 13 8.1975156 13.568391 8.4316094 13.900391 8.0996094 L 16.423828 5.5761719 C 16.741828 5.2571719 16.741828 4.7418281 16.423828 4.4238281 L 13.900391 1.8984375 C 13.817391 1.8154375 13.719078 1.7692656 13.619141 1.7519531 z M 4.0742188 2.0039062 L 3.0039062 2.0078125 C 2.4519063 2.0108125 2.0058125 2.4616719 2.0078125 3.0136719 C 2.0108125 3.5656719 2.4616719 4.0108125 3.0136719 4.0078125 L 4.0839844 4.0039062 L 7.5117188 11.908203 L 6.3144531 13.824219 C 5.9144531 14.464219 5.8937656 15.272641 6.2597656 15.931641 C 6.6257656 16.590641 7.3221719 17 8.0761719 17 L 19 17 C 19.552 17 20 16.552 20 16 C 20 15.448 19.552 15 19 15 L 8.0761719 15 L 8.0117188 14.882812 L 9.1875 13 L 16.521484 13 C 17.247484 13 17.916578 12.606656 18.267578 11.972656 L 21.896484 5.4414062 C 22.164484 4.9594062 21.989812 4.3500312 21.507812 4.0820312 C 21.024812 3.8130313 20.416438 3.9877031 20.148438 4.4707031 L 16.521484 11 L 9.2851562 11 L 5.9296875 3.234375 C 5.6186875 2.486375 4.8852187 1.9999062 4.0742188 2.0039062 z M 8 18 A 2 2 0 0 0 6 20 A 2 2 0 0 0 8 22 A 2 2 0 0 0 10 20 A 2 2 0 0 0 8 18 z M 18 18 A 2 2 0 0 0 16 20 A 2 2 0 0 0 18 22 A 2 2 0 0 0 20 20 A 2 2 0 0 0 18 18 z" />
-                    </svg>{" "}
-                    Continue to Payment
-                  </button>
-                </div>
-              </div>
+              </form>
 
               {/* <div
                 id="billingdiv"
@@ -193,7 +358,7 @@ const DeliveryAddressTable = () => {
                   <div className="ckh-frm-2">
                     <label htmlFor="cbfname">First Name</label>
                     <input type="text" id="cbfname" name="cbfname" />
-                    <span className="htmlForm-error">
+                    <span className="html">
                       Please enter your first name
                     </span>
                   </div>
@@ -201,7 +366,7 @@ const DeliveryAddressTable = () => {
                   <div className="ckh-frm-3">
                     <label htmlFor="cblname">Last Name</label>
                     <input type="text" id="cblname" name="cblname" />
-                    <span className="htmlForm-error">
+                    <span className="html">
                       Please enter your last name
                     </span>
                   </div>
@@ -209,7 +374,7 @@ const DeliveryAddressTable = () => {
                   <div className="ckh-frm-4">
                     <label htmlFor="cbcontactno">Delivery Contact No.</label>
                     <input type="text" id="cbcontactno" name="cbcontactno" />
-                    <span className="htmlForm-error">
+                    <span className="html">
                       Please enter your delivery contact no.
                     </span>
                   </div>

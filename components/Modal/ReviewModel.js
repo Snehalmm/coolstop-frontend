@@ -145,7 +145,7 @@ const ReviewModel = (props) => {
                     count={5}
                     size={25}
                     value={MoneyRating}
-                    activeColor={"yellow"}
+                    activeColor={"#FFA534"}
                     inactiveColor={"#ddd"}
                     onChange={moneyHandleChange}
                   />
@@ -160,7 +160,7 @@ const ReviewModel = (props) => {
                     count={5}
                     size={25}
                     value={styleRating}
-                    activeColor={"yellow"}
+                    activeColor={"#FFA534"}
                     inactiveColor={"#ddd"}
                     onChange={styleHandleChange}
                   />

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import AdressModal from '../modal/AdressModal';
+import React, { useState, useEffect } from "react";
+import AdressModal from "../modal/AdressModal";
 const AddressBook = () => {
   const [adressModal, setAdressModal] = useState();
 
   const [userDetails, setUserDetails] = useState();
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('userDetails'));
+    const items = JSON.parse(localStorage.getItem("userDetails"));
     if (items) {
-      // console.log(items.user, 'mysccountpage');
       setUserDetails(items);
     }
   }, []);
@@ -36,7 +35,7 @@ const AddressBook = () => {
                 <div className="ac-det-wrap">
                   <h3 className="ac-cont-infotit">Billing Address</h3>
                   <p className="ac-newsl-det">
-                    Flat{' '}
+                    Flat{" "}
                     <span className="cm-line-break"> 179 Evington Road</span>
                     LEICESTER
                     <span className="cm-line-break"> Leicestershire</span>
@@ -66,7 +65,7 @@ const AddressBook = () => {
                 <div className="ac-det-wrap">
                   <h3 className="ac-cont-infotit">Shipping Address</h3>
                   <p className="ac-newsl-det">
-                    Flat{' '}
+                    Flat{" "}
                     <span className="cm-line-break"> 179 Evington Road</span>
                     LEICESTER
                     <span className="cm-line-break"> Leicestershire</span>

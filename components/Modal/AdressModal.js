@@ -1,5 +1,5 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from "react";
+import { useForm } from "react-hook-form";
 
 const AdressModal = ({ adressModal, setAdressModal }) => {
   const {
@@ -8,9 +8,7 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
     formState: { errors },
   } = useForm();
 
-  const submitAdress = (data) => {
-    console.log(data, 'adreesssdata');
-  };
+  const submitAdress = (data) => {};
   const closeModel = () => {
     // setAdressModal(false);
   };
@@ -19,21 +17,21 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
     <>
       <div
         className={`reveal-overlay ${
-          adressModal ? 'fade-in mui-enter mui-enter-active' : ''
+          adressModal ? "fade-in mui-enter mui-enter-active" : ""
         }`}
-        style={{ display: `${adressModal ? 'block' : 'none'}` }}
+        style={{ display: `${adressModal ? "block" : "none"}` }}
       >
         <form onSubmit={handleSubmit(submitAdress)}>
           <div
             className={`reveal large bounce-in-out ${
-              adressModal ? 'scale-in-up mui-enter mui-enter-active' : ''
+              adressModal ? "scale-in-up mui-enter mui-enter-active" : ""
             }`}
             id="chg_bill_add"
             data-reveal
             data-close-on-click="true"
             data-animation-in="scale-in-up"
             data-animation-out="scale-out-down"
-            style={{ display: `${adressModal ? 'block' : 'none'}` }}
+            style={{ display: `${adressModal ? "block" : "none"}` }}
           >
             <div classname="large-12 columns">
               <div classname="pass-form_tit-container">
@@ -47,11 +45,11 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                   Full Name/Company Name*
                   <input
                     type="text"
-                    {...register('name', { required: true })}
+                    {...register("name", { required: true })}
                     autocomplete="off"
                   />
                 </label>
-                {errors.name && errors.name.type === 'required' && (
+                {errors.name && errors.name.type === "required" && (
                   <p className="error-message">This field is required</p>
                 )}
               </div>
@@ -62,18 +60,18 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                     maxLength="10"
                     autoComplete="off"
                     type="tel"
-                    {...register('contactNo', {
+                    {...register("contactNo", {
                       required: true,
                       pattern:
                         /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
                     })}
                   />
                 </label>
-                {errors.contactNo && errors.contactNo.type === 'required' && (
+                {errors.contactNo && errors.contactNo.type === "required" && (
                   <p className="error-message">This field is required</p>
                 )}
 
-                {errors.contactNo && errors.contactNo.type === 'pattern' && (
+                {errors.contactNo && errors.contactNo.type === "pattern" && (
                   <p className="error-message">
                     Please write a valid contact number
                   </p>
@@ -84,11 +82,11 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                   Email Address*
                   <input
                     type="email"
-                    {...register('email', { required: true })}
+                    {...register("email", { required: true })}
                     autoComplete="off"
                   />
                 </label>
-                {errors.email && errors.email.type === 'required' && (
+                {errors.email && errors.email.type === "required" && (
                   <p className="error-message">This field is required</p>
                 )}
               </div>
@@ -97,11 +95,11 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                   Flat/House No./Floor/Building Name*
                   <input
                     type="text"
-                    {...register('houseNo', { required: true })}
+                    {...register("houseNo", { required: true })}
                     autoComplete="off"
                   />
                 </label>
-                {errors.houseNo && errors.houseNo.type === 'required' && (
+                {errors.houseNo && errors.houseNo.type === "required" && (
                   <p className="error-message">This field is required</p>
                 )}
               </div>
@@ -110,11 +108,11 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                   Road Name,Area,Colony*
                   <input
                     type="text"
-                    {...register('townOrCity', { required: true })}
+                    {...register("townOrCity", { required: true })}
                     autoComplete="off"
                   />
                 </label>
-                {errors.townOrCity && errors.townOrCity.type === 'required' && (
+                {errors.townOrCity && errors.townOrCity.type === "required" && (
                   <p className="error-message">This field is required</p>
                 )}
               </div>
@@ -123,7 +121,7 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                   Landmark
                   <input
                     type="text"
-                    {...register('landmark')}
+                    {...register("landmark")}
                     autoComplete="off"
                   />
                 </label>
@@ -133,11 +131,11 @@ const AdressModal = ({ adressModal, setAdressModal }) => {
                   Pin Code*
                   <input
                     type="number"
-                    {...register('postcode', { required: true })}
+                    {...register("postcode", { required: true })}
                     autoComplete="off"
                   />
                 </label>
-                {errors.postcode && errors.postcode.type === 'required' && (
+                {errors.postcode && errors.postcode.type === "required" && (
                   <p className="error-message">This field is required</p>
                 )}
               </div>

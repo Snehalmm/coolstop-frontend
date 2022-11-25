@@ -8,6 +8,7 @@ export const Path = {
   forgotPassword: `/api/auth/forgot-password`,
   home: `/api/home`,
   resetpassword: `/api/auth/reset-password`,
+  order: `/api/orders`,
 };
 
 const getEndpoint = (apiName, pathValue) => {

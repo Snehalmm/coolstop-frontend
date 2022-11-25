@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { Path } from '../../utils/apiService';
-import usePostApi from '../../utils/usePostApi';
-import { useRouter } from 'next/router';
-import { saveState } from '../../utils/localstorage';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { Path } from "../../utils/apiService";
+import usePostApi from "../../utils/usePostApi";
+import { useRouter } from "next/router";
 
 const login = () => {
   const [errorMsg, setErrorMsg] = useState([]);
@@ -24,8 +23,8 @@ const login = () => {
 
   const successHandler = (data) => {
     if (data.jwt.length > 0 && data.user) {
-      localStorage.setItem('userDetails', JSON.stringify(data));
-      router.push('/');
+      localStorage.setItem("userDetails", JSON.stringify(data));
+      router.push("/");
     }
   };
 
@@ -49,10 +48,10 @@ const login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <p
               style={{
-                display: 'flex',
-                justifyContent: 'center',
-                color: 'red',
-                marginTop: '10px',
+                display: "flex",
+                justifyContent: "center",
+                color: "red",
+                marginTop: "10px",
                 marginBottom: 0,
               }}
             >
@@ -63,18 +62,18 @@ const login = () => {
               <input
                 type="text"
                 placeholder="Email or Phone"
-                {...register('identifier', {
+                {...register("identifier", {
                   required: true,
                   pattern:
                     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 })}
               />
             </div>
-            {errors.identifier && errors.identifier.type === 'required' && (
+            {errors.identifier && errors.identifier.type === "required" && (
               <p className="error-message">This field is required</p>
             )}
 
-            {errors.identifier && errors.identifier.type === 'pattern' && (
+            {errors.identifier && errors.identifier.type === "pattern" && (
               <p className="error-message">Please write a valid email</p>
             )}
 
@@ -83,20 +82,20 @@ const login = () => {
               <input
                 type="password"
                 placeholder="Password"
-                {...register('password', {
+                {...register("password", {
                   required: true,
                   minLength: {
                     value: 6,
-                    message: 'Password minimum be 6 digits',
+                    message: "Password minimum be 6 digits",
                   },
                 })}
               />
             </div>
-            {errors.password && errors.password.type === 'required' && (
+            {errors.password && errors.password.type === "required" && (
               <p className="error-message">This field is required</p>
             )}
 
-            {errors.password && errors.password.type === 'minLength' && (
+            {errors.password && errors.password.type === "minLength" && (
               <p className="error-message">{errors.password?.message}</p>
             )}
 
@@ -104,7 +103,7 @@ const login = () => {
               <Link href="forgot-password">Forgot password? </Link>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <button className="button" type="submit">
                 Login
               </button>
