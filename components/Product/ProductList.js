@@ -1,4 +1,4 @@
-import Filters from "../common/Filters";
+import Filters from "../Common/Filters";
 import Image from "next/image";
 import Link from "next/link";
 import { toIndianCurrency } from "../../utils/services";

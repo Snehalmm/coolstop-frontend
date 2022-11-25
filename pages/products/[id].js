@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Features from "../../components/Home/Features";
 import { productDetailBreadcrumb } from "../../utils/data/breadcrumbs";
-import Breadcrumbs from "../../components/common/Breadcrumbs";
+import Breadcrumbs from "../../components/Common/Breadcrumbs";
 import ProductSlide from "../../components/Product/Details/ProductSlide";
 import SpecificationTable from "../../components/Product/SpecificationTable";
 import RelatedProducts from "../../components/Product/Details/RelatedProducts";

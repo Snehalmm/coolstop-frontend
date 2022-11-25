@@ -1,7 +1,7 @@
 import Features from "../components/Home/Features";
 import { cartBreadcrums } from "../utils/data/breadcrumbs";
 import ShoppingCart from "../components/Product/ShoppingCart";
-import Breadcrumbs from "../components/common/Breadcrumbs";
+import Breadcrumbs from "../components/Common/Breadcrumbs";
 
 const Cart = () => {
   return (

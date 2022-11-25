@@ -1,7 +1,7 @@
 import Features from "../../components/Home/Features";
 import ProductList from "../../components/Product/ProductList";
 import { productsBreadcrumb } from "../../utils/data/breadcrumbs";
-import Breadcrumbs from "../../components/common/Breadcrumbs";
+import Breadcrumbs from "../../components/Common/Breadcrumbs";
 import useGetApi from "../../utils/useGetApi";
 import { useEffect } from "react";
 import { Path } from "../../utils/apiService";
