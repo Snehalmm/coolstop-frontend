@@ -13,7 +13,7 @@ const OrderSummaryForCart = () => {
     return state.cart.cart.cartItems;
   });
   const cartDetails = useSelector((state) => {
-    return state.cart.cartDetails;
+    return state.cart.cart.cartDetails;
   });
 
   const handleClick = () => {

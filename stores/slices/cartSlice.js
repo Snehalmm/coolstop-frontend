@@ -11,14 +11,6 @@ const cartSlice = createSlice({
   reducers: {
     addProduct(state, action) {
 
-      // for (const key of Object.keys(state)) {
-      //   console.log("keys",key); // 👉️ name, age
-      //   console.log("keys objjjj", state[key]); // 👉️ 'Tom', 30
-      // }
-      // console.log("stateee==", state)
-      // const {cartItems, cartDetails} = state
-      // console.log("state=====", cartItems, cartDetails)
-      // cartItems=[];
       const exCartItems= [...state.cart.cartItems]
       const { id, qty } = action.payload;
       const findObj = exCartItems?.find((item) => item.id === id);
@@ -64,7 +56,7 @@ const cartSlice = createSlice({
     },
     removeProduct(state, action) {
       const { id } = action.payload;
-      const excartItem = [...state.cartItems];
+      const excartItem = [...state.cart.cartItems];
       const findIndex = excartItem.findIndex((item) => item.id == id);
       excartItem.splice(findIndex, 1);
       state.cart.cartItems = excartItem;
