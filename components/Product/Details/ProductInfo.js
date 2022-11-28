@@ -11,7 +11,7 @@ import StarRating from "../StarRating";
 const ProductInfo = ({ data, item }) => {
   const router = useRouter();
   const cartItems = useSelector((state) => {
-    return state.cart.cartItems;
+    return state.cart.cart.cartItems;
   });
   const dispatch = useDispatch();
 

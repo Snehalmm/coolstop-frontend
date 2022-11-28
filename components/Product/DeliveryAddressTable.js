@@ -14,12 +14,12 @@ const DeliveryAddressTable = () => {
   } = useForm();
 
   const cartItems = useSelector((state) => {
-    return state.cart.cartItems;
+    return state.cart.cart.cartItems;
   });
   const cartDetails = useSelector((state) => {
-    return state.cart.cartDetails;
+    return state.cart.cart.cartDetails;
   });
-  const userDetails = useSelector((state) => state.user.userDetails.user);
+  const userDetails = useSelector((state) => state.user.users.userDetails.user);
   const {
     isLoading: createOrderLoading,
     error: createOrderError,

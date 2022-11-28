@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../stores/slices/cartSlice";
 
 const Header = () => {
-  const cartItemsCount = useSelector((state) => state.cart.cartItems?.length);
-  const userDetails = useSelector((state) => state.user.userDetails);
+  const cartItemsCount = useSelector((state) => state.cart.cart.cartItems?.length);
+  const userDetails = useSelector((state) => state.user.users.userDetails);
 
   const dispatch = useDispatch();
   useEffect(() => {

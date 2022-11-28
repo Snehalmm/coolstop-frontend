@@ -10,7 +10,7 @@ const OrderSummaryForCart = () => {
   const router = useRouter();
 
   const productDetails = useSelector((state) => {
-    return state.cart.cartItems;
+    return state.cart.cart.cartItems;
   });
   const cartDetails = useSelector((state) => {
     return state.cart.cartDetails;

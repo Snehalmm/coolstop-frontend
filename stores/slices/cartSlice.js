@@ -3,17 +3,29 @@ import { createSlice } from '@reduxjs/toolkit';
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cartItems: [],
-    cartDetails: {},
+    cart: {
+      cartItems: [],
+      cartDetails: {},
+    }
   },
   reducers: {
     addProduct(state, action) {
+
+      // for (const key of Object.keys(state)) {
+      //   console.log("keys",key); // 👉️ name, age
+      //   console.log("keys objjjj", state[key]); // 👉️ 'Tom', 30
+      // }
+      // console.log("stateee==", state)
+      // const {cartItems, cartDetails} = state
+      // console.log("state=====", cartItems, cartDetails)
+      // cartItems=[];
+      const exCartItems= [...state.cart.cartItems]
       const { id, qty } = action.payload;
-      const findObj = state.cartItems.find((item) => item.id === id);
+      const findObj = exCartItems?.find((item) => item.id === id);
 
       let arr = [];
       if (findObj) {
-        arr = state.cartItems.map((item) =>
+        arr = exCartItems.map((item) =>
           item.id === id
             ? {
                 ...item,
@@ -23,31 +35,31 @@ const cartSlice = createSlice({
             : item
         );
       } else {
-        arr = [...state.cartItems, action.payload];
+        arr = [...exCartItems, action.payload];
       }
 
-      state.cartItems = arr;
+      state.cart.cartItems = arr;
       localStorage.setItem('products', JSON.stringify(arr));
     },
     updateProduct(state, action) {
-      state.cartItems = action.payload;
+      state.cart.cartItems = action.payload;
       localStorage.setItem('products', JSON.stringify(action.payload));
     },
     updateProductQty(state, action) {
       const { id, qty, sign } = action.payload;
-      let updatedData = [...state.cartItems];
+      let updatedData = [...state.cart.cartItems];
 
       if (sign === 'plus') {
-        updatedData = state.cartItems.map((item) =>
+        updatedData = state.cart.cartItems.map((item) =>
           item.id === id ? { ...item, qty: qty, total: item.csp * qty } : item
         );
       } else {
-        updatedData = state.cartItems.map((item) =>
+        updatedData = state.cart.cartItems.map((item) =>
           item.id === id ? { ...item, qty: qty, total: item.csp * qty } : item
         );
       }
 
-      state.cartItems = updatedData;
+      state.cart.cartItems = updatedData;
       localStorage.setItem('products', JSON.stringify(updatedData));
     },
     removeProduct(state, action) {
@@ -55,7 +67,7 @@ const cartSlice = createSlice({
       const excartItem = [...state.cartItems];
       const findIndex = excartItem.findIndex((item) => item.id == id);
       excartItem.splice(findIndex, 1);
-      state.cartItems = excartItem;
+      state.cart.cartItems = excartItem;
       // state.cartDetails = {};
       localStorage.setItem('products', JSON.stringify(excartItem));
     },
@@ -66,11 +78,11 @@ const cartSlice = createSlice({
         shippingCharge: 37.45,
         totalAmt: Number(subTotal) + 37.45,
       };
-      state.cartDetails = cartObj;
+      state.cart.cartDetails = cartObj;
       localStorage.setItem('cartDetails', JSON.stringify(cartObj));
     },
     updateCartDetails(state, action) {
-      state.cartDetails = action.payload;
+      state.cart.cartDetails = action.payload;
       localStorage.setItem('cartDetails', JSON.stringify(action.payload));
     },
   },

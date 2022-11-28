@@ -7,7 +7,7 @@ import OrderSummary from './OrderSummary';
 const ShoppingCart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => {
-    return state.cart.cartItems;
+    return state.cart.cart.cartItems;
   });
   const incrementCartItem = (id, qty) => {
     const newQty = qty + 1;
@@ -47,7 +47,7 @@ const ShoppingCart = () => {
                 </div>
               )}
               {cartItems !== null &&
-                cartItems.length > 0 &&
+                cartItems?.length > 0 &&
                 cartItems.map((item, index) => {
                   return (
                     <div className="ctc-prod-con" key={index}>
