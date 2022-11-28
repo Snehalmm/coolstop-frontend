@@ -4603,6 +4603,7 @@ table.hover:not(.unstriped) tr:nth-of-type(2n):hover {
 .dropdown-pane.large {
   width: 400px;
 }
+
 .pagination {
   margin-left: 0;
   margin-bottom: 1rem;

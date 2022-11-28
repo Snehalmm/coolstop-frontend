@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const CheckoutForm = () => {
+  const [open, setIsOpen] = useState(false);
+
+  const openModel = () => {
+    setIsOpen(true);
+    document.getElementById("fst_login").classList.toggle("is-open");
+    document.getElementById("login-btn").classList.toggle("hover");
+  };
+
   return (
     <>
       <section className="grid-container">
@@ -21,7 +29,13 @@ const CheckoutForm = () => {
             <span className="ext-us-text">
               Existing user login <span>for fast checkout</span>
             </span>
-            <a className="fstlogbt" type="button" data-toggle="fst_login">
+            <a
+              className="fstlogbt"
+              type="button"
+              data-toggle="fst_login"
+              id="login-btn"
+              onClick={openModel}
+            >
               Login{" "}
               <svg
                 height="30"
@@ -32,12 +46,17 @@ const CheckoutForm = () => {
                 <path d="M8.2 15.8c-.3-.3-.3-.8 0-1 .3-.3.7-.3 1 0l3.8 4 3.8-4c.3-.3.7-.3 1 0 .3.3.3.8 0 1l-4.3 4.5c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-4.3-4.5zm9.6-5.6c.3.3.3.8 0 1-.3.3-.7.3-1 0l-3.8-4-3.8 4c-.3.3-.7.3-1 0-.3-.3-.3-.8 0-1l4.3-4.5c.1-.1.3-.2.5-.2s.4.1.5.2l4.3 4.5z"></path>
               </svg>
             </a>
+
             <div
-              className="dropdown-pane"
+              className="dropdown-pane has-position-bottom has-alignment-left "
               id="fst_login"
               data-dropdown
               data-auto-focus="true"
               data-close-on-click="true"
+              style={{
+                top: open ? "411.508px" : "",
+                left: open ? "330.375px" : "",
+              }}
             >
               <form>
                 <input type="email" placeholder="Email" />

@@ -8,9 +8,11 @@ import { myAccountBreadcrums } from '../utils/data/breadcrumbs';
 const my_account = () => {
   return (
     <>
-      <Breadcrumbs data={myAccountBreadcrums} />
-      <AccountInfo />
-      <Features />
+      <div>
+        <Breadcrumbs data={myAccountBreadcrums} />
+        <AccountInfo />
+        <Features />
+      </div>
     </>
   );
 };

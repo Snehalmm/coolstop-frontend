@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import AddressBook from "./AddressBook";
-import MyAccountList from "./MyAccountList";
-import ChangePassword from "../Modal/ChangePassword";
+import React, { useState, useEffect } from 'react';
+import AddressBook from './AddressBook';
+import MyAccountList from './MyAccountList';
+import ChangePassword from '../Modal/ChangePassword';
 const AccountInfo = () => {
   const [userDetails, setUserDetails] = useState();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -11,7 +11,7 @@ const AccountInfo = () => {
   };
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("userDetails"));
+    const items = JSON.parse(localStorage.getItem('userDetails'));
     if (items) {
       setUserDetails(items);
     }
@@ -82,7 +82,7 @@ const AccountInfo = () => {
               </div>
             </div>
           </div>
-          <AddressBook />
+          {/* <AddressBook /> */}
         </div>
       </section>
       {showPasswordModal ? (

@@ -1,4 +1,3 @@
-import OrderInstructions from "./OrderInstructions";
 import OrderSummary from "./OrderSummary";
 
 const PaymentDetails = () => {
@@ -151,7 +150,6 @@ const PaymentDetails = () => {
           <div className="bwcart-right">
             <div className="bwcart-right-nest">
               <OrderSummary buttonText={"Pay Now"} />
-              <OrderInstructions />
             </div>
           </div>
         </div>

@@ -194,10 +194,7 @@ const registerForm = () => {
               </button>
             </div>
 
-            <div
-              className="signup-link"
-              // style={{ display: 'flex', justifyContent: 'center' }}
-            >
+            <div className="signup-link">
               Are you already a member?
               <Link href="/login" as="/login">
                 {' '}

@@ -9,6 +9,7 @@ import useGetApi from '../utils/useGetApi';
 import { Path } from '../utils/apiService';
 import { userActions } from '../stores/slices/userSlice';
 import { useDispatch } from 'react-redux';
+import Link from 'next/link';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -31,20 +32,22 @@ export default function Home() {
 
   return (
     <>
-      {HomeProductsData !== null && (
-        <>
-          <Banner data={HomeProductsData.data.attributes.homeBanner} />
-          <TopSeller
-            data={HomeProductsData.data.attributes.topSellersProducts.data}
-          />
-          <Blogs data={HomeProductsData.data.attributes.blogs} />
-          <Brand
-            data={HomeProductsData.data.attributes.brands_we_offers.data}
-          />
-          <Features />
-          <Reviews />
-        </>
-      )}
+      <div>
+        {HomeProductsData !== null && (
+          <>
+            <Banner data={HomeProductsData.data.attributes.homeBanner} />
+            <TopSeller
+              data={HomeProductsData.data.attributes.topSellersProducts.data}
+            />
+            <Blogs data={HomeProductsData.data.attributes.blogs} />
+            <Brand
+              data={HomeProductsData.data.attributes.brands_we_offers.data}
+            />
+            <Features />
+            <Reviews />
+          </>
+        )}
+      </div>
     </>
   );
 }

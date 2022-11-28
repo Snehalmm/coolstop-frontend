@@ -1,7 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const AdressModal = ({ adressModal, setAdressModal, name }) => {
+const ShippingAdressModal = ({
+  shippingAdressModal,
+  setShippingAdressModal,
+}) => {
   const {
     register,
     handleSubmit,
@@ -9,36 +12,35 @@ const AdressModal = ({ adressModal, setAdressModal, name }) => {
   } = useForm();
 
   const submitAdress = (data) => {
-    console.log(data, 'adressmodal');
-    setAdressModal(false);
+    console.log('shiping adrr', data);
+    setShippingAdressModal(false);
   };
-  // const closeModel = () => {
-  //   setAdressModal(false);
-  // };
 
   return (
     <>
       <div
         className={`reveal-overlay ${
-          adressModal ? 'fade-in mui-enter mui-enter-active' : ''
+          shippingAdressModal ? 'fade-in mui-enter mui-enter-active' : ''
         }`}
-        style={{ display: `${adressModal ? 'block' : 'none'}` }}
+        style={{ display: `${shippingAdressModal ? 'block' : 'none'}` }}
       >
         <form onSubmit={handleSubmit(submitAdress)}>
           <div
             className={`reveal large bounce-in-out ${
-              adressModal ? 'scale-in-up mui-enter mui-enter-active' : ''
+              shippingAdressModal
+                ? 'scale-in-up mui-enter mui-enter-active'
+                : ''
             }`}
             id="chg_bill_add"
             data-reveal
             data-close-on-click="true"
             data-animation-in="scale-in-up"
             data-animation-out="scale-out-down"
-            style={{ display: `${adressModal ? 'block' : 'none'}` }}
+            style={{ display: `${shippingAdressModal ? 'block' : 'none'}` }}
           >
             <div classname="large-12 columns">
               <div classname="pass-form_tit-container">
-                <h4>{name}</h4>
+                <h4>Add Shipping Address</h4>
               </div>
             </div>
 
@@ -155,7 +157,7 @@ const AdressModal = ({ adressModal, setAdressModal, name }) => {
               data-close
               aria-label="Close reveal"
               type="button"
-              onClick={() => setAdressModal(false)}
+              onClick={() => setShippingAdressModal(false)}
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -166,4 +168,4 @@ const AdressModal = ({ adressModal, setAdressModal, name }) => {
   );
 };
 
-export default AdressModal;
+export default ShippingAdressModal;

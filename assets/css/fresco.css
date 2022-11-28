@@ -1758,3 +1758,7 @@ form .signup-link a:hover {
 .active {
   color: yellow;
 }
+
+.ckh-frm-10 {
+  padding: 5px;
+}

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import ReviewModel from "../../Modal/ReviewModel";
-import EmiView from "../../Modal/EmiView";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { cartActions } from "../../../stores/slices/cartSlice";
-import { toIndianCurrency } from "../../../utils/services";
-import StarRating from "../StarRating";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import ReviewModel from '../../Modal/ReviewModel';
+import EmiView from '../../Modal/EmiView';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { cartActions } from '../../../stores/slices/cartSlice';
+import { toIndianCurrency } from '../../../utils/services';
+import StarRating from '../StarRating';
 
 const ProductInfo = ({ data, item }) => {
   const router = useRouter();
   const cartItems = useSelector((state) => {
-    return state.cart.cart.cartItems;
+    return state.cart.items;
   });
   const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ const ProductInfo = ({ data, item }) => {
 
     dispatch(cartActions.addProduct(cartItemObj));
 
-    router.push("/cart");
+    router.push('/cart');
   };
 
   return (
@@ -62,8 +62,8 @@ const ProductInfo = ({ data, item }) => {
                 count={5}
                 size={25}
                 value={2}
-                activeColor={"#FFA534"}
-                inactiveColor={"#ddd"}
+                activeColor={'#FFA534'}
+                inactiveColor={'#ddd'}
                 // onChange={styleHandleChange}
               />
               1 out of 1 customers rated 100%
@@ -76,8 +76,8 @@ const ProductInfo = ({ data, item }) => {
               count={5}
               size={25}
               value={2}
-              activeColor={"#FFA534"}
-              inactiveColor={"#ddd"}
+              activeColor={'#FFA534'}
+              inactiveColor={'#ddd'}
               // onChange={styleHandleChange}
             />
             <p>Rate This Item</p>

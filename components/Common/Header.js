@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import Navbar from "./Navbar";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../../stores/slices/cartSlice";
+import React, { useEffect } from 'react';
+import Image from 'next/image';
+import Navbar from './Navbar';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions } from '../../stores/slices/cartSlice';
 
 const Header = () => {
-  const cartItemsCount = useSelector((state) => state.cart.cart.cartItems?.length);
+  const cartItemsCount = useSelector((state) => state.cart.items?.length);
   const userDetails = useSelector((state) => state.user.users.userDetails);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    let getProducts = localStorage.getItem("products");
+    let getProducts = localStorage.getItem('products');
 
     dispatch(cartActions.updateProduct(JSON.parse(getProducts)));
   }, []);
@@ -120,13 +120,13 @@ const Header = () => {
                   <Link
                     href={
                       Object.keys(userDetails).length > 0
-                        ? "/my-account"
-                        : "/login"
+                        ? '/my-account'
+                        : '/login'
                     }
                     as={
                       Object.keys(userDetails).length > 0
-                        ? "/my-account"
-                        : "/login"
+                        ? '/my-account'
+                        : '/login'
                     }
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">

@@ -1,16 +1,17 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../stores/slices/userSlice';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../stores/slices/userSlice";
 
 const MyAccountList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const logoutHandle = () => {
-    localStorage.removeItem('userDetails');
+    localStorage.removeItem("userDetails");
     dispatch(userActions.adduser({}));
-    router.push('/login');
+    router.push("/login");
+    localStorage.removeItem("billingaddress");
   };
 
   return (
