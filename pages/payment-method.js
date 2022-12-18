@@ -1,8 +1,8 @@
 import Features from "../components/home/Features";
 import PaymentDetails from "../components/Product/PaymentDetails";
 import { paymentMethodBreadcrums } from "../utils/data/breadcrumbs";
-import Breadcrumbs from "../components/common/Breadcrumbs";
-import ProgressBar from "../components/common/ProgressBar";
+import Breadcrumbs from "../components/Common/Breadcrumbs";
+import ProgressBar from "../components/Common/ProgressBar";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { NextSeo } from "next-seo";

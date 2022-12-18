@@ -1,4 +1,4 @@
-import Filters from "../common/Filters";
+import Filters from "../Common/Filters";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +9,8 @@ import { serverUrl } from "../../utils/config";
 import StarRating from "../product/StarRating";
 import { useRouter } from "next/router";
 import { deleteFromStorage } from "../../utils/storage";
-import Loader from "../common/Loader";
-// import Pagination from "../common/Pagination";
+import Loader from "../Common/Loader";
+// import Pagination from "../Common/Pagination";
 // import { paginate } from "../../utils/paginate";
 // import ReactPaginate from "react-paginate";
 

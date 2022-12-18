@@ -1,5 +1,5 @@
 import React from 'react';
-import Breadcrumbs from '../components/common/Breadcrumbs';
+import Breadcrumbs from '../components/Common/Breadcrumbs';
 import { aboutUsBreadCrums } from '../utils/data/breadcrumbs';
 
 const aboutUs = () => {

@@ -6,7 +6,7 @@ import { Path } from "../../utils/apiService";
 import { useRouter } from "next/router";
 import { token } from "../../utils/config";
 import { userActions } from "../../stores/slices/userSlice";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 import { saveToStorage } from "../../utils/storage";
 
 const registerForm = () => {

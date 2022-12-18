@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useGetApi from "../utils/useGetApi";
 import { useSelector } from "react-redux";
-import Breadcrumbs from "../components/common/Breadcrumbs";
+import Breadcrumbs from "../components/Common/Breadcrumbs";
 import Features from "../components/home/Features";
 import AccountInfo from "../components/Product/AccountInfo";
 import { myAccountBreadcrums } from "../utils/data/breadcrumbs";

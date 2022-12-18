@@ -1,5 +1,5 @@
 import React from "react";
-import Breadcrumbs from "../components/common/Breadcrumbs";
+import Breadcrumbs from "../components/Common/Breadcrumbs";
 import Features from "../components/home/Features";
 import MyAccountList from "../components/Product/MyAccountList";
 import { trackOrderBreadcrums } from "../utils/data/breadcrumbs";

@@ -1,4 +1,4 @@
-import Breadcrumbs from "../components/common/Breadcrumbs";
+import Breadcrumbs from "../components/Common/Breadcrumbs";
 import Features from "../components/home/Features";
 import FaqDetails from "../components/Product/FaqDetails";
 import { faqBreadcrums } from "../utils/data/breadcrumbs";

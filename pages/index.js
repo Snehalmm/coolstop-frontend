@@ -1,10 +1,10 @@
 import Features from "../components/home/Features";
 
 import Brand from "../components/home/Brand";
-import Banner from "../components/common/Banner";
+import Banner from "../components/Common/Banner";
 import TopSeller from "../components/home/TopSeller";
 import Reviews from "../components/home/Reviews";
-import Blogs from "../components/common/Blogs";
+import Blogs from "../components/Common/Blogs";
 import { useEffect } from "react";
 import { Path } from "../utils/apiService";
 import { userActions } from "../stores/slices/userSlice";

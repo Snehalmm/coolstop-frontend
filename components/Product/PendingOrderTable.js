@@ -1,5 +1,5 @@
 import MyAccountList from "./MyAccountList";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 
 const PendingOrderTable = ({ pendingData, pageName, isLoading }) => {
   return (
