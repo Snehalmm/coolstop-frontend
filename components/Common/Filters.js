@@ -472,7 +472,7 @@ const Filters = ({ data, filterData, setFilteredProductList }) => {
   // }, [storepriceData, priceFilter]);
 
   const handleClearFilter = (e) => {
-    router.push("/products?start=0&limit=10");
+    router.push("/products");
     setFilteredProductList(null);
     dispatch(filterActions.clearFilter());
   };

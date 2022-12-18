@@ -30,7 +30,7 @@ const PaymentMethod = () => {
   useEffect(() => {
     router.beforePopState(({ as }) => {
       if (as !== router.asPath) {
-        router.push("/products?start=0&limit=10");
+        router.push("/products");
         return false;
       }
       return true;

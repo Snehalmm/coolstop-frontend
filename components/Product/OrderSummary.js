@@ -74,7 +74,7 @@ const OrderSummary = ({ buttonText }) => {
     }
   };
   const continueClick = () => {
-    router.push("/products?start=0&limit=10");
+    router.push("/products");
   };
 
   useEffect(() => {
