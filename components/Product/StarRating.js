@@ -7,11 +7,10 @@ const StarRating = ({
   size = 24,
   activeColor = "#f00",
   onChange,
+  disabled,
 }) => {
-  // short trick
   const stars = Array.from({ length: count }, () => <span>&#9733;</span>);
 
-  // Internal handle change function
   const handleChange = (value) => {
     onChange(value + 1);
   };
@@ -25,7 +24,7 @@ const StarRating = ({
         }
         return (
           <span
-            className={"star"}
+            className={`star ${disabled ? "star-disabled" : ""}`}
             key={index}
             style={{ color: style, width: size, height: size, fontSize: size }}
             onClick={() => handleChange(index)}

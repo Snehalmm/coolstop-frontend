@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { toIndianCurrency } from "../../utils/services";
 import OrderSummary from "./OrderSummary";
+import { serverUrl } from "../../utils/config";
 import { useEffect } from "react";
 
 const ShoppingCart = () => {
@@ -10,32 +10,36 @@ const ShoppingCart = () => {
   const cartItems = useSelector((state) => {
     return state.cart.items;
   });
-  const incrementCartItem = (id, qty) => {
+  const incrementCartItem = (slug, qty) => {
     const newQty = qty + 1;
     dispatch(
-      cartActions.updateProductQty({ id: id, qty: newQty, sign: "plus" })
+      cartActions.updateProductQty({ slug: slug, qty: newQty, sign: "plus" })
     );
   };
 
-  const decrementCartItem = (id, qty) => {
+  const decrementCartItem = (slug, qty) => {
     if (qty > 1) {
       const newQty = qty - 1;
       dispatch(
-        cartActions.updateProductQty({ id: id, qty: newQty, sign: "minus" })
+        cartActions.updateProductQty({ slug: slug, qty: newQty, sign: "minus" })
       );
     }
   };
-  const removeItem = (id) => {
-    dispatch(cartActions.removeProduct({ id: id }));
+  const removeItem = (slug) => {
+    dispatch(cartActions.removeProduct({ slug: slug }));
+    // dispatch(cartActions.discountDetails({}));
+    // localStorage.removeItem("discountDetails");
   };
   let getAddress;
   useEffect(() => {
     getAddress = JSON.parse(localStorage.getItem("billingaddress"));
+
+    localStorage.removeItem("orderDetails");
   }, []);
 
   return (
     <>
-      <section className="grid-container">
+      <section className="grslug-container">
         <div className="bwcart-main-con">
           <div className="bwcart-left">
             <div className="fd-cart-con">
@@ -58,16 +62,13 @@ const ShoppingCart = () => {
                   return (
                     <div className="ctc-prod-con" key={index}>
                       <div className="ctc-prod-img">
-                        <img
-                          src="https://smallimages.buildworld.co.uk/M-2020-1-31--10-52-35-628.jpg"
-                          alt="imgname"
-                        />
+                        <img src={serverUrl + item.image} alt="imgname" />
                       </div>
 
                       <div className="ctc-desc-pri">
                         <span className="ctc-parent-prod">{item.name}</span>
                         <span className="ctc-parent-pric">
-                          ₹ {toIndianCurrency(item.total.toFixed(2))}
+                          ₹ {toIndianCurrency(item.total?.toFixed(2))}
                         </span>
                       </div>
 
@@ -79,14 +80,14 @@ const ShoppingCart = () => {
                               min="1"
                               max="100"
                               value={item.qty}
-                              id="shopItem"
-                              defaultValue="1"
+                              slug="shopItem"
+                              // defaultValue="1"
                             />
                             <div className="quantity-nav">
                               <button
                                 className="quantity-button quantity-up"
                                 onClick={() =>
-                                  incrementCartItem(item.id, item.qty)
+                                  incrementCartItem(item.slug, item.qty)
                                 }
                               >
                                 +
@@ -94,7 +95,7 @@ const ShoppingCart = () => {
                               <button
                                 className="quantity-button quantity-down"
                                 onClick={() =>
-                                  decrementCartItem(item.id, item.qty)
+                                  decrementCartItem(item.slug, item.qty)
                                 }
                               >
                                 -
@@ -102,11 +103,8 @@ const ShoppingCart = () => {
                             </div>
                           </div>
                         </span>
-                        <span
-                          className="ctc-del"
-                          onClick={() => removeItem(item.id)}
-                        >
-                          <Link href="">
+                        <span className="ctc-del">
+                          <button onClick={() => removeItem(item.slug)}>
                             <svg
                               fill="#000000"
                               xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +113,7 @@ const ShoppingCart = () => {
                               <path d="M 15 4 C 14.476563 4 13.941406 4.183594 13.5625 4.5625 C 13.183594 4.941406 13 5.476563 13 6 L 13 7 L 7 7 L 7 9 L 8 9 L 8 25 C 8 26.644531 9.355469 28 11 28 L 23 28 C 24.644531 28 26 26.644531 26 25 L 26 9 L 27 9 L 27 7 L 21 7 L 21 6 C 21 5.476563 20.816406 4.941406 20.4375 4.5625 C 20.058594 4.183594 19.523438 4 19 4 Z M 15 6 L 19 6 L 19 7 L 15 7 Z M 10 9 L 24 9 L 24 25 C 24 25.554688 23.554688 26 23 26 L 11 26 C 10.445313 26 10 25.554688 10 25 Z M 12 12 L 12 23 L 14 23 L 14 12 Z M 16 12 L 16 23 L 18 23 L 18 12 Z M 20 12 L 20 23 L 22 23 L 22 12 Z" />
                             </svg>{" "}
                             Remove
-                          </Link>
+                          </button>
                         </span>
                       </div>
 
@@ -123,7 +121,7 @@ const ShoppingCart = () => {
                         <div className="tot-txt-pri">
                           <span className="tot-txt">Total</span>
                           <span className="tot-pri">
-                            ‭ {toIndianCurrency(item.total.toFixed(2))}‬
+                            ‭ {toIndianCurrency(item?.total?.toFixed(2))}‬
                           </span>
                         </div>
                       </div>

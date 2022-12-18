@@ -2,6 +2,7 @@ import ProductInfo from "../Details/ProductInfo";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
+import { serverUrl } from "../../../utils/config";
 
 const ProductSlide = ({ data, item }) => {
   var settings = {
@@ -11,6 +12,10 @@ const ProductSlide = ({ data, item }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  // let productImage =
+  //   data?.productImages !== null
+  //     ? serverUrl + data.productImages.image[0].url
+  //     : null;
 
   return (
     <>
@@ -30,12 +35,20 @@ const ProductSlide = ({ data, item }) => {
                         data-fresco-group-options="thumbnails: 'vertical'"
                         data-fresco-options="thumbnail: '/images/pro-slide-1-thm.jpg'"
                       >
-                        <Image
-                          src="/images/pro-slide-1.jpg"
-                          alt="image"
-                          width={600}
-                          height={600}
-                        />
+                        {data?.productImages !== null && (
+                          <Image
+                            src={
+                              data?.productImages !== null
+                                ? serverUrl +
+                                  data.productImages.image.data[0].attributes
+                                    .url
+                                : null
+                            }
+                            alt="image"
+                            width={600}
+                            height={600}
+                          />
+                        )}
                       </a>
                     </li>
                   </ul>
@@ -49,12 +62,20 @@ const ProductSlide = ({ data, item }) => {
                         data-fresco-group-options="thumbnails: 'vertical'"
                         data-fresco-options="thumbnail: '/images/pro-slide-2-thm.jpg'"
                       >
-                        <Image
-                          src="/images/pro-slide-2.jpg"
-                          alt="img"
-                          width={600}
-                          height={600}
-                        />
+                        {data?.productImages !== null && (
+                          <Image
+                            src={
+                              data?.productImages !== null
+                                ? serverUrl +
+                                  data.productImages.image.data[1].attributes
+                                    .url
+                                : null
+                            }
+                            alt="image"
+                            width={600}
+                            height={600}
+                          />
+                        )}
                       </a>
                     </li>
                   </ul>
@@ -68,12 +89,20 @@ const ProductSlide = ({ data, item }) => {
                         data-fresco-group-options="thumbnails: 'vertical'"
                         data-fresco-options="thumbnail: '/images/pro-slide-3-thm.jpg'"
                       >
-                        <Image
-                          src="/images/pro-slide-3.jpg"
-                          alt="img"
-                          width={600}
-                          height={600}
-                        />
+                        {data?.productImages !== null && (
+                          <Image
+                            src={
+                              data?.productImages !== null
+                                ? serverUrl +
+                                  data.productImages.image.data[2].attributes
+                                    .url
+                                : null
+                            }
+                            alt="image"
+                            width={600}
+                            height={600}
+                          />
+                        )}
                       </a>
                     </li>
                   </ul>
@@ -82,7 +111,12 @@ const ProductSlide = ({ data, item }) => {
                   <li>
                     <a href="#">
                       <Image
-                        src="/images/pro-slide-1-thm.jpg"
+                        src={
+                          data?.productImages !== null
+                            ? serverUrl +
+                              data.productImages.image.data[2].attributes.url
+                            : null
+                        }
                         alt="slide-1"
                         width={500}
                         height={200}
@@ -92,7 +126,12 @@ const ProductSlide = ({ data, item }) => {
                   <li>
                     <a href="#">
                       <Image
-                        src="/images/pro-slide-2-thm.jpg"
+                        src={
+                          data?.productImages !== null
+                            ? serverUrl +
+                              data.productImages.image.data[0].attributes.url
+                            : null
+                        }
                         alt="slide-2"
                         width={500}
                         height={200}
@@ -102,7 +141,12 @@ const ProductSlide = ({ data, item }) => {
                   <li>
                     <a href="#">
                       <Image
-                        src="/images/pro-slide-3-thm.jpg"
+                        src={
+                          data?.productImages !== null
+                            ? serverUrl +
+                              data.productImages.image.data[1].attributes.url
+                            : null
+                        }
                         alt="slide-3"
                         width={500}
                         height={200}

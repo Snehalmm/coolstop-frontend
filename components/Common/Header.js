@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import Navbar from './Navbar';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../stores/slices/cartSlice';
+import { userActions } from '../../stores/slices/userSlice';
+import { getFromStorage } from '../../utils/storage';
+import { serverUrl } from '../../utils/config';
+import Search from '../Search/index';
 
-const Header = () => {
+const Header = ({ categories, getGlobalData }) => {
+  const router = useRouter();
   const cartItemsCount = useSelector((state) => state.cart.items?.length);
-  const userDetails = useSelector((state) => state.user.users.userDetails);
+  const userDetails = useSelector((state) => state.user.userDetails);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    let getProducts = localStorage.getItem('products');
-
-    dispatch(cartActions.updateProduct(JSON.parse(getProducts)));
+    let getProducts = getFromStorage('products');
+    dispatch(cartActions.updateProduct(getProducts));
+    let getUserDetails = getFromStorage('userDetails');
+    dispatch(userActions.adduser(getUserDetails));
   }, []);
 
   return (
@@ -64,14 +71,16 @@ const Header = () => {
           <header className="header-container">
             <section className="grid-container top-logo-con">
               <div className="top-logo-1">
-                <Link href="/">
-                  <Image
-                    src="/images/coolstop-logo.svg"
-                    alt="img"
-                    width={200}
-                    height={200}
-                  ></Image>
-                </Link>
+                {getGlobalData !== null && (
+                  <Link href="/">
+                    <Image
+                      src={`${serverUrl}${getGlobalData?.data?.attributes?.logo?.data?.attributes?.url}`}
+                      alt="img"
+                      width={200}
+                      height={200}
+                    />
+                  </Link>
+                )}
               </div>
 
               <div className="top-logo-2">
@@ -90,18 +99,27 @@ const Header = () => {
                 </div>
 
                 <div className="inp-butt">
-                  <input type="text" placeholder="Search Products" />
-                  <button type="submit">
-                    <svg
-                      width="30"
-                      height="30"
-                      x="0"
-                      y="0"
-                      viewBox="0 0 100 100"
-                    >
-                      <path d="M44,69a24.87,24.87,0,0,0,15.42-5.34L76,80.24,80.24,76,63.66,59.42A25,25,0,1,0,44,69Zm0-44A19,19,0,1,1,25,44,19,19,0,0,1,44,25Z" />
-                    </svg>
-                  </button>
+                  <Search />
+                  {/* <form onSubmit={submitSearchHandler}>
+                    <input
+                      placeholder="Search Products"
+                      onChange={(e) => setQuery(e.target.value)}
+                      // value={query}
+                      type="search"
+                      name="search"
+                    />
+                    <button type="submit">
+                      <svg
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="0"
+                        viewBox="0 0 100 100"
+                      >
+                        <path d="M44,69a24.87,24.87,0,0,0,15.42-5.34L76,80.24,80.24,76,63.66,59.42A25,25,0,1,0,44,69Zm0-44A19,19,0,1,1,25,44,19,19,0,0,1,44,25Z" />
+                      </svg>
+                    </button>
+                  </form> */}
                 </div>
               </div>
 
@@ -119,15 +137,19 @@ const Header = () => {
                 <li>
                   <Link
                     href={
-                      Object.keys(userDetails).length > 0
+                      (userDetails !== null &&
+                        Object.keys(userDetails)?.length > 0) ||
+                      (userDetails !== null &&
+                        Object.keys(userDetails)?.length > 0 &&
+                        cartItemsCount)
                         ? '/my-account'
-                        : '/login'
+                        : '/register'
                     }
-                    as={
-                      Object.keys(userDetails).length > 0
-                        ? '/my-account'
-                        : '/login'
-                    }
+                    // as={
+                    //   Object.keys(userDetails).length > 0
+                    //     ? "/my-account"
+                    //     : "/register"
+                    // }
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">
                       <path d="M13.1 26.6C5.9 26.6 0 20.7 0 13.3 0 6 5.9 0 13.1 0c7.2 0 13.1 6 13.1 13.3.1 7.4-5.8 13.3-13.1 13.3zm0-24C7.3 2.6 2.6 7.4 2.6 13.3c0 3.2 1.4 6.1 3.6 8 1.2-3.3 3.9-5.5 7-5.5s5.7 2.2 7 5.5c2.2-2 3.6-4.8 3.6-8C23.7 7.4 19 2.6 13.1 2.6zm0 12c-2.2 0-4-1.8-4-4.1s1.8-4.1 4-4.1 4 1.8 4 4.1c.1 2.3-1.7 4.1-4 4.1z" />
@@ -151,7 +173,7 @@ const Header = () => {
           </header>
         </div>
       </div>
-      <Navbar />
+      <Navbar categories={categories} />
     </>
   );
 };

@@ -1,11 +1,12 @@
-import React from 'react';
-import ForgotPasswordFrom from '../components/auth/ForgotPasswordFrom';
+import { NextSeo } from "next-seo";
+import ForgotPasswordFrom from "../components/auth/ForgotPasswordFrom";
 
 const ForgotPassword = () => {
   return (
-    <div>
+    <>
+      <NextSeo title="Forgot password" description="Some content " />
       <ForgotPasswordFrom />
-    </div>
+    </>
   );
 };
 

@@ -1,19 +1,39 @@
-import React from 'react';
-import Head from 'next/head';
-import Footer from '../components/Common/Footer';
-import Header from '../components/Common/Header';
+import { useEffect } from "react";
+import Footer from "../components/common/Footer";
+import Header from "../components/common/Header";
+import useGetApi from "../utils/useGetApi";
+import { Path } from "../utils/apiService";
+import { token } from "../utils/config";
 
-const Main = ({ children, title = 'Cool Stop' }) => {
+const Main = ({ children, title, data }) => {
+  const {
+    isLoading: getCategoriesLoding,
+    error: getCategorieserror,
+    data: getCategoriesData,
+    sendHTTPGetRequest: getCategoriesApi,
+  } = useGetApi();
+
+  const {
+    isLoading: getHeaderLoding,
+    error: getHeaderError,
+    data: getHeaderData,
+    sendHTTPGetRequest: getHeaderApi,
+  } = useGetApi();
+
+  useEffect(() => {
+    getCategoriesApi(`${Path.getProductcategories}`, token);
+    getHeaderApi(`${Path.global}`, token);
+  }, []);
+
   return (
     <div className="layout-container">
-      <Head>
-        <title>{title}</title>
-      </Head>
-
-      <Header />
+      <Header
+        seoData={data}
+        categories={getCategoriesData}
+        getGlobalData={getHeaderData}
+      />
       <main>{children}</main>
-
-      <Footer />
+      <Footer getGlobalData={getHeaderData} />
     </div>
   );
 };

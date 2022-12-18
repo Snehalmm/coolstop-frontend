@@ -1,26 +1,10 @@
-import useGetApi from "../../utils/useGetApi";
-import { useEffect } from "react";
-import { Path } from "../../utils/apiService";
+import { useState } from "react";
 
-const Reviews = () => {
-  const {
-    isLoading: reviewsLoading,
-    error: reviewsError,
-    data: reviewsData,
-    sendHTTPGetRequest: reviewsAPI,
-  } = useGetApi();
-
-  // Function that invokes API call
-  const getReviews = () => {
-    reviewsAPI(Path.reviews);
-  };
-
-  useEffect(() => {
-    getReviews();
-  }, []);
+const Reviews = ({ reviews }) => {
+  const [reviewsData, setreviewsData] = useState(reviews);
 
   return (
-    <div>
+    <>
       <div className="black-bg-rev">
         <section className="grid-container">
           <div className="reviews-block">
@@ -38,31 +22,10 @@ const Reviews = () => {
                   )
                 );
               })}
-
-            {/* <div className="revblock" key={reviewIndex}>
-              <p>{reviewItem.reviewComment}</p>
-              <span>{reviewItem.name}</span>
-            </div> */}
-
-            {/* <div className="revblock">
-              <p>
-                “The air conditioner is working well, no problems at all. It is
-                very easy to install. It cools down the living area very well.”
-              </p>
-              <span>Avinash T.</span>
-            </div>
-            <div className="revblock">
-              <p>
-                “The product was delivered to me very quickly and at no charge.
-                The product is doing it's job well and was easy to install, with
-                great instructions and support”
-              </p>
-              <span>Ganga Sharma</span>
-            </div> */}
           </div>
         </section>
       </div>
-    </div>
+    </>
   );
 };
 

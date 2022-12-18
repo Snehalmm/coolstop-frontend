@@ -1,9 +1,10 @@
-import Link from "next/link";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import usePostApi from "../../utils/usePostApi";
-import { Path } from "../../utils/apiService";
-import { useRouter } from "next/router";
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import usePostApi from '../../utils/usePostApi';
+import { Path } from '../../utils/apiService';
+import { useRouter } from 'next/router';
+import Loader from '../common/Loader';
 
 const ForgotPasswordFrom = () => {
   const router = useRouter();
@@ -14,13 +15,6 @@ const ForgotPasswordFrom = () => {
     formState: { errors },
   } = useForm();
 
-  // const onSubmit = async (data: ForgotMail) => {
-  //   const res = await postData(`${server}/api/login`, {
-  //     email: data.email,
-  //   });
-
-  // };
-
   const {
     isLoading: forgotPasswordLoading,
     error: forgotPasswordError,
@@ -30,7 +24,7 @@ const ForgotPasswordFrom = () => {
 
   const successHandler = (data) => {
     if (data.ok) {
-      router.push("/reset-password");
+      router.push('/reset-password');
     }
   };
 
@@ -55,10 +49,10 @@ const ForgotPasswordFrom = () => {
 
             <p
               style={{
-                display: "flex",
-                justifyContent: "center",
-                color: "red",
-                marginTop: "10px",
+                display: 'flex',
+                justifyContent: 'center',
+                color: 'red',
+                marginTop: '10px',
                 marginBottom: 0,
               }}
             >
@@ -69,7 +63,7 @@ const ForgotPasswordFrom = () => {
               <input
                 placeholder="email"
                 type="text"
-                {...register("email", {
+                {...register('email', {
                   required: true,
                   pattern:
                     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -77,38 +71,23 @@ const ForgotPasswordFrom = () => {
               />
             </div>
 
-            {errors.email && errors.email.type === "required" && (
+            {errors.email && errors.email.type === 'required' && (
               <p className="message message--error">This field is required</p>
             )}
 
-            {errors.email && errors.email.type === "pattern" && (
+            {errors.email && errors.email.type === 'pattern' && (
               <p className="message message--error">
                 Please write a valid email
               </p>
             )}
 
-            {/* <div className="row">
-              <i className="fas fa-user"></i>
-              <input
-                className="form__input"
-                type="password"
-                placeholder="Password"
-                {...register('password', {
-                  required: true,
-                })}
-              />
-              {errors.password && errors.password.type === 'required' && (
-                <p className="message message--error">This field is required</p>
-              )}
-            </div> */}
-
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <button className="button" type="submit">
-                Submit
+                {forgotPasswordData ? <Loader /> : 'Submit'}
               </button>
             </div>
             <div className="signup-link">
-              <Link href="/login"> Login</Link>
+              <Link href="/register"> Login</Link>
             </div>
           </form>
         </div>

@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from 'react';
-// import AdressModal from '../Modal/AdressModal';
-// import ShippingAdressModal from '../Modal/ShippingAdressModal';
+// import AdressModal from '../modal/AdressModal';
+// import ShippingAdressModal from '../modal/ShippingAdressModal';
 
 // const AddressBook = () => {
 //   const [adressModal, setAdressModal] = useState();
@@ -43,7 +43,7 @@
 //                   <h3 className="ac-cont-infotit">Billing Address</h3>
 //                   <p className="ac-newsl-det">
 //                     Flat{' '}
-//                     <span className="cm-line-break"> 179 Evington Road</span>
+//                     <span Name="cm-line-break"> 179 Evington Road</span>
 //                     LEICESTER
 //                     <span className="cm-line-break"> Leicestershire</span>
 //                     <span className="cm-line-break"> LE2 1QN</span>

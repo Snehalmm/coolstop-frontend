@@ -1,172 +1,127 @@
-import React from "react";
 import MyAccountList from "./MyAccountList";
+import Loader from "../common/Loader";
 
-const PendingOrderTable = () => {
+const PendingOrderTable = ({ pendingData, pageName, isLoading }) => {
   return (
     <>
       <section className="grid-container">
         <div className="ac-page-lyt">
           <MyAccountList />
           <div className="ac-page-dash-tit">
-            <h3 className="dash-tit">Pending Orders</h3>
+            <h3 className="dash-tit">
+              {" "}
+              {pageName === "/pending-orders"
+                ? "Pending Orders "
+                : "Paid Orders "}
+            </h3>
           </div>
 
-          <div className="prev-ord-lis">
-            <table className="responsive-card-table unstriped">
-              <thead>
-                <tr>
-                  <th>Order Nos.</th>
-                  <th className="tabel_sty">Order Date</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Invoice</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Order Nos." className="tabel_sty">
-                    <a href="#">CS-45674</a>
-                  </td>
-                  <td data-label="Order Date">October 8, 2021</td>
-                  <td data-label="Amount" className="tabel_sty">
-                    ₹ 9.65
-                  </td>
-                  <td data-label="Status">
-                    Pending{" "}
-                    <a
-                      className="ac-cont-butt"
-                      href="https://www.buildworld.co.uk/user/payment_process/29966"
-                    >
-                      Pay Now
-                    </a>
-                  </td>
-                  <td data-label="Invoice">
-                    <a href="#" target="_blank" className="ac-cont-butt">
-                      View Invoice
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="Order Nos." className="tabel_sty">
-                    <a href="#">CS-45604</a>
-                  </td>
-                  <td data-label="Order Date">October 8, 2021</td>
-                  <td data-label="Amount" className="tabel_sty">
-                    ₹ 7.17
-                  </td>
-                  <td data-label="Status">
-                    Pending{" "}
-                    <a
-                      className="ac-cont-butt"
-                      href="https://www.buildworld.co.uk/user/payment_process/29966"
-                    >
-                      Pay Now
-                    </a>
-                  </td>
-                  <td data-label="Invoice">
-                    <a href="#" target="_blank" className="ac-cont-butt">
-                      View Invoice
-                    </a>
-                  </td>
-                </tr>
+          {isLoading ? (
+            <div className="loading">
+              <Loader height={110} width={110} />
+            </div>
+          ) : pendingData?.attributes?.orders?.length == 0 ? (
+            <>
+              <table>
+                <thead>
+                  <tr>
+                    <th className="text-center">No Order No. Found</th>
+                  </tr>
+                </thead>
+              </table>
+            </>
+          ) : (
+            <div className="prev-ord-lis">
+              <table className="responsive-card-table unstriped">
+                <thead>
+                  <tr>
+                    <th>Order Nos.</th>
+                    <th className="tabel_sty">Order Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Invoice</th>
+                  </tr>
+                </thead>
 
-                <tr>
-                  <td data-label="Order Nos." className="tabel_sty">
-                    <a href="#">CS-92</a>
-                  </td>
-                  <td data-label="Order Date">August 18, 2017</td>
-                  <td data-label="Amount" className="tabel_sty">
-                    ₹ 7.03
-                  </td>
-                  <td data-label="Status">
-                    Pending{" "}
-                    <a
-                      className="ac-cont-butt"
-                      href="https://www.buildworld.co.uk/user/payment_process/29966"
-                    >
-                      Pay Now
-                    </a>
-                  </td>
-                  <td data-label="Invoice">
-                    <a href="#" target="_blank" className="ac-cont-butt">
-                      View Invoice
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="Order Nos." className="tabel_sty">
-                    <a href="#">CS-45674</a>
-                  </td>
-                  <td data-label="Order Date">October 8, 2021</td>
-                  <td data-label="Amount" className="tabel_sty">
-                    ₹ 9.65
-                  </td>
-                  <td data-label="Status">
-                    Pending{" "}
-                    <a
-                      className="ac-cont-butt"
-                      href="https://www.buildworld.co.uk/user/payment_process/29966"
-                    >
-                      Pay Now
-                    </a>
-                  </td>
-                  <td data-label="Invoice">
-                    <a href="#" target="_blank" className="ac-cont-butt">
-                      View Invoice
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="Order Nos." className="tabel_sty">
-                    <a href="#">CS-45604</a>
-                  </td>
-                  <td data-label="Order Date">October 8, 2021</td>
-                  <td data-label="Amount" className="tabel_sty">
-                    ₹ 7.17
-                  </td>
-                  <td data-label="Status">
-                    Pending{" "}
-                    <a
-                      className="ac-cont-butt"
-                      href="https://www.buildworld.co.uk/user/payment_process/29966"
-                    >
-                      Pay Now
-                    </a>
-                  </td>
-                  <td data-label="Invoice">
-                    <a href="#" target="_blank" className="ac-cont-butt">
-                      View Invoice
-                    </a>
-                  </td>
-                </tr>
+                <tbody>
+                  {pendingData?.attributes?.orders !== null &&
+                    pendingData?.attributes?.orders?.length > 0 &&
+                    pendingData?.attributes?.orders.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td data-label="Order Nos." className="tabel_sty">
+                            <a href="#">CS-{item.id}</a>
+                          </td>
+                          <td data-label="Order Date">October 8, 2021</td>
+                          <td data-label="Amount" className="tabel_sty">
+                            ₹ {item?.amount}
+                          </td>
 
-                <tr>
-                  <td data-label="Order Nos." className="tabel_sty">
-                    <a href="#">CS-92</a>
-                  </td>
-                  <td data-label="Order Date">August 18, 2017</td>
-                  <td data-label="Amount" className="tabel_sty">
-                    ₹ 7.03
-                  </td>
-                  <td data-label="Status">
-                    Pending{" "}
-                    <a
-                      className="ac-cont-butt"
-                      href="https://www.buildworld.co.uk/user/payment_process/29966"
-                    >
-                      Pay Now
-                    </a>
-                  </td>
-                  <td data-label="Invoice">
-                    <a href="#" target="_blank" className="ac-cont-butt">
-                      View Invoice
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                          <td data-label="Status">
+                            {pageName === "/pending-orders" &&
+                            item?.orderStatus == "pending" ? (
+                              <>
+                                {item?.orderStatus}{" "}
+                                <a
+                                  className="ac-cont-butt"
+                                  href="https://www.buildworld.co.uk/user/payment_process/29966"
+                                >
+                                  Pay Now
+                                </a>
+                              </>
+                            ) : (
+                              <>{item?.paymentStatus}</>
+                            )}
+                          </td>
+                          <td data-label="Invoice">
+                            <a
+                              href="#"
+                              target="_blank"
+                              className="ac-cont-butt"
+                            >
+                              View Invoice
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
+        {/* <div className="prod-bott-pagi">
+          <nav aria-label="Pagination">
+            <ul className="pagination">
+              <li className="pagination-previous disabled">
+                <span className="show-for-sr">page</span>
+              </li>
+              <li className="current">
+                <span className="show-for-sr">You're on page</span> 1
+              </li>
+              <li>
+                <a href="#" aria-label="Page 2">
+                  2
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Page 3">
+                  3
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Page 4">
+                  4
+                </a>
+              </li>
+              <li className="pagination-next">
+                <span href="#" aria-label="Next page">
+                  <span className="show-for-sr">page</span>
+                </span>
+              </li>
+            </ul>
+          </nav>
+        </div> */}
       </section>
     </>
   );

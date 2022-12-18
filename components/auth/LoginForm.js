@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { Path } from '../../utils/apiService';
-import usePostApi from '../../utils/usePostApi';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { Path } from "../../utils/apiService";
+import usePostApi from "../../utils/usePostApi";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../../stores/slices/userSlice";
+import { token } from "../../utils/config";
+import Loader from "../common/Loader";
+import {
+  saveToStorage,
+  getFromStorage,
+  deleteFromStorage,
+} from "../../utils/storage";
 
 const login = () => {
   const [errorMsg, setErrorMsg] = useState([]);
   const router = useRouter();
+
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -21,10 +32,19 @@ const login = () => {
     sendHTTPPostRequest: loginApi,
   } = usePostApi();
 
+  const cartItems = useSelector((state) => {
+    return state.cart.items;
+  });
+
   const successHandler = (data) => {
-    if (data.jwt.length > 0 && data.user) {
-      localStorage.setItem('userDetails', JSON.stringify(data));
-      router.push('/');
+    if (router.query.name == "checkout") {
+      router.push("/checkout");
+      saveToStorage("userDetails", data);
+      dispatch(userActions.adduser(data));
+    } else {
+      saveToStorage("userDetails", data);
+      dispatch(userActions.adduser(data));
+      router.push("/my-account");
     }
   };
 
@@ -35,7 +55,7 @@ const login = () => {
   };
 
   const onSubmit = (item) => {
-    loginApi(Path.login, item, successHandler, errorHandler);
+    loginApi(Path.login, item, token, successHandler, errorHandler);
   };
 
   return (
@@ -48,10 +68,10 @@ const login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <p
               style={{
-                display: 'flex',
-                justifyContent: 'center',
-                color: 'red',
-                marginTop: '10px',
+                display: "flex",
+                justifyContent: "center",
+                color: "red",
+                marginTop: "10px",
                 marginBottom: 0,
               }}
             >
@@ -60,20 +80,20 @@ const login = () => {
             <div className="row">
               <i className="fas fa-user"></i>
               <input
-                type="text"
-                placeholder="Email or Phone"
-                {...register('identifier', {
+                type="email"
+                placeholder="Email "
+                {...register("identifier", {
                   required: true,
                   pattern:
                     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 })}
               />
             </div>
-            {errors.identifier && errors.identifier.type === 'required' && (
+            {errors.identifier && errors.identifier.type === "required" && (
               <p className="error-message">This field is required</p>
             )}
 
-            {errors.identifier && errors.identifier.type === 'pattern' && (
+            {errors.identifier && errors.identifier.type === "pattern" && (
               <p className="error-message">Please write a valid email</p>
             )}
 
@@ -82,36 +102,40 @@ const login = () => {
               <input
                 type="password"
                 placeholder="Password"
-                {...register('password', {
+                {...register("password", {
                   required: true,
                   minLength: {
                     value: 6,
-                    message: 'Password minimum be 6 digits',
+                    message: "Password minimum be 6 digits",
                   },
                 })}
               />
             </div>
-            {errors.password && errors.password.type === 'required' && (
+            {errors.password && errors.password.type === "required" && (
               <p className="error-message">This field is required</p>
             )}
 
-            {errors.password && errors.password.type === 'minLength' && (
+            {errors.password && errors.password.type === "minLength" && (
               <p className="error-message">{errors.password?.message}</p>
             )}
 
             <div className="pass">
-              <Link href="forgot-password">Forgot password? </Link>
+              <Link href="/forgot-password">Forgot password? </Link>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <button className="button" type="submit">
-                Login
-              </button>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {loginLoading ? (
+                <Loader height={50} width={50} />
+              ) : (
+                <button className="button" type="submit">
+                  Login
+                </button>
+              )}
             </div>
 
-            <div className="signup-link">
+            {/* <div className="signup-link">
               Not a member? <Link href="/register"> Signup now</Link>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

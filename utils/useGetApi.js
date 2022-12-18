@@ -6,8 +6,9 @@ import { useState } from "react";
 
 import { token, serverUrl } from "./config";
 import axios from "axios";
+import { Path } from "./apiService";
 
-const requestHeaders = () => {
+const requestHeaders = (token) => {
   return {
     Authorization: `Bearer ${token}`,
   };
@@ -54,12 +55,17 @@ const useGetApi = () => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
-  const sendHTTPGetRequest = async (url, onSuccessHandler, onErrorHandler) => {
+  const sendHTTPGetRequest = async (
+    url,
+    token,
+    onSuccessHandler,
+    onErrorHandler
+  ) => {
     setIsLoading(true);
     return await axios({
       method: "GET",
       url: serverUrl + url,
-      headers: requestHeaders(),
+      headers: requestHeaders(token),
     })
       .then((response) => {
         setIsLoading(false);

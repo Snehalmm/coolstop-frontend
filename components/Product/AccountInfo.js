@@ -1,20 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import AddressBook from './AddressBook';
-import MyAccountList from './MyAccountList';
-import ChangePassword from '../Modal/ChangePassword';
-const AccountInfo = () => {
-  const [userDetails, setUserDetails] = useState();
+import React, { useState, useEffect } from "react";
+import MyAccountList from "./MyAccountList";
+import usePostApi from "../../utils/usePostApi";
+import ChangePassword from "../auth/ChangePassword";
+import { useDispatch, useSelector } from "react-redux";
+import { Path } from "../../utils/apiService";
+import { userActions } from "../../stores/slices/userSlice";
+import useDeleteApi from "../../utils/useDeleteApi";
+import { deleteNewsLetterEndpoint } from "../../utils/apiService";
+import Loader from "../common/Loader";
+import { deleteFromStorage, getFromStorage } from "../../utils/storage";
+import { token } from "../../utils/config";
+
+const AccountInfo = ({
+  newsLettersData,
+  newsLettersLoading,
+  setSubscribeSucess,
+  setUnSubscribeSucess,
+}) => {
+  const dispatch = useDispatch();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const userDetails = useSelector((state) => {
+    return state.user.userDetails;
+  });
+  const getEmailId = userDetails?.user?.email;
+
+  const {
+    isLoading: subscribeNewsLetterLoading,
+    sendHTTPPostRequest: subscribeNewsLetterApi,
+  } = usePostApi();
+
+  const {
+    isLoading: newsLetterDeleteLoading,
+    sendHTTPDeleteRequest: newsLetterDeleteApi,
+  } = useDeleteApi();
+
+  const unsubscribeSucessHandler = (data) => {
+    setUnSubscribeSucess(data);
+  };
+
+  const unsubcribeHandle = () => {
+    newsLetterDeleteApi(
+      deleteNewsLetterEndpoint(newsLettersData?.data[0].id),
+      token,
+      unsubscribeSucessHandler
+    );
+  };
+
+  const subscribeSucessHandler = (data) => {
+    setSubscribeSucess(data);
+  };
+
+  const subcribeHandle = () => {
+    let data = {
+      data: {
+        emailId: getEmailId,
+      },
+    };
+    subscribeNewsLetterApi(
+      Path.newsLetter,
+      data,
+      token,
+      subscribeSucessHandler
+    );
+  };
 
   const handleOpenModal = () => {
     setShowPasswordModal(true);
   };
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('userDetails'));
-    if (items) {
-      setUserDetails(items);
+    let getUserDetails = getFromStorage("userDetails");
+
+    if (getUserDetails) {
+      dispatch(userActions.adduser(getUserDetails));
     }
+    deleteFromStorage("orderDetails");
   }, []);
 
   return (
@@ -42,11 +102,11 @@ const AccountInfo = () => {
                 <div className="ac-det-wrap">
                   <h3 className="ac-cont-infotit">Contact Information</h3>
                   <div className="ac-cont-usrnm">
-                    {userDetails?.user.firstname} &nbsp;
-                    {userDetails?.user.lastname}
+                    {userDetails?.user?.firstname} &nbsp;
+                    {userDetails?.user?.lastname}
                   </div>
                   <div className="ac-cont-usrmail">
-                    {userDetails?.user.email}
+                    {userDetails?.user?.email}
                   </div>
                   <a
                     className="ac-cont-butt"
@@ -70,14 +130,36 @@ const AccountInfo = () => {
                 <div className="ac-det-wrap">
                   <h3 className="ac-cont-infotit">Newsletter</h3>
                   <p className="ac-newsl-det">
-                    You are subscribed to
-                    <span className="cm-line-break">
-                      "General Subscription"
-                    </span>
+                    You are subscribed to <br />
+                    {/* "General Subscription". */}
+                    {userDetails?.user?.email}
                   </p>
-                  <a className="ac-cont-butt" href="#">
-                    Edit
-                  </a>
+
+                  {newsLettersData?.data?.length === 0 ? (
+                    <button
+                      className="ac-cont-butt"
+                      onClick={subcribeHandle}
+                      style={{ padding: " 0 30px" }}
+                    >
+                      {newsLettersLoading || subscribeNewsLetterLoading ? (
+                        <Loader />
+                      ) : (
+                        "Subscribe"
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      className="ac-cont-butt"
+                      onClick={unsubcribeHandle}
+                      style={{ padding: " 0 25px" }}
+                    >
+                      {newsLettersLoading || newsLetterDeleteLoading ? (
+                        <Loader />
+                      ) : (
+                        "Unsubscribe"
+                      )}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

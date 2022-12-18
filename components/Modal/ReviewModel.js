@@ -1,14 +1,20 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import usePostApi from '../../utils/usePostApi';
 import { useForm } from 'react-hook-form';
 import { Path } from '../../utils/apiService';
 import StarRating from '../../components/Product/StarRating';
+import { useSelector } from 'react-redux';
+import { token } from '../../utils/config';
+import Loader from '../common/Loader';
 
 const ReviewModel = (props) => {
+  const [authError, setAuthError] = useState('');
+  const [errorHandle, setErrorHandle] = useState(false);
   const [qualityRating, setQualityRating] = useState(0);
-  const [MoneyRating, setMoneyRating] = useState(0);
+  const [moneyRating, setMoneyRating] = useState(0);
   const [styleRating, setStyleRating] = useState(0);
+  const userDetails = useSelector((state) => state.user.userDetails);
 
   const qualityHandleChange = (value) => {
     setQualityRating(value);
@@ -19,9 +25,6 @@ const ReviewModel = (props) => {
   const styleHandleChange = (value) => {
     setStyleRating(value);
   };
-
-  // const totalRating = qualityRating + MoneyRating + styleRating;
-  // const rating = Math.round(totalRating / 3);
 
   const {
     register,
@@ -37,13 +40,30 @@ const ReviewModel = (props) => {
   } = usePostApi();
 
   const submitReview = (item) => {
-    item['rating'] = 5;
+    item['products'] = props.data;
+    item['qualityRating'] = qualityRating;
+    item['moneyRating'] = moneyRating;
+    item['styleRating'] = styleRating;
     let payload = {
       data: item,
     };
-    writeReviewApi(Path.writeReview, payload);
-    props.setIsOpen(false);
+    writeReviewApi(Path.reviews, payload, userDetails.jwt);
+
+    setTimeout(function () {
+      if (authError === 'Login Required') {
+        props.setIsOpen(false);
+      } else {
+        props.setIsOpen(false);
+      }
+    }, 3000);
   };
+
+  useEffect(() => {
+    if (writeReviewError?.response.data.error.name === 'UnauthorizedError') {
+      setAuthError('Login Required');
+      props.setIsOpen(true);
+    }
+  }, [writeReviewError]);
 
   const closeModel = () => {
     props.setIsOpen(false);
@@ -111,12 +131,23 @@ const ReviewModel = (props) => {
             <textarea
               placeholder="Enter Your Comments"
               rows="4"
-              {...register('reviewComment', { required: true })}
+              {...register('reviewComment', {
+                required: true,
+                minLength: {
+                  value: 4,
+                  message: 'reviewComment must be at least 4 characters',
+                },
+              })}
               autocomplete="off"
             ></textarea>
             {errors.reviewComment &&
               errors.reviewComment.type === 'required' && (
                 <p className="error-message">This field is required</p>
+              )}
+
+            {errors.reviewComment &&
+              errors.reviewComment.type === 'minLength' && (
+                <p className="error-message">{errors.reviewComment?.message}</p>
               )}
 
             <span className="rev_frm_que">
@@ -146,7 +177,7 @@ const ReviewModel = (props) => {
                   <StarRating
                     count={5}
                     size={25}
-                    value={MoneyRating}
+                    value={moneyRating}
                     activeColor={'#FFA534'}
                     inactiveColor={'#ddd'}
                     onChange={moneyHandleChange}
@@ -171,8 +202,20 @@ const ReviewModel = (props) => {
             </div>
 
             <div className="text-center">
+              <p
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  color: 'red',
+                  marginTop: '10px',
+                  marginBottom: 0,
+                }}
+              >
+                {authError}
+              </p>
+
               <button className="button_med" type="submit">
-                Submit
+                {writeReviewLoading ? <Loader /> : 'Submit'}
               </button>
             </div>
           </form>

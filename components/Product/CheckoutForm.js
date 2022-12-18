@@ -1,13 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { Path } from "../../utils/apiService";
+import { useDispatch } from "react-redux";
+import usePostApi from "../../utils/usePostApi";
+import { useRouter } from "next/router";
+import { userActions } from "../../stores/slices/userSlice";
+import {
+  deleteFromStorage,
+  getFromStorage,
+  saveToStorage,
+} from "../../utils/storage";
 
 const CheckoutForm = () => {
+  const [errorMsg, setErrorMsg] = useState([]);
+  const [hide, setHide] = useState(false);
   const [open, setIsOpen] = useState(false);
+  const [user, setUser] = useState();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const {
+    isLoading: loginLoading,
+    error: loginError,
+    data: loginData,
+    sendHTTPPostRequest: loginApi,
+  } = usePostApi();
 
   const openModel = () => {
     setIsOpen(true);
     document.getElementById("fst_login").classList.toggle("is-open");
     document.getElementById("login-btn").classList.toggle("hover");
   };
+
+  const successHandler = (data) => {
+    if (data.jwt.length > 0 && data.user) {
+      saveToStorage("userDetails", data);
+      // router.push('/checkout');
+    }
+  };
+
+  const errorHandler = (error) => {
+    if (error) {
+      setErrorMsg(error.response.data.error.message);
+    }
+  };
+
+  const onSubmit = (item) => {
+    loginApi(Path.login, item, successHandler, errorHandler);
+    document.getElementById("fst_login").classList.remove("is-open");
+    dispatch(userActions.adduser(item));
+    setHide(true);
+  };
+
+  useEffect(() => {
+    if (localStorage) {
+      const getLocalState = getFromStorage("userDetails");
+      setUser(getLocalState);
+    }
+    deleteFromStorage("orderDetails");
+  }, []);
 
   return (
     <>
@@ -26,26 +84,32 @@ const CheckoutForm = () => {
           </span>
 
           <div className="ext-usr-con">
-            <span className="ext-us-text">
-              Existing user login <span>for fast checkout</span>
-            </span>
-            <a
-              className="fstlogbt"
-              type="button"
-              data-toggle="fst_login"
-              id="login-btn"
-              onClick={openModel}
-            >
-              Login{" "}
-              <svg
-                height="30"
-                width="30"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 26 26"
-              >
-                <path d="M8.2 15.8c-.3-.3-.3-.8 0-1 .3-.3.7-.3 1 0l3.8 4 3.8-4c.3-.3.7-.3 1 0 .3.3.3.8 0 1l-4.3 4.5c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-4.3-4.5zm9.6-5.6c.3.3.3.8 0 1-.3.3-.7.3-1 0l-3.8-4-3.8 4c-.3.3-.7.3-1 0-.3-.3-.3-.8 0-1l4.3-4.5c.1-.1.3-.2.5-.2s.4.1.5.2l4.3 4.5z"></path>
-              </svg>
-            </a>
+            {user || hide ? (
+              " "
+            ) : (
+              <>
+                <span className="ext-us-text">
+                  Existing user login <span>for fast checkout</span>
+                </span>
+                <a
+                  className="fstlogbt"
+                  type="button"
+                  data-toggle="fst_login"
+                  id="login-btn"
+                  onClick={openModel}
+                >
+                  Login{" "}
+                  <svg
+                    height="30"
+                    width="30"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 26 26"
+                  >
+                    <path d="M8.2 15.8c-.3-.3-.3-.8 0-1 .3-.3.7-.3 1 0l3.8 4 3.8-4c.3-.3.7-.3 1 0 .3.3.3.8 0 1l-4.3 4.5c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-4.3-4.5zm9.6-5.6c.3.3.3.8 0 1-.3.3-.7.3-1 0l-3.8-4-3.8 4c-.3.3-.7.3-1 0-.3-.3-.3-.8 0-1l4.3-4.5c.1-.1.3-.2.5-.2s.4.1.5.2l4.3 4.5z"></path>
+                  </svg>
+                </a>
+              </>
+            )}
 
             <div
               className="dropdown-pane has-position-bottom has-alignment-left "
@@ -58,24 +122,81 @@ const CheckoutForm = () => {
                 left: open ? "330.375px" : "",
               }}
             >
-              <form>
-                <input type="email" placeholder="Email" />
-                <input type="text" placeholder="Password" />
-                <a data-open="forg_pass" className="drop-for-pass">
-                  Forgot Password ?
-                </a>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <p
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    color: "red",
+                    marginTop: "10px",
+                    marginBottom: 0,
+                  }}
+                >
+                  {errorMsg}
+                </p>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    {...register("identifier", {
+                      required: true,
+                      pattern:
+                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    })}
+                  />
+                  {errors.identifier &&
+                    errors.identifier.type === "required" && (
+                      <p className="error-message">This field is required</p>
+                    )}
+
+                  {errors.identifier &&
+                    errors.identifier.type === "pattern" && (
+                      <p className="error-message">
+                        Please write a valid email
+                      </p>
+                    )}
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    {...register("password", {
+                      required: true,
+                      minLength: {
+                        value: 6,
+                        message: "Password minimum be 6 digits",
+                      },
+                    })}
+                  />
+                </div>
+                {errors.password && errors.password.type === "required" && (
+                  <p className="error-message">This field is required</p>
+                )}
+
+                {errors.password && errors.password.type === "minLength" && (
+                  <p className="error-message">{errors.password?.message}</p>
+                )}
+
+                <Link
+                  href="/forgot-password"
+                  data-open="forg_pass"
+                  className="drop-for-pass"
+                >
+                  Forgot password?{" "}
+                </Link>
+
                 <button className="fst-log-but">Submit</button>
                 <p className="sec-crt-acc">
                   Don't have an Account?{" "}
-                  <a
-                    href="https://www.coolstop.in/home/login"
+                  <Link
+                    href="/register"
                     data-toggle="register-form-reveal"
                     aria-controls="register-form-reveal"
                     aria-haspopup="true"
                     tabIndex="0"
                   >
                     Create Account
-                  </a>
+                  </Link>
                 </p>
               </form>
             </div>

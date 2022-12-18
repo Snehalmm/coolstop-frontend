@@ -2,10 +2,10 @@
  */
 
 import { useState } from "react";
-import { token, serverUrl } from "./config";
+import { serverUrl } from "./config";
 import axios from "axios";
 
-const requestHeaders = () => {
+const requestHeaders = (token) => {
   return {
     Authorization: `Bearer ${token}`,
   };
@@ -55,7 +55,8 @@ const usePostApi = () => {
   const sendHTTPPostRequest = async (
     url,
     data,
-    onSuccessHandler,
+    token,
+    successHandler,
     onErrorHandler
   ) => {
     setIsLoading(true);
@@ -63,18 +64,18 @@ const usePostApi = () => {
       method: "POST",
       url: serverUrl + url,
       data: data,
-      headers: requestHeaders(),
+      headers: requestHeaders(token),
     })
       .then((response) => {
         setIsLoading(false);
+
         if (response.status === 200) {
-          if (onSuccessHandler) {
-            onSuccessHandler(response.data);
-          }
           setData(response.data);
+          if (successHandler) {
+            successHandler(response.data);
+          }
         } else {
           setError(response.data);
-          onErrorHandler(response.data);
         }
       })
       .catch((err) => {

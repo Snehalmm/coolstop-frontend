@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 
 const LoginCheckoutForm = (props) => {
   return (
     <>
       <div
-        className={`dropdown-pane ${props.open ? "is-open" : ""}`}
+        className={`dropdown-pane ${props.open ? 'is-open' : ''}`}
         id="fst_login"
         data-dropdown
         data-auto-focus="true"
         data-close-on-click="true"
         style={{
-          top: props.open ? "411.508px" : "",
-          left: props.open ? "339.375px" : "",
+          top: props.open ? '411.508px' : '',
+          left: props.open ? '339.375px' : '',
         }}
       >
         <form>
@@ -22,7 +22,7 @@ const LoginCheckoutForm = (props) => {
           </a>
           <button className="fst-log-but">Submit</button>
           <p className="sec-crt-acc">
-            Don't have an Account?{" "}
+            Don't have an Account?{' '}
             <a
               href="https://www.coolstop.in/home/login"
               data-toggle="register-form-reveal"

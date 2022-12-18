@@ -1,17 +1,19 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../stores/slices/userSlice";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../stores/slices/userSlice';
+import { deleteFromStorage } from '../../utils/storage';
 
 const MyAccountList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const logoutHandle = () => {
-    localStorage.removeItem("userDetails");
+    deleteFromStorage('userDetails');
     dispatch(userActions.adduser({}));
-    router.push("/login");
-    localStorage.removeItem("billingaddress");
+    router.push('/register');
+    deleteFromStorage('billingaddress');
+    dispatch(userActions.addAddress({}));
   };
 
   return (
@@ -20,7 +22,7 @@ const MyAccountList = () => {
         <h3 className="ac-nav-tit">My Account</h3>
         <ul className="ac-nav-links">
           <li>
-            <a href="#">
+            <Link href="/my-account">
               <svg
                 fill="#000000"
                 xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +31,7 @@ const MyAccountList = () => {
                 <path d="M 2 2 L 2 6 L 2 11 L 11 11 L 11 5 L 11 2 L 2 2 z M 13 2 L 13 6 L 13 11 L 22 11 L 22 5 L 22 2 L 13 2 z M 4 6 L 9 6 L 9 9 L 4 9 L 4 6 z M 15 6 L 20 6 L 20 9 L 15 9 L 15 6 z M 2 13 L 2 16 L 2 17 L 2 22 L 11 22 L 11 17 L 11 16 L 11 13 L 2 13 z M 13 13 L 13 17 L 13 22 L 22 22 L 22 16 L 22 13 L 13 13 z M 4 17 L 9 17 L 9 20 L 4 20 L 4 17 z M 15 17 L 20 17 L 20 20 L 15 20 L 15 17 z" />
               </svg>
               My Account
-            </a>
+            </Link>
           </li>
           <li>
             <Link href="/paid-orders" as="/paid-orders">

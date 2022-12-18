@@ -1709,7 +1709,7 @@ form .row input::placeholder {
   background-color: #471c4c;
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 12px 32px;
   /* text-align: center;
   text-decoration: none;
   display: inline-block; */
@@ -1737,6 +1737,11 @@ form .signup-link a:hover {
   font-size: 12px;
   font-weight: 500;
 }
+.success-message {
+  color: #1e2f1e;
+  font-size: 12px;
+  font-weight: 500;
+}
 
 .star {
   display: inline-block;
@@ -1761,4 +1766,55 @@ form .signup-link a:hover {
 
 .ckh-frm-10 {
   padding: 5px;
+}
+
+.star-disabled {
+  opacity: 1;
+  pointer-events: none;
+  cursor: none;
+}
+
+.subscribed-message {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 600;
+  color: rgb(102, 97, 97);
+  margin: 5px;
+}
+.vl {
+  border-right: 6px solid green;
+  height: 500px;
+  position: absolute;
+  right: 50%;
+  margin-left: -3px;
+  top: 0;
+}
+.related-slick .prod-details-1 {
+  min-height: 2.5em;
+}
+
+/* .related-slick .slick-track {
+  display: flex;
+}
+.related-slick .slick-slide > div {
+  height: 100%;
+  border: 1px solid black;
+}
+.related-slick .slick-slide .prod-card {
+  border: none;
+} */
+
+.remove-icon {
+  cursor: pointer;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.text {
+  font-size: 25px;
+  font-weight: 800;
+  margin: 20px auto;
 }

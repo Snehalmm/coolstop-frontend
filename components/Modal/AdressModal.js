@@ -9,7 +9,6 @@ const AdressModal = ({ adressModal, setAdressModal, name }) => {
   } = useForm();
 
   const submitAdress = (data) => {
-    console.log(data, 'adressmodal');
     setAdressModal(false);
   };
   // const closeModel = () => {
@@ -129,7 +128,7 @@ const AdressModal = ({ adressModal, setAdressModal, name }) => {
                   />
                 </label>
               </div>
-              <div class="large-6 medium-6 small-12 columns">
+              <div className="large-6 medium-6 small-12 columns">
                 <label>
                   Pin Code*
                   <input
@@ -144,14 +143,14 @@ const AdressModal = ({ adressModal, setAdressModal, name }) => {
               </div>
             </div>
 
-            <div class="large-12 columns">
-              <button class="green_button_full" type="submit">
+            <div className="large-12 columns">
+              <button className="green_button_full" type="submit">
                 Update
               </button>
             </div>
 
             <button
-              class="close-button"
+              className="close-button"
               data-close
               aria-label="Close reveal"
               type="button"

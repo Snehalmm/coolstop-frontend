@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
+import { serverUrl } from "../../../utils/config";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import StarRating from "../StarRating";
+import { toIndianCurrency } from "../../../utils/services";
 
-const RelatedProducts = () => {
+const RelatedProducts = ({ dataRating, data }) => {
+  const [relatedProducts, setRelatedProducts] = useState(data);
   const slideSettings = {
     // dots: true,
     infinite: true,
@@ -13,6 +19,7 @@ const RelatedProducts = () => {
     // swipeToSlide: 2,
     swipe: true,
   };
+
   return (
     <>
       <section>
@@ -26,468 +33,85 @@ const RelatedProducts = () => {
 
       <section>
         <div className="grid-container">
-          <div className="rel-products-con">
+          <div className="rel-products-con related-slick">
             <Slider {...slideSettings}>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
+              {relatedProducts?.length > 0 &&
+                relatedProducts.map((item) => {
+                  let productImage =
+                    item?.productImages !== null && item?.productImages?.image
+                      ? serverUrl + item.productImages.image[0].url
+                      : null;
 
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        width={100}
-                        height={100}
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
+                  let brandImage =
+                    item?.brand !== null && item?.brand
+                      ? serverUrl + item?.brand?.image.url
+                      : null;
 
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
+                  return (
+                    <div className="prod-card" key={item.id}>
+                      <Link
+                        href={`/products/${item.slug}`}
+                        as={`/products/${item.slug}`}
+                      >
+                        {productImage !== null && (
+                          <figure>
+                            <Image
+                              height="286"
+                              width="286"
+                              src={productImage}
+                              alt="Product Title"
+                            />
+                          </figure>
+                        )}
+                      </Link>
 
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt=""
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="prod-card">
-                <figure>
-                  <a href="#">
-                    <Image
-                      src="/images/prod-image.jpg"
-                      alt="Product Title"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-                </figure>
-
-                <div className="prod-details">
-                  <div className="prod-details-1">
-                    <a href="#">
-                      <Image
-                        src="/images/brand-small-logo.jpg"
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </a>
-                  </div>
-                  <div className="prod-details-2">
-                    <h2>
-                      <a href="#">Daikin Window AC</a>
-                    </h2>
-                  </div>
-                  <div className="prod-details-3">
-                    <span className="slp">₹ 24,990</span>
-                    <span className="mrp">
-                      <s>₹ 29,090</s>
-                    </span>
-                  </div>
-                  <div className="prod-details-4">
-                    <span className="b-rating">
-                      <Image
-                        src="/images/star-rating.jpg"
-                        alt="Rating"
-                        width={80}
-                        height={80}
-                      />
-                    </span>
-                  </div>
-                  <div className="prod-details-5">
-                    <span className="emi">
-                      No Cost EMI | Standard EMI From ₹ 1,188
-                    </span>
-                  </div>
-                </div>
-              </div>
+                      <div className="prod-details">
+                        <div className="prod-details-1">
+                          <a href="#">
+                            {brandImage !== null && (
+                              <Image
+                                height="90"
+                                width="90"
+                                src={brandImage}
+                                alt="image"
+                              />
+                            )}
+                          </a>
+                        </div>
+                        <div className="prod-details-2">
+                          <h2>
+                            <a href="#">{item.name}</a>
+                          </h2>
+                        </div>
+                        <div className="prod-details-3">
+                          <span className="slp">
+                            ₹{toIndianCurrency(item.csp)}
+                          </span>
+                          <span className="mrp">
+                            <s>₹{toIndianCurrency(item.mrp)}</s>
+                          </span>
+                        </div>
+                        <div className="prod-details-4">
+                          <span className="b-rating">
+                            <StarRating
+                              count={5}
+                              size={25}
+                              value={dataRating.starRating}
+                              disabled={true}
+                              activeColor={"#FFA534"}
+                              inactiveColor={"#ddd"}
+                            />
+                          </span>
+                        </div>
+                        <div className="prod-details-5">
+                          <span className="emi">
+                            No Cost EMI | Standard EMI From ₹ 1,188
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </Slider>
           </div>
         </div>

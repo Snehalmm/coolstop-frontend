@@ -131,6 +131,30 @@ const faqBreadcrums = [
     title: 'FAQ',
   },
 ];
+const contactUsBreadCrums = [
+  {
+    id: 1,
+    link: '/',
+    title: 'Home',
+  },
+  {
+    id: 2,
+    link: '/contact-us',
+    title: 'Contact Us',
+  },
+];
+const aboutUsBreadCrums = [
+  {
+    id: 1,
+    link: '/',
+    title: 'Home',
+  },
+  {
+    id: 2,
+    link: '/about-us',
+    title: 'About us',
+  },
+];
 
 export {
   productsBreadcrumb,
@@ -143,4 +167,6 @@ export {
   pendingOrderBreadcrums,
   trackOrderBreadcrums,
   faqBreadcrums,
+  contactUsBreadCrums,
+  aboutUsBreadCrums,
 };

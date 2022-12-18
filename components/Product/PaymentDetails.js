@@ -1,6 +1,27 @@
+import { useEffect, useState } from "react";
 import OrderSummary from "./OrderSummary";
+import { cartActions } from "../../stores/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFromStorage, getFromStorage } from "../../utils/storage";
 
 const PaymentDetails = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    deleteFromStorage("products");
+    deleteFromStorage("relatedProducts");
+    dispatch(cartActions.updateProduct(null));
+    dispatch(cartActions.addCartDetails({}));
+  }, []);
+
+  useEffect(() => {
+    const getorderDetails = getFromStorage("orderDetails");
+    dispatch(cartActions.saveOrderDetails(getorderDetails));
+  }, []);
+
+  const orderDetails = useSelector((state) => {
+    return state.cart.orderDetails;
+  });
+
   return (
     <>
       <section className="grid-container">
@@ -20,7 +41,7 @@ const PaymentDetails = () => {
                 <div className="payment-method-order-id-container">
                   <dd>
                     Your Order ID
-                    <span>263360</span>
+                    <span>{orderDetails?.id}</span>
                   </dd>
                 </div>
               </div>

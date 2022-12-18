@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   // unstable_runtimeJS: false,
   images: {
-    domains: ['coolstop.digitalsalt.in'],
+    domains: ["coolstop.digitalsalt.in"],
   },
 };
 

@@ -15,7 +15,7 @@
   margin: 1em 0 0.5em 0;
   padding-bottom: 0.3em;
   text-align: center;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1900 - 300)));
   font-weight: 500;
   color: #2a3d48;
@@ -34,13 +34,13 @@
   border: none;
 }
 .log-reg-termcon .faqs .accordion .accordion-content p {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   line-height: 2;
   color: #333333;
 }
 .log-reg-termcon .faqs .accordion .accordion-content li {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   line-height: 2;
   color: #333333;
@@ -54,7 +54,7 @@
 }
 .accordion-title {
   padding: 0.9em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   text-transform: capitalize;
   font-weight: 500;
@@ -82,7 +82,7 @@
   text-align: center;
 }
 .reset-pass-frm .res-frm-con h2 {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1.6em;
   color: #000;
   font-weight: 500;
@@ -91,7 +91,7 @@
   display: inline-block;
   padding: 0.3em 1em;
   border-radius: 50px;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1.2em;
   border: 2px solid #7a983d;
   color: #7a983d;
@@ -99,19 +99,19 @@
 }
 .reset-pass-frm .res-frm-con span {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   color: gray;
 }
 .reset-pass-frm label {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   color: #4d4d4d;
 }
 .reset-pass-frm .button-green-full {
   display: block;
   width: 100%;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-weight: 500;
   color: #fff;
   font-size: 1em;
@@ -148,7 +148,7 @@
   width: 100%;
 }
 .lgn-brand:before {
-  content: "";
+  content: '';
   display: block;
   width: 100%;
   height: 100%;
@@ -172,7 +172,7 @@
 }
 .lgn-brand .lrf-heading button {
   display: inline-block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   color: #000;
   border: 2px solid #af4c2b;
   padding: 0.5em 1em 0.5em 0.5em;
@@ -191,7 +191,7 @@
   color: #000;
 }
 .lgn-brand .lrf-heading p {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 12px;
   font-weight: 300;
   text-transform: uppercase;
@@ -208,13 +208,13 @@
   margin-top: 4em;
 }
 .lgn-brand .success-msg p {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 20px;
   margin-top: 1em;
   font-weight: 500;
 }
 .lgn-brand .success-msg a {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 15px;
   text-transform: uppercase;
   padding: 0.7em 1em;
@@ -272,7 +272,7 @@
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   transform: translateY(40px);
   transition: all 0.4s;
   cursor: text;
@@ -283,10 +283,10 @@
   font-size: 10px;
 }
 .form form .inp-tit.fontSwitch {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-weight: 500;
 }
-.form form input:not([type="submit"]) {
+.form form input:not([type='submit']) {
   margin: 0;
   background: none;
   outline: none;
@@ -296,37 +296,37 @@
   border-bottom: 1px solid #eee;
   color: gray;
   font-size: 15px;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   z-index: 1;
 }
-.form form input:not([type="submit"]).hasError {
+.form form input:not([type='submit']).hasError {
   border-color: #f95959;
 }
 .form form span.error {
   color: #f95959;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 12px;
   position: absolute;
   bottom: -20px;
   right: 0;
   display: none;
 }
-.form form input[type="password"] {
+.form form input[type='password'] {
   color: #7a983d;
 }
 .form form .CTA {
   margin: 15px 0;
 }
-.form form .CTA a[aria-controls="for_pass_rev"] {
+.form form .CTA a[aria-controls='for_pass_rev'] {
   margin-right: 5px;
   font-size: 15px;
   font-weight: 500;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   color: #999999;
   text-decoration: underline;
   transition: all 0.3s;
 }
-.form form .CTA a[aria-controls="for_pass_rev"]:hover {
+.form form .CTA a[aria-controls='for_pass_rev']:hover {
   color: #f40c2d;
 }
 .form form .CTA input {
@@ -339,12 +339,12 @@
   border-radius: 30px;
   margin-right: 20px;
   border: none;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
 }
 .form form .CTA a.switch {
   font-size: 15px;
   font-weight: 500;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   color: #999999;
   text-decoration: underline;
   transition: all 0.3s;
@@ -355,7 +355,7 @@
 .form form .CTA a.for_pass {
   font-size: 15px;
   font-weight: 500;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   color: #999999;
   text-decoration: underline;
   transition: all 0.3s;
@@ -367,19 +367,19 @@
   text-align: center;
 }
 #forg_pass h1 {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   margin: 0;
   font-size: 1.6em;
   font-weight: 500;
 }
 #forg_pass .lead {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.8em;
   font-weight: 500;
   color: gray;
 }
 #forg_pass input::placeholder {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
 }
 #forg_pass .fg_submit {
   display: block;
@@ -388,7 +388,7 @@
   padding: 0.7em 1em;
   border-radius: 3px;
   text-align: center;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   font-weight: 500;
   text-transform: uppercase;
@@ -418,18 +418,18 @@
 .term-con-con label.txt-chkbox-wrap {
   font-size: 15px;
   font-weight: 500;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   color: #999999;
 }
 .select {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   position: relative;
   width: 100%;
   margin-top: 2em;
 }
 .select-text {
   position: relative;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   background-color: transparent;
   width: 100%;
   padding: 10px 0;
@@ -460,7 +460,7 @@
   width: 0;
   height: 0;
   padding: 0;
-  content: "";
+  content: '';
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid black;
@@ -498,7 +498,7 @@
 }
 .ac-page-nav .ac-nav-tit {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   background: #471c4c;
   color: #fff;
   font-size: 1.3em;
@@ -519,7 +519,7 @@
   display: block;
   background: #fafafa;
   padding: 1em 0.5em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   color: #000;
   transition: all 0.3s ease;
@@ -539,7 +539,7 @@
 }
 .ac-page-dash-tit .dash-tit {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   background: #471c4c;
   color: #fff;
   font-size: 1.3em;
@@ -553,7 +553,7 @@
 .ac-page-accinfo .accinfo {
   display: block;
   margin: 0;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
   background-color: #f9f9f9;
   border-radius: 3px;
@@ -567,7 +567,7 @@
 .ac-page-addinfo .accinfo {
   display: block;
   margin: 0;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
   background-color: #f9f9f9;
   border-radius: 3px;
@@ -604,28 +604,28 @@
 }
 .ac-cont-infotit {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1.2em;
   font-weight: 500;
   color: #000;
 }
 .ac-cont-usrnm {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   font-weight: 500;
   color: #7a983d;
 }
 .ac-cont-usrmail {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   color: gray;
 }
 .ac-cont-butt {
   display: inline-block;
   margin-top: 1em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   color: #000;
   font-size: 0.9em;
   box-shadow: inset 0px 1px 0px 0px #ffffff;
@@ -636,6 +636,7 @@
   padding: 0.1em 1em;
   cursor: pointer;
   white-space: nowrap;
+  height: 25px;
 }
 .ac-cont-butt:hover {
   color: #000;
@@ -643,11 +644,11 @@
   background-color: #e9e9e9;
 }
 .ac-cont-butt:focus {
-  color: #666;
+  color: #000;
 }
 .ac-newsl-det {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   color: #000;
   white-space: normal;
@@ -663,7 +664,7 @@
 #chg_ship_add .pass-form_tit-container h4 {
   display: block;
   margin: 0;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1.5em;
   color: #7a983d;
 }
@@ -672,7 +673,7 @@
 #chg_ship_add .pass-form_tit-container span {
   display: block;
   margin-bottom: 1em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.8em;
   color: gray;
 }
@@ -681,7 +682,7 @@
 #chg_ship_add label {
   display: block;
   line-height: normal;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   color: #000;
 }
@@ -690,19 +691,19 @@
 #chg_ship_add label span {
   display: block;
   margin-bottom: 2px;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.8em;
   color: gray;
 }
 .close-button {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
 }
 .green_button_full {
   display: block;
   margin: 1em 0;
   width: 100%;
   text-align: center;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   text-transform: uppercase;
   color: #fff;
@@ -722,7 +723,7 @@
   margin: 0 0 0.5em 2em;
   padding: 0;
   position: relative;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   color: #000;
   cursor: pointer;
@@ -744,11 +745,11 @@
 .txt-chkbox-wrap input {
   display: none;
 }
-.txt-chkbox-wrap input[type="checkbox"]:defaultchecked ~ .gs-chk {
+.txt-chkbox-wrap input[type='checkbox']:defaultchecked ~ .gs-chk {
   display: block;
   fill: #7a983d;
 }
-.txt-chkbox-wrap input[type="checkbox"]:not(:defaultchecked) ~ .gs-unchk {
+.txt-chkbox-wrap input[type='checkbox']:not(:defaultchecked) ~ .gs-unchk {
   display: block;
 }
 .gs-subscribe {
@@ -795,7 +796,7 @@
 }
 .gs-sub-question {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   font-weight: 500;
   color: #000;
@@ -805,7 +806,7 @@
   display: block;
   margin: 0;
   text-align: left;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   font-weight: 500;
   color: #000;
@@ -816,7 +817,7 @@
 .upl-fault-cont .min-fl-sz {
   display: block;
   margin-top: 0.5em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.7em;
   color: #b3b3b3;
 }
@@ -824,7 +825,7 @@
   display: inline-block;
   width: 100px;
   margin-top: 1em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   box-shadow: inset 0px 1px 0px 0px #ffffff;
   background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
@@ -879,21 +880,21 @@
 }
 .ord-date-num span {
   display: block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   color: #000;
 }
 .ord-date-num h3 {
   display: block;
   margin: 0;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1.3em;
   font-weight: 500;
   color: #000;
 }
 .ord-date-num p {
   display: inline-block;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   color: #fff;
   background: #2a3d48;
@@ -907,14 +908,14 @@
 }
 .ord-amt-cid .ord-cid-tit {
   background: #fff;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   padding: 5px;
   color: #000;
 }
 .ord-amt-cid .ord-cid-data {
   background: #fff;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   padding: 5px;
   color: #000;
@@ -924,7 +925,7 @@
   margin: 0 0 0.5em 0;
   padding: 1em 0 0.3em 0;
   text-align: center;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1900 - 300)));
   font-weight: 700;
   color: #2a3d48;
@@ -936,13 +937,13 @@
 .responsive-card-table.unstriped tbody {
   background-color: transparent;
   border: none;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   color: #000;
 }
 .responsive-card-table th {
   background-color: #e6e6e6;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 0.9em;
   color: #000;
   font-weight: 700;
@@ -1348,7 +1349,7 @@
     z-index: 1;
   }
   .responsive-card-table td:after {
-    content: "";
+    content: '';
     position: absolute;
     background: #e6e6e6;
     width: 45%;

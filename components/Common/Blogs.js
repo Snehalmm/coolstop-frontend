@@ -1,6 +1,7 @@
-import React from "react";
-import Image from "next/image";
-import { serverUrl } from "../../utils/config";
+import React from 'react';
+import Image from 'next/image';
+import { serverUrl } from '../../utils/config';
+import Link from 'next/link';
 
 const Blogs = ({ data }) => {
   return (
@@ -24,7 +25,7 @@ const Blogs = ({ data }) => {
                 </div>
                 <div className="card-text">
                   <p>{item.description}</p>
-                  <a href={item.buttonUrl}>{item.buttonText}</a>
+                  <Link href={item.buttonUrl}>{item.buttonText}</Link>
                 </div>
               </div>
             );

@@ -147,8 +147,11 @@
   padding: 0.2em 0;
 }
 .ctc-prod-img {
-  padding: 0.5em;
+  padding: 0 0.5em;
   grid-row: 1/-1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .ctc-desc-pri {
   padding: 0.5em;
@@ -199,16 +202,18 @@
 .ctc-del {
   margin-top: 5px;
 }
-.ctc-del a {
-  display: block;
+.ctc-del button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 5px;
   text-align: left;
   font-family: "Work Sans", sans-serif;
   font-size: 0.8em;
   color: #000;
 }
-.ctc-del a svg {
-  width: 20px;
+.ctc-del button svg {
+  width: 18px;
   vertical-align: top;
 }
 .ctc-tot-pri {
@@ -252,9 +257,9 @@
 .ckh-frm-0 {
   grid-column: 1/-1;
 }
-.ckh-frm-1 {
+/* .ckh-frm-1 {
   grid-column: 1/-1;
-}
+} */
 .updt-pst-cod {
   display: block;
   margin-bottom: 1em;
@@ -957,4 +962,10 @@ input[type="number"] {
 
 .empaty-message h2 {
   padding: 20px;
+}
+
+.disabled-button {
+  background-color: rgb(207, 211, 211);
+  opacity: 0.5;
+  pointer-events: none;
 }

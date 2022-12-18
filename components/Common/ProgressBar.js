@@ -10,7 +10,9 @@ const ProgressBar = ({ data }) => {
           <div className="large-12 columns">
             <ol id="progress-bar">
               {data.map((item, index) => (
-                <li className={`step-${item.status}`}>{item.title}</li>
+                <li className={`step-${item.status}`} key={index}>
+                  {item.title}
+                </li>
               ))}
             </ol>
           </div>
