@@ -1,4 +1,4 @@
-import Features from "../components/home/Features";
+import Features from "../components/Home/Features";
 import PaymentDetails from "../components/Product/PaymentDetails";
 import { paymentMethodBreadcrums } from "../utils/data/breadcrumbs";
 import Breadcrumbs from "../components/Common/Breadcrumbs";

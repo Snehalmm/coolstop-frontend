@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Features from "../components/home/Features";
+import Features from "../components/Home/Features";
 import PendingOrderTable from "../components/Product/PendingOrderTable";
 import Breadcrumbs from "../components/Common/Breadcrumbs";
 import { paidOrderBreadcrums } from "../utils/data/breadcrumbs";

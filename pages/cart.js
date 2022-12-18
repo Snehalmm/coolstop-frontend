@@ -1,4 +1,4 @@
-import Features from "../components/home/Features";
+import Features from "../components/Home/Features";
 import { cartBreadcrums } from "../utils/data/breadcrumbs";
 import ShoppingCart from "../components/Product/ShoppingCart";
 import Breadcrumbs from "../components/Common/Breadcrumbs";
