@@ -50,7 +50,7 @@ const Navbar = ({ categories }) => {
                             }}
                           >
                             <li>
-                              <a href="#">brands</a>
+                              <a href="javascript:void(0)">brands</a>
                               <ul>
                                 {item?.attributes?.brands.data.map(
                                   (brand, el) => {
@@ -69,14 +69,14 @@ const Navbar = ({ categories }) => {
                             </li>
 
                             <li>
-                              <a href="#">tonnage</a>
+                              <a href="javascript:void(0)">tonnage</a>
                               <ul>
                                 {item?.attributes?.tonnages.data.map(
                                   (tonnage, elm) => {
                                     return (
                                       <li key={elm}>
                                         <Link
-                                          href={`products?tonnage=${tonnage?.attributes.value}`}
+                                          href={`products?acType=${item?.attributes?.slug}&tonnage=${tonnage?.attributes.value}`}
                                         >
                                           {tonnage?.attributes.name}
                                         </Link>
@@ -88,14 +88,14 @@ const Navbar = ({ categories }) => {
                             </li>
 
                             <li>
-                              <a href="#">ideal Room Size</a>
+                              <a href="javascript:void(0)">ideal Room Size</a>
                               <ul>
                                 {item?.attributes?.room_sizes.data.map(
                                   (idealRoomSize, ele) => {
                                     return (
                                       <li key={ele}>
                                         <Link
-                                          href={`products?&roomSize=${idealRoomSize?.attributes.value}`}
+                                          href={`products?acType=${item?.attributes?.slug}&roomSize=${idealRoomSize?.attributes.value}`}
                                         >
                                           {idealRoomSize?.attributes.size}
                                         </Link>

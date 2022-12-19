@@ -1,7 +1,76 @@
 import MyAccountList from "./MyAccountList";
 import Loader from "../Common/Loader";
+import { useRouter } from "next/router";
+import ReactPaginate from "react-paginate";
 
-const PendingOrderTable = ({ pendingData, pageName, isLoading }) => {
+const PendingOrderTable = ({
+  pendingData,
+  pageName,
+  isLoading,
+  totalOrderCount,
+  setCount,
+  count,
+  offset,
+  setOffset,
+}) => {
+  const router = useRouter();
+  const totalPageCount = Math.ceil(Number(totalOrderCount) / Number(count));
+  const currentPage = offset / count + 1;
+  // const countList = PageCountDropDown.filter(
+  //   (item) => Number(totalOrderCount) > item
+  // );
+
+  const nextCount = (pageNumber) => {
+    let newCount = (pageNumber - 1) * count;
+    // setCount(newCount);
+    setOffset(newCount);
+    let url = {
+      pathname: router.pathname,
+      query: { ...router.query, offset: newCount },
+    };
+
+    router.push(url, undefined, {
+      shallow: true,
+    });
+  };
+
+  const prevCount = (pageNumber) => {
+    if (count >= 1) {
+      let newCount = (pageNumber - 1) * count;
+
+      setOffset(newCount);
+      let url = {
+        pathname: router.pathname,
+        query: { ...router.query, offset: newCount },
+      };
+
+      router.push(url, undefined, {
+        shallow: true,
+      });
+    }
+  };
+
+  const handlePageClick = (event) => {
+    let newCount = event.selected * count;
+
+    setOffset(newCount);
+    let url = {
+      pathname: router.pathname,
+      query: { ...router.query, offset: newCount },
+    };
+
+    router.push(url, undefined, {
+      shallow: true,
+    });
+    // const newOffset = (event.selected * totalPageCount) % count;
+    // setOffset(newOffset);
+    console.log(
+      "event",
+      event
+      // `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    // setItemOffset(newOffset);
+  };
   return (
     <>
       <section className="grid-container">
@@ -90,38 +159,94 @@ const PendingOrderTable = ({ pendingData, pageName, isLoading }) => {
             </div>
           )}
         </div>
-        {/* <div className="prod-bott-pagi">
-          <nav aria-label="Pagination">
-            <ul className="pagination">
-              <li className="pagination-previous disabled">
+        {totalPageCount > 1 && (
+          <div className="prod-bott-pagi pending-order-bott-pagi">
+            {/* <nav aria-label="Pagination"> */}
+            <ReactPaginate
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={2}
+              pageCount={totalPageCount}
+              previousLabel="< "
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakLabel="..."
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination"
+              activeClassName="active"
+              renderOnZeroPageCount={null}
+            />
+            {/* <ul className="pagination">
+              <li
+                className={`pagination-previous disabled ${
+                  currentPage == "1" && "disabled-button"
+                }`}
+                onClick={() => nextCount(currentPage - 1)}
+              >
                 <span className="show-for-sr">page</span>
               </li>
-              <li className="current">
-                <span className="show-for-sr">You're on page</span> 1
-              </li>
-              <li>
-                <a href="#" aria-label="Page 2">
-                  2
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="Page 3">
-                  3
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="Page 4">
-                  4
-                </a>
-              </li>
-              <li className="pagination-next">
+              {Array(totalPageCount)
+                .fill(1)
+                .map((item, index) => {
+                  return (
+                    <>
+                      {" "}
+                      {currentPage == index + 1 ? (
+                        <li className={`${currentPage}current`}>
+                          <span className="show-for-sr">You're on page</span>{" "}
+                          {currentPage}
+                        </li>
+                      ) : (
+                        <li>
+                          <a href="#" aria-label="Page 2">
+                            {index + 1}
+                          </a>
+                        </li>
+                      )}
+                    </>
+                  );
+                })}
+
+              <li
+                className={`pagination-next ${
+                  totalPageCount == currentPage && "disabled-button"
+                } `}
+                onClick={() => nextCount(currentPage + 1)}
+              >
                 <span href="#" aria-label="Next page">
                   <span className="show-for-sr">page</span>
                 </span>
               </li>
-            </ul>
-          </nav>
-        </div> */}
+            </ul> */}
+            {/* </nav> */}
+          </div>
+        )}
+        {/* <ReactPaginate
+          nextLabel=" >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          pageCount={totalPageCount}
+          previousLabel="< "
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          renderOnZeroPageCount={null}
+        /> */}
       </section>
     </>
   );

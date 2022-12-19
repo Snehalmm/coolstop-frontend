@@ -220,7 +220,7 @@ const OrderSummary = ({ buttonText }) => {
     if (totalProductCount === 0) {
       dispatch(cartActions.discountDetails({}));
       localStorage.removeItem("discountDetails");
-      document.getElementById("discountInput").value = "";
+      // document.getElementById("discountInput").value = "";
       deleteFromStorage("showCoupan");
       deleteFromStorage("discountAmt");
       // document.getElementById("discountInput").value = "";

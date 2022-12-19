@@ -1,5 +1,5 @@
 import Breadcrumbs from "../components/Common/Breadcrumbs";
-import Features from "../components/Home/Features";
+import Features from "../components/home/Features";
 import PendingOrderTable from "../components/Product/PendingOrderTable";
 import { pendingOrderBreadcrums } from "../utils/data/breadcrumbs";
 import { NextSeo } from "next-seo";
@@ -7,22 +7,19 @@ import { Path } from "../utils/apiService";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../stores/slices/userSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useGetApi from "../utils/useGetApi";
 import { getFromStorage } from "../utils/storage";
 
 const PendingOrders = () => {
   const router = useRouter();
+  const [count, setCount] = useState(10);
+  const [offset, setOffset] = useState(0);
 
   const dispatch = useDispatch();
   useEffect(() => {
     let getUserDetails = getFromStorage("userDetails");
     dispatch(userActions.adduser(getUserDetails));
-
-    router.push({
-      href: "/pending-orders",
-      query: `start=0&limit=${5}`,
-    });
   }, []);
   const {
     isLoading: getpendingOrderLoading,
@@ -35,13 +32,11 @@ const PendingOrders = () => {
   useEffect(() => {
     if (userDetails !== null && Object.keys(userDetails)?.length > 0) {
       getpendingOrderApi(
-        `${
-          Path.order
-        }?filters[emailId][$eq]=${emailId}&filters[orderStatus][$eq]=pending&start=0&limit=${5}`,
+        `${Path.order}?filters[emailId][$eq]=${emailId}&filters[orderStatus][$eq]=pending&start=${offset}&limit=${count}`,
         userDetails.jwt
       );
     }
-  }, [userDetails]);
+  }, [userDetails, offset]);
 
   return (
     <>
@@ -52,6 +47,11 @@ const PendingOrders = () => {
         isLoading={getpendingOrderLoading}
         pendingData={getpendingOrderData?.data}
         pageName={router.pathname}
+        totalOrderCount={getpendingOrderData?.data?.attributes?.count}
+        setCount={setCount}
+        setOffset={setOffset}
+        offset={offset}
+        count={count}
       />
       <Features />
     </>

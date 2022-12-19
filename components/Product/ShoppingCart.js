@@ -4,6 +4,7 @@ import { toIndianCurrency } from "../../utils/services";
 import OrderSummary from "./OrderSummary";
 import { serverUrl } from "../../utils/config";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const ShoppingCart = () => {
   const dispatch = useDispatch();
@@ -61,9 +62,12 @@ const ShoppingCart = () => {
                 cartItems.map((item, index) => {
                   return (
                     <div className="ctc-prod-con" key={index}>
-                      <div className="ctc-prod-img">
+                      <Link
+                        href={`/products/${item?.slug}`}
+                        className="ctc-prod-img"
+                      >
                         <img src={serverUrl + item.image} alt="imgname" />
-                      </div>
+                      </Link>
 
                       <div className="ctc-desc-pri">
                         <span className="ctc-parent-prod">{item.name}</span>

@@ -4651,7 +4651,7 @@ table.hover:not(.unstriped) tr:nth-of-type(2n):hover {
   color: #fefefe;
   cursor: default;
 }
-.pagination .disabled {
+.pagination.product-top-pagi .disabled {
   padding: 0.1875rem 0.625rem;
   color: #cacaca;
   cursor: pointer;
@@ -7830,11 +7830,16 @@ p {
   width: 35px;
   height: 35px;
   text-align: center;
-  border: 1px solid #d9d9d9;
+  /* border: 1px solid #d9d9d9; */
   font-family: "Work Sans", sans-serif;
   font-size: 1.1em;
   color: #000;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+.pending-order-bott-pagi .pagination li {
+  border: none;
+  overflow: unset;
+  /* padding: 0; */
 }
 .prod-bott-pagi .pagination a:hover {
   background: #471c4c;

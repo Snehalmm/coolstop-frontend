@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import Features from "../components/Home/Features";
+import { useEffect, useState } from "react";
+import Features from "../components/home/Features";
 import PendingOrderTable from "../components/Product/PendingOrderTable";
 import Breadcrumbs from "../components/Common/Breadcrumbs";
 import { paidOrderBreadcrums } from "../utils/data/breadcrumbs";
@@ -13,15 +13,13 @@ import { getFromStorage } from "../utils/storage";
 
 const PaidOrders = () => {
   const router = useRouter();
+  const [count, setCount] = useState(10);
+  const [offset, setOffset] = useState(0);
 
   const dispatch = useDispatch();
   useEffect(() => {
     let getUserDetails = getFromStorage("userDetails");
     dispatch(userActions.adduser(getUserDetails));
-    router.push({
-      href: "/paid-orders",
-      query: `start=0&limit=${10}`,
-    });
   }, []);
   const userDetails = useSelector((state) => state.user.userDetails);
   const emailId = userDetails?.user?.email;
@@ -36,7 +34,7 @@ const PaidOrders = () => {
   useEffect(() => {
     if (userDetails !== null && Object.keys(userDetails)?.length > 0) {
       getPaidOrderApi(
-        `${Path.order}?filters[emailId][$eq]=${emailId}&filters[paymentStatus][$eq]=paid`,
+        `${Path.order}?filters[emailId][$eq]=${emailId}&filters[paymentStatus][$eq]=paid&start=${offset}&limit=${count}`,
         userDetails.jwt
       );
     }
@@ -50,6 +48,10 @@ const PaidOrders = () => {
         isLoading={getPaidOrderLoading}
         pendingData={getPaidOrderData?.data}
         pageName={router.pathname}
+        setCount={setCount}
+        count={count}
+        setOffset={setOffset}
+        offset={offset}
       />
       <Features />
     </>

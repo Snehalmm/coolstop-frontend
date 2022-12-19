@@ -10,6 +10,7 @@ import StarRating from "../Product/StarRating";
 import { useRouter } from "next/router";
 import { deleteFromStorage } from "../../utils/storage";
 import Loader from "../Common/Loader";
+import ReactPaginate from "react-paginate";
 // import Pagination from "../Common/Pagination";
 // import { paginate } from "../../utils/paginate";
 // import ReactPaginate from "react-paginate";
@@ -181,6 +182,19 @@ const Products = ({
     (item) => Number(totalProductCount) > item
   );
 
+  const handlePageClick = (event) => {
+    let newCount = event.selected * count;
+
+    setOffset(newCount);
+    let url = {
+      pathname: router.pathname,
+      query: { ...router.query, offset: newCount },
+    };
+
+    router.push(url, undefined, {
+      shallow: true,
+    });
+  };
   return (
     <>
       <section className="grid-container">
@@ -258,7 +272,7 @@ const Products = ({
               <div className="pagicon-4">
                 <div className="pagi-selec">
                   <nav aria-label="Pagination">
-                    <ul className="pagination">
+                    <ul className="pagination product-top-pagi">
                       {/* <li className="pagination-previous">
                         <div className="pagicon-3">
                           <div className="pagi-selec">
@@ -278,7 +292,9 @@ const Products = ({
                       {totalPageCount > 1 && (
                         <>
                           <li
-                            className="pagination-previous disabled"
+                            className={`pagination-previous disabled ${
+                              currentPage == "1" && "disabled-button"
+                            }`}
                             onClick={() => prevCount(currentPage - 1)}
                           >
                             <span className="show-for-sr">page</span>
@@ -287,11 +303,13 @@ const Products = ({
                             <span className="show-for-sr">You're on page</span>{" "}
                             {currentPage}
                           </li>
-                          <li className="pagination-next">
-                            <span
-                              aria-label="Next page"
-                              onClick={() => nextCount(currentPage + 1)}
-                            >
+                          <li
+                            className={`pagination-next ${
+                              currentPage == totalPageCount && "disabled-button"
+                            }`}
+                            onClick={() => nextCount(currentPage + 1)}
+                          >
+                            <span aria-label="Next page">
                               <span className="show-for-sr">page</span>
                             </span>
                           </li>
@@ -418,38 +436,77 @@ const Products = ({
               onPageChange={handlePageChange}
             /> */}
 
-            {/* <div className="prod-bott-pagi">
-              <nav aria-label="Pagination">
+            {totalPageCount > 0 && (
+              <div className="prod-bott-pagi">
+                <ReactPaginate
+                  nextLabel=">"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  pageCount={totalPageCount}
+                  previousLabel="< "
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  breakLabel="..."
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  renderOnZeroPageCount={null}
+                  // forcePage={currentPage}
+                />
+                {/* <nav aria-label="Pagination">
                 <ul className="pagination">
-                  <li className="pagination-previous disabled">
+                  <li
+                    className={`pagination-previous disabled ${
+                      currentPage == "1" && "disabled-button"
+                    }`}
+                    onClick={() => nextCount(currentPage - 1)}
+                  >
                     <span className="show-for-sr">page</span>
                   </li>
-                  <li className="current">
-                    <span className="show-for-sr">You're on page</span> 1
-                  </li>
-                  <li>
-                    <a href="#" aria-label="Page 2">
-                      2
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" aria-label="Page 3">
-                      3
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" aria-label="Page 4">
-                      4
-                    </a>
-                  </li>
-                  <li className="pagination-next">
+                  {Array(totalPageCount)
+                    .fill(1)
+                    .map((item, index) => {
+                      return (
+                        <>
+                          {" "}
+                          {currentPage == index + 1 ? (
+                            <li className={`${currentPage}current`}>
+                              <span className="show-for-sr">
+                                You're on page
+                              </span>{" "}
+                              {currentPage}
+                            </li>
+                          ) : (
+                            <li>
+                              <a href="#" aria-label="Page 2">
+                                {index + 1}
+                              </a>
+                            </li>
+                          )}
+                        </>
+                      );
+                    })}
+
+                  <li
+                    className={`pagination-next ${
+                      totalPageCount == currentPage && "disabled-button"
+                    } `}
+                    onClick={() => nextCount(currentPage + 1)}
+                  >
                     <span href="#" aria-label="Next page">
                       <span className="show-for-sr">page</span>
                     </span>
                   </li>
                 </ul>
-              </nav>
-            </div> */}
+              </nav> */}
+              </div>
+            )}
           </div>
         </div>
       </section>

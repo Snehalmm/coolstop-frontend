@@ -114,17 +114,18 @@ const ProductInfo = ({ data, item }) => {
                 </span>
               </div>
             </div>
-
-            <div className="ppg-pro-hig">
-              <span className="pro-high-tit">Product Highlights</span>
-              <ul>
-                {data.highlights?.map((item, id) => (
-                  <li data-icon="▶" key={id}>
-                    {item.point}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {data.highlights?.length > 0 && (
+              <div className="ppg-pro-hig">
+                <span className="pro-high-tit">Product Highlights</span>
+                <ul>
+                  {data.highlights?.map((item, id) => (
+                    <li data-icon="▶" key={id}>
+                      {item.point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="prodpg-det-pri-2">

@@ -1,16 +1,16 @@
 const SpecificationTable = ({ data }) => {
-  console.log("data.specifications", data.specifications)
   return (
     <>
-      {data.specifications !== null && data.specifications?.length > 0 && (
-        <>  <section>
-          <div className="grid-container">
-            <div className="sec-area-titles">
-              <h3>Specifications</h3>
-              <span>{data.name}</span>
+      {data?.specifications !== null && data?.specifications?.length > 0 && (
+        <>
+          <section>
+            <div className="grid-container">
+              <div className="sec-area-titles">
+                <h3>Specifications</h3>
+                <span>{data.name}</span>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
           <section>
             <div className="grid-container margin-top-1">
@@ -40,9 +40,9 @@ const SpecificationTable = ({ data }) => {
                 </div>
               </div>
             </div>
-          </section></>
+          </section>
+        </>
       )}
-
     </>
   );
 };

@@ -1,5 +1,6 @@
 // ./components/Search/CustomHits.js
 import { connectStateResults } from 'react-instantsearch-dom';
+import Link from 'next/link';
 
 function Hits({ searchState, searchResults }) {
   const validQuery = searchState.query?.length >= 3;
@@ -12,7 +13,9 @@ function Hits({ searchState, searchResults }) {
       {searchResults?.hits.length > 0 && validQuery && (
         <ol>
           {searchResults.hits.map((hit) => (
-            <li key={hit.objectID}>{hit.name}</li>
+            <Link href={`/products/${hit.slug}`}>
+              <li key={hit.objectID}>{hit.name}</li>
+            </Link>
           ))}
         </ol>
       )}

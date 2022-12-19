@@ -1,9 +1,9 @@
-import Features from "../components/Home/Features";
+import Features from "../components/home/Features";
 
-import Brand from "../components/Home/Brand";
+import Brand from "../components/home/Brand";
 import Banner from "../components/Common/Banner";
-import TopSeller from "../components/Home/TopSeller";
-import Reviews from "../components/Home/Reviews";
+import TopSeller from "../components/home/TopSeller";
+import Reviews from "../components/home/Reviews";
 import Blogs from "../components/Common/Blogs";
 import { useEffect } from "react";
 import { Path } from "../utils/apiService";
