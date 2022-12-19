@@ -74,7 +74,11 @@ const Footer = ({ getGlobalData }) => {
                       (item, i) => {
                         return (
                           <li key={i}>
-                            <a href="#">{item.name}</a>
+                           {item.link !== null ? (
+                              <Link href={item.link}>{item.name}</Link>
+                            ) : (
+                              item.name
+                            )}
                           </li>
                         );
                       }
