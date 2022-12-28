@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import Image from "next/image";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const Success = () => {
   const orderDetails = useSelector((state) => {
@@ -21,7 +21,7 @@ const Success = () => {
           </span>
           <div>
             <p className="success-text">
-              you've successfully placed the order{' '}
+              you've successfully placed the order{" "}
             </p>
             <p className="success-info">
               Thank You for ordering ,
@@ -31,21 +31,21 @@ const Success = () => {
               {/* Your order information appears below.
               white_check_mark eyes raised_hands 11:55. */}
             </p>
-            <p style={{ textTransform: 'uppercase' }}>
-              YOUR ORDER ID: {orderDetails.id}
+            <p style={{ textTransform: "uppercase" }}>
+              YOUR ORDER ID: {orderDetails?.data?.id}
             </p>
           </div>
 
           <div>
             <Link href="/pending-orders" className="button" type="submit">
-              {' '}
+              {" "}
               {/* GO TO HOME */}
               GO TO ORDERS
             </Link>
           </div>
           <div>
             <Link href="/" className="button" type="submit">
-              {' '}
+              {" "}
               {/* GO TO HOME */}
               GO TO HOME
             </Link>

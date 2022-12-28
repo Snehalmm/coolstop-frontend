@@ -689,7 +689,7 @@ body {
   color: #0a0a0a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* overflow: hidden; */
+  overflow: unset !important;
 }
 img {
   display: inline-block;
