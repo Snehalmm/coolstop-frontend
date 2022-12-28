@@ -74,7 +74,7 @@ const Footer = ({ getGlobalData }) => {
                       (item, i) => {
                         return (
                           <li key={i}>
-                           {item.link !== null ? (
+                            {item.link !== null ? (
                               <Link href={item.link}>{item.name}</Link>
                             ) : (
                               item.name
@@ -106,9 +106,9 @@ const Footer = ({ getGlobalData }) => {
                   <li>
                     <Link href="/about-us">Our Story</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/about-us">Refer A Friend</Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link href="/about-us">Press</Link>
                   </li>

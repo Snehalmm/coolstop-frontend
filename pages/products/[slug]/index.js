@@ -14,7 +14,6 @@ const ProductDetails = ({ productData }) => {
   // const [productDetailsData, setProductDetailsData] = useState(
   //   props.productData
   // );
-
   return (
     <>
       {productData?.data?.attributes?.seo?.canonicalURL !== null && (

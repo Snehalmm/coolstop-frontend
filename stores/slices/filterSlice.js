@@ -13,6 +13,7 @@ const filterSlice = createSlice({
     roomSizeFilter: [],
     commonFilter: [],
     sortFilter: [],
+    searchCatagory: null,
   },
   reducers: {
     addBrandFilter(state, action) {
@@ -189,6 +190,10 @@ const filterSlice = createSlice({
       state.roomSizeFilter = [];
       state.commonFilter = [];
       state.sortFilter = [];
+    },
+
+    addSearchCatagoryFilter(state, action) {
+      state.searchCatagory = action.payload;
     },
   },
 });

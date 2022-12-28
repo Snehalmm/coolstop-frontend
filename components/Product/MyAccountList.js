@@ -1,19 +1,23 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../stores/slices/userSlice';
-import { deleteFromStorage } from '../../utils/storage';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../stores/slices/userSlice";
+import { cartActions } from "../../stores/slices/cartSlice";
+import { deleteFromStorage } from "../../utils/storage";
 
 const MyAccountList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const logoutHandle = () => {
-    deleteFromStorage('userDetails');
+    deleteFromStorage("userDetails");
     dispatch(userActions.adduser({}));
-    router.push('/register');
-    deleteFromStorage('billingaddress');
+    router.push("/login");
     dispatch(userActions.addAddress({}));
+    dispatch(cartActions.discountDetails({}));
+    deleteFromStorage("discountDetails");
+    deleteFromStorage("showCoupan");
+    deleteFromStorage("discountAmt");
   };
 
   return (

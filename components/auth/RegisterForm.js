@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import usePostApi from "../../utils/usePostApi";
+import useGetApi from "../../utils/useGetApi";
 import { useDispatch, useSelector } from "react-redux";
 import { Path } from "../../utils/apiService";
 import { useRouter } from "next/router";
@@ -12,7 +13,7 @@ import { saveToStorage } from "../../utils/storage";
 const registerForm = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const [userData, setUserData] = useState(null);
   const [errorMsg, setErrorMsg] = useState([]);
 
   const {
@@ -30,20 +31,26 @@ const registerForm = () => {
 
   const successHandler = (data) => {
     if (router.query.name == "checkout") {
+      setUserData(data);
       router.push("/checkout");
       saveToStorage("userDetails", data);
       dispatch(userActions.adduser(data));
     } else {
+      setUserData(data);
       saveToStorage("userDetails", data);
       dispatch(userActions.adduser(data));
       router.push("/my-account");
     }
-    // if (data.user && data.jwt.length > 0) {
-    //   localStorage.setItem('userDetails', JSON.stringify(data));
-    //   dispatch(userActions.adduser(data));
-    //   router.push('/my-account');
-    // }
   };
+
+  // const onSuccessHandler = (data) => {
+  //   if (data) {
+  //     let userObject = { ...userData };
+  //     userObject['user'] = data;
+  //     saveToStorage('userDetails', userObject);
+  //     dispatch(userActions.adduser(userObject));
+  //   }
+  // };
 
   const errorHandler = (error) => {
     if (error) {
@@ -55,9 +62,25 @@ const registerForm = () => {
     signupApi(Path.signup, item, token, successHandler, errorHandler);
   };
 
+  // const {
+  //   isLoading: userDataLoading,
+  //   error: userDataError,
+  //   data: userDatadata,
+  //   sendHTTPGetRequest: userDataApi,
+  // } = useGetApi();
+
+  // // Function that invokes API call
+
+  // useEffect(() => {
+  //   userDataApi(
+  //     `/api/users/${userData?.user?.id}?populate=*`,
+  //     userData?.jwt,
+  //     onSuccessHandler
+  //   );
+  // }, [userData]);
   return (
     <>
-      <div className="container">
+      <div className="sign-form-container">
         <div className="wrapper">
           <div className="title">
             <span>Signup Form</span>

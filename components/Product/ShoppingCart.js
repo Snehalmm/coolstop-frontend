@@ -31,10 +31,7 @@ const ShoppingCart = () => {
     // dispatch(cartActions.discountDetails({}));
     // localStorage.removeItem("discountDetails");
   };
-  let getAddress;
   useEffect(() => {
-    getAddress = JSON.parse(localStorage.getItem("billingaddress"));
-
     localStorage.removeItem("orderDetails");
   }, []);
 

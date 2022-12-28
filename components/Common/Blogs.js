@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import { serverUrl } from '../../utils/config';
-import Link from 'next/link';
+import React from "react";
+import Image from "next/image";
+import { serverUrl } from "../../utils/config";
+import Link from "next/link";
 
 const Blogs = ({ data }) => {
   return (
@@ -19,8 +19,12 @@ const Blogs = ({ data }) => {
                   <Image
                     src={serverUrl + item.image.data.attributes.url}
                     alt="VRV Technology"
-                    width={404}
-                    height={216}
+                    // width={404}
+                    // height={216}
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    style={{ width: "100%", height: "auto" }}
                   />
                 </div>
                 <div className="card-text">

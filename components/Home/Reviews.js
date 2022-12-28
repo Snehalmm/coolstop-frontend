@@ -16,8 +16,8 @@ const Reviews = ({ reviews }) => {
                 return (
                   item.attributes.showOnHome && (
                     <div className="revblock" key={index}>
+                      <span>{item.attributes.name} : </span>
                       <p>{item.attributes.reviewComment}</p>
-                      <span>{item.attributes.name}</span>
                     </div>
                   )
                 );

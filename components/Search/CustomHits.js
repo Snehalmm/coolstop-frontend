@@ -11,13 +11,14 @@ function Hits({ searchState, searchResults }) {
         <p>Aw snap! No search results were found.</p>
       )}
       {searchResults?.hits.length > 0 && validQuery && (
-        <ol>
+        <ul className="searchbox-wrap">
           {searchResults.hits.map((hit) => (
-            <Link href={`/products/${hit.slug}`}>
-              <li key={hit.objectID}>{hit.name}</li>
-            </Link>
+            <li key={hit.objectID}>
+              {' '}
+              <Link href={`/products/${hit.slug}`}>{hit.name}</Link>
+            </li>
           ))}
-        </ol>
+        </ul>
       )}
     </>
   );

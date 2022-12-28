@@ -5,16 +5,19 @@ import Banner from "../components/Common/Banner";
 import TopSeller from "../components/Home/TopSeller";
 import Reviews from "../components/Home/Reviews";
 import Blogs from "../components/Common/Blogs";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Path } from "../utils/apiService";
 import { userActions } from "../stores/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { serverUrl, token } from "../utils/config";
 import { NextSeo } from "next-seo";
 import { getFromStorage } from "../utils/storage";
+import { useRouter } from "next/router";
+import ProductsList from "../components/Home/ProductsList";
 
 export default function Home(props) {
-  const { home, review } = props;
+  const router = useRouter();
+  const { home, review, products } = props;
 
   const dispatch = useDispatch();
 
@@ -33,7 +36,7 @@ export default function Home(props) {
         openGraph={{
           type: home.data.attributes.seo.metaImage.data.attributes
             .alternativeText,
-          url: "https://www.example.com/page",
+          url: home.data.attributes.seo.metaImage.data.attributes.url,
           title: "Open Graph Title",
           description: "Open Graph Description",
           images: [
@@ -48,21 +51,22 @@ export default function Home(props) {
           ],
         }}
       />
-      {/* <div> */}
+
       {home !== null && (
         <>
           <Banner data={home.data.attributes.homeBanner} />
+          <Brand data={home.data.attributes.brands_we_offers.data} />
           <TopSeller
             data={home.data.attributes.topSellersProducts.data}
             item={home.data}
           />
+          <ProductsList data={products.data.attributes.products.data} />
           <Blogs data={home.data.attributes.blogs} />
-          <Brand data={home.data.attributes.brands_we_offers.data} />
+
           <Features />
           <Reviews reviews={review} />
         </>
       )}
-      {/* </div> */}
     </>
   );
 }
@@ -78,7 +82,12 @@ export async function getServerSideProps() {
   });
   const review = await reviewData.json();
 
+  const productsData = await fetch(serverUrl + Path.products, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const products = await productsData.json();
+
   return {
-    props: { home: home, review: review },
+    props: { home: home, review: review, products: products },
   };
 }

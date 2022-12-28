@@ -38,13 +38,14 @@ const PaidOrders = () => {
         userDetails.jwt
       );
     }
-  }, [userDetails]);
+  }, [userDetails, offset]);
 
   return (
     <>
       <NextSeo title="Paid Orders" description="Some content " />
       <Breadcrumbs data={paidOrderBreadcrums} />
       <PendingOrderTable
+        totalOrderCount={getPaidOrderData?.data?.attributes?.count}
         isLoading={getPaidOrderLoading}
         pendingData={getPaidOrderData?.data}
         pageName={router.pathname}

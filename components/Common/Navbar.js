@@ -13,9 +13,9 @@ const Navbar = ({ categories }) => {
     setHoverMenu(value);
   };
 
-  const getBrandName = (name) => {
-    router.push(`/products/${name}`);
-  };
+  // const getBrandName = (name) => {
+  //   router.push(`/products/${name}`);
+  // };
 
   return (
     <>
@@ -50,7 +50,7 @@ const Navbar = ({ categories }) => {
                             }}
                           >
                             <li>
-                              <a href="javascript:void(0)">brands</a>
+                              <span>Brands</span>
                               <ul>
                                 {item?.attributes?.brands.data.map(
                                   (brand, el) => {
@@ -69,7 +69,7 @@ const Navbar = ({ categories }) => {
                             </li>
 
                             <li>
-                              <a href="javascript:void(0)">tonnage</a>
+                              <span>tonnage</span>
                               <ul>
                                 {item?.attributes?.tonnages.data.map(
                                   (tonnage, elm) => {
@@ -88,7 +88,7 @@ const Navbar = ({ categories }) => {
                             </li>
 
                             <li>
-                              <a href="javascript:void(0)">ideal Room Size</a>
+                              <span>ideal Room Size</span>
                               <ul>
                                 {item?.attributes?.room_sizes.data.map(
                                   (idealRoomSize, ele) => {
@@ -109,6 +109,9 @@ const Navbar = ({ categories }) => {
                         </li>
                       );
                     })}
+                    <li>
+                      <a href="#">AC Servicing</a>
+                    </li>
                   </ul>
                 </div>
                 <a className="wha-app-con" href="#">

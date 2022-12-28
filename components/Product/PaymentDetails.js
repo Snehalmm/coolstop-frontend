@@ -3,9 +3,19 @@ import OrderSummary from "./OrderSummary";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteFromStorage, getFromStorage } from "../../utils/storage";
+import { useRouter } from "next/router";
+import useRazorpay from "react-razorpay";
+import axios from "axios";
+import { serverUrl } from "../../utils/config";
+import ConfirmationModel from "../Modal/ConfirmationModel";
 
 const PaymentDetails = () => {
+  const Razorpay = useRazorpay();
   const dispatch = useDispatch();
+  const router = useRouter();
+  const [showModel, setShowModel] = useState(false);
+  const userDetails = useSelector((state) => state.user.userDetails);
+
   useEffect(() => {
     deleteFromStorage("products");
     deleteFromStorage("relatedProducts");
@@ -21,6 +31,77 @@ const PaymentDetails = () => {
   const orderDetails = useSelector((state) => {
     return state.cart.orderDetails;
   });
+
+  const onPayClick = () => {
+    const options = {
+      key: process.env.RAZOR_PAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+      amount: orderDetails?.data?.amount,
+      currency: orderDetails?.data?.currency,
+      name: "Test Corp.",
+      description: "Test Transaction",
+      order_id: orderDetails?.data?.id,
+      handler: async function (response) {
+        const data = {
+          orderCreationId: orderDetails?.data?.id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature,
+          date: orderDetails?.data?.created_at.toString(),
+          paymentMode: "online",
+          paymentStatus: "paid",
+        };
+
+        const result = await axios({
+          method: "post",
+          url: `${serverUrl}/api/payment/success`,
+          headers: {
+            Authorization: `Bearer ${userDetails.jwt}`,
+          },
+          data: data,
+        });
+        if (result.status === 200) {
+          router.push("/confirmation");
+        } else {
+          router.push("/payment-error");
+        }
+        // if (result.data.success) {
+        //   setCookie('user', result?.data.data.package.type);
+        //   localStorage.setItem(
+        //     'accessToken',
+        //     JSON.stringify(result?.data.data.accessToken)
+        //   );
+        //   localStorage.setItem(
+        //     'refreshToken',
+        //     JSON.stringify(result?.data?.data.refreshToken)
+        //   );
+        //   refetch();
+        //   router.replace('/pricing');
+        // }
+      },
+      prefill: {
+        name: userDetails.user.firstname.concat(
+          " ",
+          userDetails?.user?.lastname
+        ),
+        email: userDetails.user.email,
+        contact: userDetails.user.contactNo,
+      },
+      notes: {
+        address: "test at Corporate Office",
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
+  const offPayClick = () => {
+    setShowModel(true);
+    // router.push("/confirmation");
+  };
 
   return (
     <>
@@ -52,116 +133,74 @@ const PaymentDetails = () => {
                     <path d="M22 4h-20c-1.104 0-2 .896-2 2v12c0 1.104.896 2 2 2h20c1.104 0 2-.896 2-2v-12c0-1.104-.896-2-2-2zm0 13.5c0 .276-.224.5-.5.5h-19c-.276 0-.5-.224-.5-.5v-6.5h20v6.5zm0-9.5h-20v-1.5c0-.276.224-.5.5-.5h19c.276 0 .5.224.5.5v1.5zm-9 6h-9v-1h9v1zm-3 2h-6v-1h6v1zm10-2h-3v-1h3v1z" />
                   </svg>
                   <div className="method-src-det">
-                    <span>Cards (Credit/Debit)</span>
-                    <p>Visa, Mastercard, Diners Club, Rupay, Amex</p>
+                    <span style={{ fontSize: "20px" }}>Billing Address </span>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.billingAddress?.address1}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.billingAddress?.address2}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.billingAddress?.townOrCity}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.billingAddress?.state}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.billingAddress?.postcode}
+                    </p>
                   </div>
                 </div>
                 <div className="pay-method-src">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M2.9 9.1h18.2c.5 0 .9-.4.9-.9 0-.4-.3-.7-.6-.9l-9-4.1c-.2-.1-.5-.1-.7 0L2.5 7.4c-.4.1-.6.6-.5 1 .1.4.5.7.9.7zM4 19c-.5 0-.9.4-.9.9s.4.9.9.9h15.9c.5 0 .9-.4.9-.9s-.4-.9-.9-.9h-.2v-7.3h.5c.4 0 .8-.4.8-.9s-.4-.9-.8-.9H4c-.4 0-.8.4-.8.9s.4.9.8.9h.3V19H4zm2.1-7.3h2.7V19H6.1v-7.3zm4.5 0h2.7V19h-2.7v-7.3zm4.6 0h2.7V19h-2.7v-7.3z" />
+                    <path d="M22 4h-20c-1.104 0-2 .896-2 2v12c0 1.104.896 2 2 2h20c1.104 0 2-.896 2-2v-12c0-1.104-.896-2-2-2zm0 13.5c0 .276-.224.5-.5.5h-19c-.276 0-.5-.224-.5-.5v-6.5h20v6.5zm0-9.5h-20v-1.5c0-.276.224-.5.5-.5h19c.276 0 .5.224.5.5v1.5zm-9 6h-9v-1h9v1zm-3 2h-6v-1h6v1zm10-2h-3v-1h3v1z" />
                   </svg>
                   <div className="method-src-det">
-                    <span>Net Banking</span>
-                    <p>All Indian Banks</p>
+                    <span style={{ fontSize: "20px" }}>Shipping Address</span>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.shippingAddress?.address1}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.shippingAddress?.address2}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.shippingAddress?.townOrCity}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.shippingAddress?.state}
+                    </p>
+                    <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                      {userDetails?.user?.shippingAddress?.postcode}
+                    </p>
                   </div>
                 </div>
                 <div className="pay-method-src">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="m10.6 22 .7-6.2 3.6-3.2L12 8.7l.7-6.2 7.8 10.7-9.9 8.8zm-.5-13.5-5-6.8L3 21.1l6.3-5.6 3.6-3.2-2.8-3.8z" />
-                  </svg>
                   <div className="method-src-det">
-                    <span>UPI</span>
-                    <p>Gpay, PhonePe, BHIM, Paytm</p>
-                  </div>
-                </div>
-                <div className="pay-method-src">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M3.5 2.4C2.1 2.4 1 3.5 1 4.9v14.8c0 1 .8 1.9 1.9 1.9h17.4c1 0 1.9-.8 1.9-1.9v-3.2h.2c.4 0 .6-.3.6-.6V11c0-.4-.3-.6-.6-.6h-.2V6.8h-2.3V3c0-.2-.1-.3-.2-.5-.1-.1-.3-.2-.5-.2l-15.7.1zm0 1.3h14.4v2.4H3.5c-.6 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2zM2.3 7.1c.3.2.7.3 1.2.3h17.4v2.9h-2.1c-1.7 0-3 1.4-3 3.1 0 1.7 1.4 3.1 3 3.1h2.1v3.2c0 .3-.2.6-.6.6H2.9c-.3 0-.6-.2-.6-.6V7.1zm16.5 4.5h2.9v3.6h-2.9c-1 0-1.7-.8-1.7-1.8s.7-1.8 1.7-1.8zm.2.9c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9z" />
-                  </svg>
-                  <div className="method-src-det">
-                    <span>Wallet</span>
-                    <p>Amazon Pay, Paytm, PhonePe & More</p>
-                  </div>
-                </div>
-                <div className="pay-method-src">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M14.2 1.5c-1 0-1 1.5 0 1.5h5.6c.7 0 1.2.6 1.2 1.2V9c0 1 1.5 1 1.5 0V4.2c0-1.4-1.2-2.6-2.6-2.6l-5.7-.1zM4.1 1.5c-1.4 0-2.6 1.2-2.6 2.6V9c0 1 1.5 1 1.5 0V4.2C3 3.6 3.5 3 4.1 3h5.6c1 0 1-1.5 0-1.5H4.1zM2.3 14.2c-.4 0-.8.4-.8.8v4.9c0 1.4 1.2 2.6 2.6 2.6h5.6c1 0 1-1.5 0-1.5H4.1c-.6 0-1.1-.6-1.1-1.2v-4.9c0-.4-.4-.7-.7-.7zM21.7 14.2c-.4 0-.8.4-.8.8v4.9c0 .6-.5 1.1-1.1 1.1h-5.6c-1 0-1 1.5 0 1.5h5.6c1.4 0 2.6-1.2 2.6-2.6V15c0-.5-.3-.8-.7-.8zM2.3 11.2c-1 0-1 1.5 0 1.5h19.4c1 0 1-1.5 0-1.5H2.3z" />
-                  </svg>
-                  <div className="method-src-det">
-                    <span>Scan and Pay</span>
-                    <p>Using Gpay, Paytm, PhonePe & More</p>
-                  </div>
-                </div>
-                <div className="pay-method-src">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      fill="#F06321"
-                      d="M7.4 5.5C12.7.3 19-1.1 21.6 2.5c2.5 3.6.3 10.7-4.9 15.9-5.3 5.3-11.7 6.6-14.3 3-2.5-3.5-.3-10.7 5-15.9"
-                    />
-                    <path
-                      fill="#AE282E"
-                      d="M10.9 2.7c-.6.4-1.2.9-1.7 1.5C4.5 8.7 2.6 15 4.9 18.1c2.4 3.1 8 2 12.7-2.6 2.5-2.5 4.2-5.3 4.9-8 .2-2-.1-3.7-1-5-1.9-2.8-6.3-2.6-10.6.2"
-                    />
-                    <path
-                      fill="#FFF"
-                      d="M17.5 3.3v.1c0 .7-.4 1.5-1.1 2.2-1 1-2.4 1.4-3 .8-.7-.6-.3-2 .8-3.1 1.1-1 2.5-1.4 3-.8.2.3.3.5.3.8m-4 17.7c-2.5 1.9-5 2.8-7.5 2.4 1 0 1.9-1.1 2.6-2.7.7-1.6 1.1-3 1.4-4.4.5-2.2.5-3.7.3-4.1-.4-.5-1.4-.4-2.4.2-.5.3-1.2.1-.4-.9.8-1 4.1-3.4 5.3-3.8 1.2-.3 2.7.2 2.2 1.6-.3 1.1-4.9 13-1.5 11.7"
-                    />
-                  </svg>
-                  <div className="method-src-det">
-                    <span>ICICI Bank PayLater</span>
-                  </div>
-                </div>
-                <div className="pay-method-src">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g fillRule="evenodd" clipRule="evenodd">
-                      <path
-                        fill="#EE3362"
-                        d="M1.3 19.8c-.6 0-.8-.3-.8-.8V5.9c0-.6.3-.8.8-.8h2.6c.5 0 .8.2.8.8v10.2"
-                      />
-                      <path
-                        fill="#111333"
-                        d="m1.3 3.9 15.8 5.7c.7.3.8.5.8 1.1v2.6c0 .6-.1.8-.8 1.1L1.3 20.1c-.3.1-.8 0-.8-.5v-3c0-.7.2-.9.8-1.1l11-3.5-11-3.7C.7 8.1.5 7.9.5 7.2V4.4c0-.6.4-.7.8-.5z"
-                      />
-                      <path
-                        fill="#EE3362"
-                        d="m6.9 3.9 15.8 5.7c.7.3.8.5.8 1.1v2.6c0 .6-.1.8-.8 1.1L6.9 20.1c-.3.1-.8 0-.8-.5v-3c0-.7.2-.9.8-1.1l11-3.5L7 8.3c-.7-.2-.9-.4-.9-1.1V4.4c0-.6.4-.7.8-.5z"
-                      />
-                    </g>
-                  </svg>
-                  <div className="method-src-det">
-                    <span>LazyPay</span>
-                    <p>Pay later with no extra cost</p>
-                  </div>
-                </div>
-                <div className="pay-method-src">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      fill="#6E7BF2"
-                      d="M12 23.5c-2.1 0-4.3-.6-6.1-1.7L13.6.5c1.4.2 2.7.6 3.9 1.3 5.6 3.1 7.6 10.1 4.6 15.7-2 3.7-5.9 6-10.1 6z"
-                    />
-                    <path
-                      fill="#4285F4"
-                      d="M8 11.9c0-.2 0-.4-.1-.6H5.3v1.1h1.6c-.1.4-.3.7-.6.9l.8.7h.1c.5-.5.8-1.2.8-2.1"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M5.3 14.7c.8 0 1.4-.3 1.9-.7l-.9-.7c-.3.2-.6.3-1 .3-.7 0-1.4-.5-1.6-1.2l-.9.7c.5 1 1.4 1.6 2.5 1.6"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M3.7 12.4c-.1-.2-.1-.4-.1-.6 0-.2 0-.4.1-.6l-.9-.7c-.4.8-.4 1.7 0 2.5l.9-.6"
-                    />
-                    <path
-                      fill="#EB4335"
-                      d="M5.3 10.1c.4 0 .8.1 1.1.4l.8-.8C6.7 9.3 6 9 5.3 9c-1.1 0-2.1.6-2.5 1.6l.9.7c.2-.7.9-1.2 1.6-1.2"
-                    />
-                    <path
-                      fill="#FFF"
-                      d="M12.5 12.1v2.1h-.7V9.1h1.7c.4 0 .8.1 1.1.4.6.5.6 1.5.1 2.1l-.1.1c-.3.3-.7.4-1.1.4h-1zm0-2.4v1.8h1.1c.2 0 .5-.1.7-.3.3-.3.4-.9 0-1.2-.2-.2-.4-.3-.7-.3h-1.1zm4.2.9c.5 0 .9.1 1.2.4.3.3.4.6.4 1.1v2.1h-.6v-.5c-.3.4-.6.6-1.1.6-.4 0-.7-.1-1-.3-.3-.2-.4-.5-.4-.9 0-.3.1-.7.4-.9.3-.2.6-.3 1.1-.3.3 0 .7.1 1 .2V12c0-.2-.1-.4-.3-.6-.2-.2-.4-.2-.6-.2-.4 0-.7.2-.9.5l-.6-.4c.3-.5.8-.7 1.4-.7zm-.9 2.5c0 .2.1.3.2.4.1.1.3.2.5.2.3 0 .5-.1.7-.3.2-.2.3-.4.3-.7-.2-.2-.5-.2-.9-.2-.2 0-.5.1-.7.2 0 .1-.1.2-.1.4zm6.1-2.4-2.2 5H19l.8-1.8-1.4-3.3h.7l1 2.5 1-2.5.8.1z"
-                    />
-                  </svg>
-                  <div className="method-src-det">
-                    <span>Google Pay</span>
+                    <span style={{ fontSize: "20px" }}>
+                      Select Your Payment Mode
+                    </span>
+                    <form>
+                      <div className="payment-option" onClick={onPayClick}>
+                        <input
+                          type="radio"
+                          id="online-payment"
+                          name="payment-mode"
+                        />{" "}
+                        <label for="online-payment" className="on-payment">
+                          Online{" "}
+                        </label>
+                      </div>
+                      <div className="payment-option" onClick={offPayClick}>
+                        <input
+                          type="radio"
+                          id="offline-payment"
+                          name="payment-mode"
+                        />
+                        <label for="offline-payment" className="off-payment">
+                          Offline
+                        </label>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -170,11 +209,12 @@ const PaymentDetails = () => {
 
           <div className="bwcart-right">
             <div className="bwcart-right-nest">
-              <OrderSummary buttonText={"Pay Now"} />
+              <OrderSummary buttonText={""} />
             </div>
           </div>
         </div>
       </section>
+      {showModel && <ConfirmationModel setShowModel={setShowModel} />}
     </>
   );
 };

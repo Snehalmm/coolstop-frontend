@@ -15,10 +15,10 @@ const Index = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(null);
   const [filteredProductList, setFilteredProductList] = useState(null);
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(12);
   const [serverSideFlag, setServerSideFlag] = useState(false);
   const [productList, setProductList] = useState(
-    props?.productList?.data?.attributes?.products?.data
+    props?.productList?.data?.attributes
   );
   const commonFilter = useSelector((state) => state.filter.commonFilter);
   const brandFilter = useSelector((state) => state.filter.brandFilter);
@@ -40,6 +40,7 @@ const Index = (props) => {
   );
   const tonnageFilter = useSelector((state) => state.filter.tonnageFilter);
   const roomSizeFilter = useSelector((state) => state.filter.roomSizeFilter);
+  const searchCatagory = useSelector((state) => state.filter.searchCatagory);
   const handleApiQuery = () => {
     const brand = `filters[brand][value][$eq]=${brandFilter.join(
       "&filters[brand][value][$eq]="
@@ -68,6 +69,8 @@ const Index = (props) => {
       "&filters[tonnage][value][$eq]="
     )}`;
 
+    const search = `filters[brand][name][$contains]=${props.searchArray}`;
+
     const sort = `sort=${sortFilter}`;
     const topSeller = `filters[${sortFilter}]=true`;
 
@@ -82,10 +85,10 @@ const Index = (props) => {
     }${Object.keys(priceFilter).length > 0 ? `&${priceRange}` : ""}${
       sortFilter.length > 0 && sortFilter[0].length > 0
         ? sortFilter[0] === "topSeller"
-          ? `${topSeller}`
-          : `${sort}`
+          ? `&${topSeller}`
+          : `&${sort}`
         : ""
-    }`;
+    }${props?.searchArray?.length > 0 ? `&${search}` : ""}`;
 
     return newFinal;
   };
@@ -100,8 +103,7 @@ const Index = (props) => {
         setServerSideFlag(true);
         setLoading(false);
         const productList = resp;
-
-        setFilteredProductList(productList?.data?.attributes?.products?.data);
+        setFilteredProductList(productList?.data?.attributes);
       });
   };
 
@@ -116,7 +118,8 @@ const Index = (props) => {
       acTechnologyFilter.length > 0 ||
       brandFilter.length > 0 ||
       Object.keys(priceFilter).length > 0 ||
-      sortFilter.length > 0
+      sortFilter.length > 0 ||
+      props?.searchArray?.length > 0
     ) {
       handleStoreApi();
       // } else {
@@ -133,6 +136,7 @@ const Index = (props) => {
     brandFilter,
     priceFilter,
     sortFilter,
+    props?.searchArray,
   ]);
 
   useEffect(() => {
@@ -145,13 +149,7 @@ const Index = (props) => {
       .then((res) => res.json())
       .then((resp) => {
         setLoading(false);
-        const productList = resp;
-        const filterData = productList?.data?.attributes?.products?.data.filter(
-          (item) => {
-            return item.attributes.publishedAt !== null;
-          }
-        );
-        setProductList(filterData);
+        setProductList(resp?.data?.attributes);
       });
 
     // if (
@@ -234,9 +232,7 @@ const Index = (props) => {
   }, [props?.priceArray]);
   useEffect(() => {
     if (props?.productList) {
-      setFilteredProductList(
-        props?.productList?.data?.attributes?.products?.data
-      );
+      setFilteredProductList(props?.productList?.data?.attributes);
     }
 
     setServerSideFlag(true);
@@ -259,10 +255,14 @@ const Index = (props) => {
           <ProductList
             data={
               filteredProductList !== null && serverSideFlag
-                ? filteredProductList
-                : productList
+                ? filteredProductList?.products?.data
+                : productList?.products?.data
             }
-            totalProductCount={props?.mainList?.data?.attributes?.count}
+            totalProductCount={
+              filteredProductList !== null && serverSideFlag
+                ? filteredProductList?.count
+                : productList?.count
+            }
             loading={loading}
             setFilteredProductList={setFilteredProductList}
             defaultPriceData={props?.mainList?.data?.attributes?.products?.data}
@@ -271,6 +271,7 @@ const Index = (props) => {
             offset={offset}
             setCount={setCount}
             count={count}
+            filteredProductList={filteredProductList}
           />
           <Features />
         </>
@@ -291,6 +292,7 @@ export async function getServerSideProps({ req, res, query }) {
     powerCunsumption,
     price,
     sort,
+    search,
   } = query;
 
   let brandArray = brand?.split("+");
@@ -303,6 +305,7 @@ export async function getServerSideProps({ req, res, query }) {
   let powerCunsumptionArray = powerCunsumption?.split("+");
   let priceArray = price?.split("-");
   let sortArray = sort?.split(" ");
+  let searchArray = search?.split(" ");
 
   const defaultApiCall = await fetch(`${serverUrl + Path.products}`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -323,6 +326,7 @@ export async function getServerSideProps({ req, res, query }) {
       powerCunsumptionArray: powerCunsumptionArray || [],
       priceArray: priceArray || [],
       sortArray: sortArray || [],
+      searchArray: search || "",
 
       query,
     },

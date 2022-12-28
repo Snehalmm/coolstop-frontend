@@ -31,7 +31,7 @@ const TopSeller = ({ data, item }) => {
     <>
       <section className="grid-container">
         <div className="sec-title">
-          <h1>Top Sellers</h1>
+          <h1>Best Sellers</h1>
         </div>
 
         <div className="top-seller-hm">
@@ -48,8 +48,12 @@ const TopSeller = ({ data, item }) => {
                       serverUrl + item.attributes.cardImage.data.attributes.url
                     }
                     alt="Daikin"
-                    width={300}
-                    height={300}
+                    // width={300}
+                    // height={300}
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    style={{ width: "100%", height: "auto" }}
                   />
                 </Link>
                 <a className="prod-tit" href="#">

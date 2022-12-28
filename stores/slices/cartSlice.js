@@ -11,6 +11,7 @@ const cartInitialState = {
   items: [],
   orderDetails: {},
   discountDetails: {},
+  discountData: {},
 };
 
 const cartSlice = createSlice({
@@ -134,6 +135,7 @@ const cartSlice = createSlice({
     discountDetails(state, action) {
       state.discountDetails = action.payload;
     },
+
     updateTotalProducts(state, action) {
       state.totalProducts = +action.payload;
     },

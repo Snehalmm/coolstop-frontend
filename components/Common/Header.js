@@ -1,26 +1,97 @@
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import Navbar from './Navbar';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import { cartActions } from '../../stores/slices/cartSlice';
-import { userActions } from '../../stores/slices/userSlice';
-import { getFromStorage } from '../../utils/storage';
-import { serverUrl } from '../../utils/config';
-import Search from '../Search/index';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import Navbar from "./Navbar";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../../stores/slices/cartSlice";
+import { userActions } from "../../stores/slices/userSlice";
+import { getFromStorage, saveToStorage } from "../../utils/storage";
+import { serverUrl } from "../../utils/config";
+import Search from "../Search/index";
+import { filterActions } from "../../stores/slices/filterSlice";
+import useGetApi from "../../utils/useGetApi";
 
 const Header = ({ categories, getGlobalData }) => {
   const router = useRouter();
+  const [userData, setUserData] = useState(null);
   const cartItemsCount = useSelector((state) => state.cart.items?.length);
   const userDetails = useSelector((state) => state.user.userDetails);
+  const searchCatagory = useSelector((state) => state.filter.searchCatagory);
 
+  let getPageName = router.pathname == "/payment-method";
   const dispatch = useDispatch();
   useEffect(() => {
-    let getProducts = getFromStorage('products');
+    let getProducts = getFromStorage("products");
     dispatch(cartActions.updateProduct(getProducts));
-    let getUserDetails = getFromStorage('userDetails');
+    let getUserDetails = getFromStorage("userDetails");
     dispatch(userActions.adduser(getUserDetails));
+    // let getSelectCatagory = getFromStorage('searchCatagory') || '';
+    // dispatch(filterActions.addSearchCatagoryFilter(getSelectCatagory));
+  }, []);
+  useEffect(() => {
+    if (
+      Object.keys(router?.query).includes("search") &&
+      router?.query?.search?.length > 0
+    ) {
+      let url = {
+        pathname: "/products",
+        query: { ...router.query, acType: getFromStorage("searchCatagory") },
+      };
+      router.push(url, undefined, {
+        shallow: true,
+      });
+    }
+  }, [router?.query]);
+
+  const onSuccessHandler = (data) => {
+    if (data) {
+      setUserData(data);
+      let userObject = { ...userDetails };
+      userObject["user"] = data;
+      saveToStorage("userDetails", userObject);
+      dispatch(userActions.adduser(userObject));
+      saveToStorage("billingaddress", userObject?.user);
+      dispatch(userActions.addAddress(userObject?.user));
+    }
+  };
+  // useEffect(() => {
+  //   let userObject = { ...userDetails };
+  //   userObject["user"] = userData;
+  //   saveToStorage("userDetails", userObject);
+  //   dispatch(userActions.adduser(userObject));
+  // }, [userData]);
+
+  const {
+    isLoading: userDataLoading,
+    error: userDataError,
+    data: userDatadata,
+    sendHTTPGetRequest: userDataApi,
+  } = useGetApi();
+
+  useEffect(() => {
+    console.log("im out", userDetails);
+    if (
+      Object.keys(userDetails)?.length > 0 ||
+      getPageName == "/payment-method"
+    ) {
+      console.log("im in");
+      userDataApi(
+        `/api/users/${userDetails?.user?.id}?populate=*`,
+        userDetails?.jwt,
+        onSuccessHandler
+      );
+    }
+  }, [userDetails?.user?.id, userDetails?.jwt, getPageName]);
+  const searchSelectHandle = (e) => {
+    const { value } = e.target;
+    dispatch(filterActions.addSearchCatagoryFilter(value));
+    saveToStorage("searchCatagory", value);
+  };
+
+  const [myCat, setMyCat] = useState("");
+  useEffect(() => {
+    setMyCat(getFromStorage("searchCatagory"));
   }, []);
 
   return (
@@ -76,8 +147,12 @@ const Header = ({ categories, getGlobalData }) => {
                     <Image
                       src={`${serverUrl}${getGlobalData?.data?.attributes?.logo?.data?.attributes?.url}`}
                       alt="img"
-                      width={200}
-                      height={200}
+                      // width={200}
+                      // height={200}
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{ width: "100%", height: "auto" }}
                     />
                   </Link>
                 )}
@@ -85,41 +160,27 @@ const Header = ({ categories, getGlobalData }) => {
 
               <div className="top-logo-2">
                 <div className="sel-search">
-                  <select name="" id="">
+                  <select
+                    name="cata"
+                    id="all-cat"
+                    onChange={searchSelectHandle}
+                  >
                     <option value="all-cat">All Categories</option>
-                    <option value="split-ac">Split AC</option>
-                    <option value="window-ac">Window AC</option>
-                    <option value="ductables">Ductables</option>
-                    <option value="vrv">VRV</option>
-                    <option value="air-purifier">Air Purifier</option>
-                    <option value="anti-corrsion">
-                      Anti Corrision Treatment
-                    </option>
+                    {categories?.data.map((item, i) => {
+                      return (
+                        <option
+                          value={item?.attributes?.slug}
+                          selected={myCat == item?.attributes?.slug}
+                        >
+                          {item?.attributes?.name}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
                 <div className="inp-butt">
                   <Search />
-                  {/* <form onSubmit={submitSearchHandler}>
-                    <input
-                      placeholder="Search Products"
-                      onChange={(e) => setQuery(e.target.value)}
-                      // value={query}
-                      type="search"
-                      name="search"
-                    />
-                    <button type="submit">
-                      <svg
-                        width="30"
-                        height="30"
-                        x="0"
-                        y="0"
-                        viewBox="0 0 100 100"
-                      >
-                        <path d="M44,69a24.87,24.87,0,0,0,15.42-5.34L76,80.24,80.24,76,63.66,59.42A25,25,0,1,0,44,69Zm0-44A19,19,0,1,1,25,44,19,19,0,0,1,44,25Z" />
-                      </svg>
-                    </button>
-                  </form> */}
                 </div>
               </div>
 
@@ -142,14 +203,9 @@ const Header = ({ categories, getGlobalData }) => {
                       (userDetails !== null &&
                         Object.keys(userDetails)?.length > 0 &&
                         cartItemsCount)
-                        ? '/my-account'
-                        : '/register'
+                        ? "/my-account"
+                        : "/login"
                     }
-                    // as={
-                    //   Object.keys(userDetails).length > 0
-                    //     ? "/my-account"
-                    //     : "/register"
-                    // }
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">
                       <path d="M13.1 26.6C5.9 26.6 0 20.7 0 13.3 0 6 5.9 0 13.1 0c7.2 0 13.1 6 13.1 13.3.1 7.4-5.8 13.3-13.1 13.3zm0-24C7.3 2.6 2.6 7.4 2.6 13.3c0 3.2 1.4 6.1 3.6 8 1.2-3.3 3.9-5.5 7-5.5s5.7 2.2 7 5.5c2.2-2 3.6-4.8 3.6-8C23.7 7.4 19 2.6 13.1 2.6zm0 12c-2.2 0-4-1.8-4-4.1s1.8-4.1 4-4.1 4 1.8 4 4.1c.1 2.3-1.7 4.1-4 4.1z" />
@@ -158,11 +214,9 @@ const Header = ({ categories, getGlobalData }) => {
                 </li>
                 <li>
                   <Link className="mycar-but" href="/cart" as="/cart">
-                    {/* <a className="mycar-but" href="#"> */}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 27">
                       <path d="M21.2 15.3H9.8c-.8 0-1.3.5-1.3 1.3s.5 1.3 1.3 1.3h12.7v2.6H9.8c-2.2 0-3.8-1.7-3.8-3.9 0-1.6.8-2.9 2.1-3.6l-3-9.5H.9V.9H6c.5 0 1 .4 1.1.9l1 3H25v2.6l-3.8 7.9zM9.8 21.8c1.4 0 2.5 1.2 2.5 2.6S11.2 27 9.8 27s-2.5-1.2-2.5-2.6 1.1-2.6 2.5-2.6zm10.1 0c1.4 0 2.5 1.2 2.5 2.6S21.3 27 19.9 27s-2.5-1.2-2.5-2.6 1.1-2.6 2.5-2.6z" />
                     </svg>
-                    {/* </a> */}
                   </Link>
                   {cartItemsCount > 0 && (
                     <sup className="count">{cartItemsCount}</sup>

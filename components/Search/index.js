@@ -5,7 +5,7 @@ import algoliasearch from 'algoliasearch/lite';
 import CustomSearchBox from './CustomSearchBox';
 import CustomHits from './CustomHits';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { InstantSearch } from 'react-instantsearch-dom';
 
 const searchClient = algoliasearch(
@@ -14,6 +14,7 @@ const searchClient = algoliasearch(
 );
 
 export default function Search() {
+  // const [searchInput, setSearchInput] = useState(null);
   return (
     <>
       <InstantSearch searchClient={searchClient} indexName="cool-stop">

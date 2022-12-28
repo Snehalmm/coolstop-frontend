@@ -1622,8 +1622,12 @@
 
 /* Login Form */
 
-.container {
-  max-width: 440px;
+.form-container {
+  max-width: 380px;
+  padding: 0 20px;
+  margin: 50px auto;
+}
+.sign-form-container {
   padding: 0 20px;
   margin: 50px auto;
 }
@@ -1813,6 +1817,11 @@ form .signup-link a:hover {
   justify-content: center;
   padding: 30px;
 }
+.loder-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .text {
   font-size: 25px;
   font-weight: 800;
@@ -1843,4 +1852,278 @@ form .signup-link a:hover {
 }
 .page-item.disabled {
   cursor: unset;
+}
+/* .top-four-4 .hmp-slider .slick-slider .slick-dots {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.top-four-4 .hmp-slider .slick-slider .slick-dots li {
+  margin: 0 10px;
+  cursor: pointer;
+  visibility: hidden;
+} */
+
+.slick-dots {
+  display: flex !important;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem 0;
+  list-style-type: none;
+  /* position: absolute;
+  bottom: 0;
+  right: 50%;
+  left: 50%; */
+}
+.grid-container .slick-dots {
+  padding: 0;
+}
+.slick-dots li {
+  margin: 0 0.25rem;
+}
+
+.slick-dots li button {
+  display: block;
+  width: 0.7rem;
+  height: 0.7rem;
+  padding: 0;
+  border: none;
+  border-radius: 100%;
+  background-color: rgb(179, 198, 214);
+  text-indent: -9999px;
+}
+
+li.slick-active button {
+  background-color: #471c4c;
+}
+
+/* .top-four-4 .hmp-slider .slick-slider .slick-dots li button {
+  visibility: hidden;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+
+  border: none;
+  border-radius: 100%;
+  background-color: orange;
+
+  text-indent: -9999px;
+} */
+
+.searchbox-wrap {
+  background: #ffffff;
+  box-shadow: 12 8 10 #ccc;
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  left: 0;
+  margin: 0;
+  list-style-type: none;
+  padding: 16px 10px;
+  box-shadow: 0px 2px 5px #888888;
+  z-index: 1;
+  max-height: 230px;
+  overflow-y: scroll;
+}
+
+.searchbox-wrap li {
+  color: #000;
+  font-size: 1rem;
+  padding: 4px 0;
+}
+
+.searchbox-wrap li a {
+  color: #000;
+}
+
+.success-wrapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #bec0c2; */
+  padding: 20px 0;
+}
+.success-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+  text-transform: capitalize;
+  margin: 20px 0;
+}
+.success-box {
+  width: 50%;
+  text-align: center;
+}
+.success-info {
+  font-size: 18px;
+  font-weight: 400;
+  color: rgb(12, 12, 12);
+}
+.success-box span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-option {
+  padding: 5px 0;
+}
+.on-payment,
+.off-payment {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.modal .button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.modal button:hover {
+  opacity: 1;
+}
+
+/* Float cancel and delete buttons and add an equal width */
+.cancelbtn,
+.deletebtn {
+  float: left;
+  width: 50%;
+  padding: 10px 0;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+  background-color: #f44336;
+}
+
+/* Add padding and center-align text to the container */
+.modal .container {
+  padding: 16px;
+  text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+  /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  /* overflow: auto; Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* padding-top: 50px; */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto;
+  border: 1px solid #888;
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* box-shadow: 10px, 10px, 10px, 10px #5b5959; */
+}
+
+.modal hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* The Modal Close Button (x) */
+.modal .close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.card-header,
+.buttons {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.text-dark {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+.cm-line-break {
+  display: block;
+}
+.address-info {
+  display: block;
+}
+.col-sm-6 {
+  margin: 30px 0;
+}
+/* .ReactModalPortal button {
+  display: none;
+} */
+.ReactModal__Content {
+  inset: 41px 200px;
+}
+.invoice-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+.invoice-card {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  overflow: scroll;
+  padding: 5rem 0;
+}
+.invoice-card .card {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffff;
+  width: 65%;
+  overflow: scroll;
+  height: auto;
+}
+.total-amt-wrap {
+  float: right;
+}
+.invoice-num {
+  display: flex;
+  flex-direction: column;
 }

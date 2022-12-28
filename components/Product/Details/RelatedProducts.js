@@ -3,11 +3,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { serverUrl } from "../../../utils/config";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import StarRating from "../StarRating";
 import { toIndianCurrency } from "../../../utils/services";
+import { useRouter } from "next/router";
 
 const RelatedProducts = ({ dataRating, data }) => {
+  const router = useRouter();
   const [relatedProducts, setRelatedProducts] = useState(data);
   const slideSettings = {
     // dots: true,
@@ -20,6 +21,9 @@ const RelatedProducts = ({ dataRating, data }) => {
     swipe: true,
   };
 
+  const onCardClick = (slug) => {
+    router.push(`/products/${slug}`);
+  };
   return (
     <>
       {relatedProducts?.length > 0 && (
@@ -51,11 +55,12 @@ const RelatedProducts = ({ dataRating, data }) => {
                           : null;
 
                       return (
-                        <div className="prod-card" key={item.id}>
-                          <Link
-                            href={`/products/${item.slug}`}
-                            as={`/products/${item.slug}`}
-                          >
+                        <div
+                          className="prod-card"
+                          key={item.id}
+                          onClick={() => onCardClick(item.slug)}
+                        >
+                          <div>
                             {productImage !== null && (
                               <figure>
                                 <Image
@@ -66,7 +71,7 @@ const RelatedProducts = ({ dataRating, data }) => {
                                 />
                               </figure>
                             )}
-                          </Link>
+                          </div>
 
                           <div className="prod-details">
                             <div className="prod-details-1">
@@ -99,7 +104,7 @@ const RelatedProducts = ({ dataRating, data }) => {
                                 <StarRating
                                   count={5}
                                   size={25}
-                                  value={dataRating.starRating}
+                                  value={dataRating.reviewStar}
                                   disabled={true}
                                   activeColor={"#FFA534"}
                                   inactiveColor={"#ddd"}

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Path } from "../../utils/apiService";
 import usePostApi from "../../utils/usePostApi";
+import useGetApi from "../../utils/useGetApi";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../stores/slices/userSlice";
@@ -17,6 +18,8 @@ import {
 const login = () => {
   const [errorMsg, setErrorMsg] = useState([]);
   const router = useRouter();
+  const [userData, setUserData] = useState(null);
+  const userDetails = useSelector((state) => state.user.userDetails);
 
   const dispatch = useDispatch();
   const {
@@ -38,15 +41,25 @@ const login = () => {
 
   const successHandler = (data) => {
     if (router.query.name == "checkout") {
+      setUserData(data);
       router.push("/checkout");
       saveToStorage("userDetails", data);
       dispatch(userActions.adduser(data));
     } else {
+      setUserData(data);
       saveToStorage("userDetails", data);
       dispatch(userActions.adduser(data));
       router.push("/my-account");
     }
   };
+  // const onSuccessHandler = (data) => {
+  //   if (data) {
+  //     let userObject = { ...userData };
+  //     userObject["user"] = data;
+  //     saveToStorage("userDetails", userObject);
+  //     dispatch(userActions.adduser(userObject));
+  //   }
+  // };
 
   const errorHandler = (error) => {
     if (error) {
@@ -58,9 +71,26 @@ const login = () => {
     loginApi(Path.login, item, token, successHandler, errorHandler);
   };
 
+  // const {
+  //   isLoading: userDataLoading,
+  //   error: userDataError,
+  //   data: userDatadata,
+  //   sendHTTPGetRequest: userDataApi,
+  // } = useGetApi();
+
+  // // Function that invokes API call
+
+  // useEffect(() => {
+  //   userDataApi(
+  //     `/api/users/${userData?.user?.id}?populate=*`,
+  //     userData?.jwt,
+  //     onSuccessHandler
+  //   );
+  // }, [userData]);
+
   return (
     <>
-      <div className="container">
+      <div className="form-container">
         <div className="wrapper">
           <div className="title">
             <span>Login Form</span>
@@ -82,6 +112,7 @@ const login = () => {
               <input
                 type="email"
                 placeholder="Email "
+                autocomplete="off"
                 {...register("identifier", {
                   required: true,
                   pattern:
@@ -102,6 +133,7 @@ const login = () => {
               <input
                 type="password"
                 placeholder="Password"
+                autocomplete="off"
                 {...register("password", {
                   required: true,
                   minLength: {
@@ -133,9 +165,13 @@ const login = () => {
               )}
             </div>
 
-            {/* <div className="signup-link">
-              Not a member? <Link href="/register"> Signup now</Link>
-            </div> */}
+            <div className="signup-link">
+              Not a member?{" "}
+              <Link href="/register" className="signup-link">
+                {" "}
+                Signup now
+              </Link>
+            </div>
           </form>
         </div>
       </div>

@@ -1,16 +1,19 @@
-import React from 'react';
-import Image from 'next/image';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
+import React from "react";
+import Image from "next/image";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 // import 'slick-carousel/slick/slick-theme.css';
 
 const Banner = ({ data }) => {
   var settings = {
-    dots: false,
+    dots: true,
+    arrows: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    // slidesToShow: 1,
+    // slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   return (
@@ -42,10 +45,13 @@ const Banner = ({ data }) => {
                         />
                         <Image
                           src={item.image.data.attributes.formats.thumbnail.url}
-                          srcSet="/images/slide-1-mobile.jpg"
+                          // srcSet="/images/slide-1-mobile.jpg"
                           alt="Daikin"
-                          width={1300}
-                          height={500}
+                          // width={1300}
+                          // height={500}
+                          width="0"
+                          height="0"
+                          style={{ width: "100%", height: "auto" }}
                         />
                       </picture>
                     </div>

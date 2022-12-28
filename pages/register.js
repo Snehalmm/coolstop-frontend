@@ -17,9 +17,9 @@ const Register = () => {
           padding: " 0 12%",
         }}
       >
-        <div className="vi">
+        {/* <div className="vi">
           <LoginForm />
-        </div>
+        </div> */}
 
         <div>
           <RegisterForm />

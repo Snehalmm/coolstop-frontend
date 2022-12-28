@@ -1,9 +1,9 @@
 /**
  */
 
-import { useState } from 'react';
-import { serverUrl } from './config';
-import axios from 'axios';
+import { useState } from "react";
+import { serverUrl } from "./config";
+import axios from "axios";
 
 const requestHeaders = (token) => {
   return {
@@ -61,7 +61,7 @@ const usePostApi = () => {
   ) => {
     setIsLoading(true);
     return await axios({
-      method: 'POST',
+      method: "PUT",
       url: serverUrl + url,
       data: data,
       headers: requestHeaders(token),

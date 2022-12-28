@@ -2,6 +2,10 @@ import MyAccountList from "./MyAccountList";
 import Loader from "../Common/Loader";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
+import Moment from "moment";
+import { useState } from "react";
+import Invoice from "../Home/InvoiceB";
+import { toIndianCurrency } from "../../utils/services";
 
 const PendingOrderTable = ({
   pendingData,
@@ -14,6 +18,7 @@ const PendingOrderTable = ({
   setOffset,
 }) => {
   const router = useRouter();
+  const [openInvoice, setOpenInvoice] = useState(false);
   const totalPageCount = Math.ceil(Number(totalOrderCount) / Number(count));
   const currentPage = offset / count + 1;
   // const countList = PageCountDropDown.filter(
@@ -62,15 +67,14 @@ const PendingOrderTable = ({
     router.push(url, undefined, {
       shallow: true,
     });
-    // const newOffset = (event.selected * totalPageCount) % count;
-    // setOffset(newOffset);
-    console.log(
-      "event",
-      event
-      // `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    // setItemOffset(newOffset);
   };
+  const [saveData, setSaveData] = useState();
+
+  const handleOpenInvoice = (item) => {
+    setOpenInvoice(true);
+    setSaveData(item);
+  };
+
   return (
     <>
       <section className="grid-container">
@@ -80,7 +84,7 @@ const PendingOrderTable = ({
             <h3 className="dash-tit">
               {" "}
               {pageName === "/pending-orders"
-                ? "Pending Orders "
+                ? "Pending / Delievery Orders "
                 : "Paid Orders "}
             </h3>
           </div>
@@ -108,7 +112,7 @@ const PendingOrderTable = ({
                     <th className="tabel_sty">Order Date</th>
                     <th>Amount</th>
                     <th>Status</th>
-                    <th>Invoice</th>
+                    {pageName !== "/pending-orders" && <th>Invoice</th>}
                   </tr>
                 </thead>
 
@@ -121,9 +125,11 @@ const PendingOrderTable = ({
                           <td data-label="Order Nos." className="tabel_sty">
                             <a href="#">CS-{item.id}</a>
                           </td>
-                          <td data-label="Order Date">October 8, 2021</td>
+                          <td data-label="Order Date">
+                            {Moment(item?.createdAt).format("MMM DD, YYYY")}
+                          </td>
                           <td data-label="Amount" className="tabel_sty">
-                            ₹ {item?.amount}
+                            ₹ {toIndianCurrency(item?.amount)}
                           </td>
 
                           <td data-label="Status">
@@ -131,26 +137,31 @@ const PendingOrderTable = ({
                             item?.orderStatus == "pending" ? (
                               <>
                                 {item?.orderStatus}{" "}
-                                <a
-                                  className="ac-cont-butt"
-                                  href="https://www.buildworld.co.uk/user/payment_process/29966"
-                                >
-                                  Pay Now
-                                </a>
+                                {item?.paymentStatus !== "paid" && (
+                                  <a
+                                    className="ac-cont-butt"
+                                    href="https://www.buildworld.co.uk/user/payment_process/29966"
+                                  >
+                                    Pay Now
+                                  </a>
+                                )}
                               </>
                             ) : (
                               <>{item?.paymentStatus}</>
                             )}
                           </td>
-                          <td data-label="Invoice">
-                            <a
-                              href="#"
-                              target="_blank"
-                              className="ac-cont-butt"
-                            >
-                              View Invoice
-                            </a>
-                          </td>
+                          {pageName !== "/pending-orders" && (
+                            <td data-label="Invoice">
+                              <button
+                                href="#"
+                                target="_blank"
+                                className="ac-cont-butt"
+                                onClick={() => handleOpenInvoice(item)}
+                              >
+                                View Invoice
+                              </button>
+                            </td>
+                          )}
                         </tr>
                       );
                     })}
@@ -247,6 +258,14 @@ const PendingOrderTable = ({
           activeClassName="active"
           renderOnZeroPageCount={null}
         /> */}
+
+        {openInvoice && (
+          <Invoice
+            openInvoice={openInvoice}
+            setOpenInvoice={setOpenInvoice}
+            data={saveData}
+          />
+        )}
       </section>
     </>
   );

@@ -22,7 +22,6 @@ function transformPostsToSearchObjects(products) {
       name: product.attributes.name,
       slug: product.attributes.slug,
       modelNo: product.attributes.modelNo,
-      csp: product.attributes.csp,
     };
   });
 

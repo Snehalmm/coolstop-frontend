@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import { serverUrl } from '../../utils/config';
+import React from "react";
+import Image from "next/image";
+import { serverUrl } from "../../utils/config";
 
 const Brand = ({ data }) => {
   return (
@@ -17,8 +17,12 @@ const Brand = ({ data }) => {
                 <Image
                   src={serverUrl + item.attributes.image.data.attributes.url}
                   alt={item.attributes.name}
-                  width={200}
-                  height={200}
+                  // width={200}
+                  // height={200}
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  style={{ width: "100%", height: "auto" }}
                 />
               </div>
             );

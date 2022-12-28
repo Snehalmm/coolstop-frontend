@@ -8,9 +8,12 @@ import CheckoutForm from "../components/Product/CheckoutForm";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { getFromStorage } from "../utils/storage";
+import { useSelector } from "react-redux";
 
 const checkout = () => {
   const router = useRouter;
+  const userDetails = useSelector((state) => state.user.userDetails);
+  // const cartItemsCount = useSelector((state) => state.cart.items?.length);
   const progressBarData = [
     {
       id: 1,
@@ -28,14 +31,17 @@ const checkout = () => {
       status: "todo",
     },
   ];
-  let getAddress;
-  useEffect(() => {
-    getAddress = getFromStorage("billingaddress");
-  }, []);
+  // let getUserDetails;
+  // useEffect(() => {
+  //   getUserDetails = getFromStorage("userDetails");
+  // }, []);
 
-  if (getAddress) {
-    router.push("/cart");
-  }
+  // if (
+  //   getUserDetails?.user?.shippingAddress ||
+  //   userDetails?.user?.shippingAddress
+  // ) {
+  //   router.push("/cart");
+  // }
   return (
     <>
       <NextSeo title="Checkout" description="Some content " />

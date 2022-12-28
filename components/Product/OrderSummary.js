@@ -16,7 +16,13 @@ import {
   saveToStorage,
 } from "../../utils/storage";
 
-const OrderSummary = ({ buttonText }) => {
+const OrderSummary = ({
+  buttonText,
+  // setDiscountAmt,
+  // discountAmt,
+  // setCheckValue,
+  // checkValue,
+}) => {
   const [isCode, setIsCode] = useState({});
   const [showCoupan, setShowCoupan] = useState(false);
   const [localShowCoupan, setLocalShowCoupan] = useState(false);
@@ -25,14 +31,14 @@ const OrderSummary = ({ buttonText }) => {
   const [sucessMessage, setSuccessMessage] = useState("");
   const [checkExpirayDate, setCheckExpirayDate] = useState(null);
   const [checkCartAmt, setCheckCartAmt] = useState(null);
+  const [finalAmt, setFinalAmt] = useState(null);
   const [discountAmt, setDiscountAmt] = useState(null);
   const [checkValue, setCheckValue] = useState(null);
-  const [finalAmt, setFinalAmt] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    const getorderDetails = JSON.parse(localStorage.getItem("orderDetails"));
+    const getorderDetails = getFromStorage("orderDetails");
     dispatch(cartActions.saveOrderDetails(getorderDetails));
     let getProducts = localStorage.getItem("products");
     dispatch(cartActions.updateProduct(JSON.parse(getProducts)));
@@ -60,13 +66,13 @@ const OrderSummary = ({ buttonText }) => {
     return state.cart.discountDetails;
   });
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (userDetails !== null && Object.keys(userDetails).length > 0) {
       router.push("/checkout");
     } else {
       router.push(
         {
-          pathname: "/register",
+          pathname: "/login",
           query: { name: "checkout" },
         },
         "/register"
@@ -100,9 +106,62 @@ const OrderSummary = ({ buttonText }) => {
     sendHTTPGetRequest: getdiscountCodeAPI,
   } = useGetApi();
 
+  let currentDate = new Date().toJSON().slice(0, 10);
   const successHandler = (data) => {
-    dispatch(cartActions.discountDetails(data.data));
-    localStorage.setItem("discountDetails", JSON.stringify(data.data));
+    setCheckCode(data.data[0]?.attributes.code === isCode?.discountCode);
+    setCheckExpirayDate(currentDate <= data.data[0]?.attributes.validTill);
+    setCheckCartAmt(
+      cartDetails.totalAmt >= data.data[0]?.attributes.cartMinAmt
+    );
+
+    console.log(
+      "data",
+      data.data[0]?.attributes.code === isCode?.discountCode,
+      currentDate <= data.data[0]?.attributes.validTill,
+      data.data[0]?.attributes.cartMinAmt <= cartDetails.totalAmt
+    );
+
+    // if (data.data[0]?.attributes.code === isCode?.discountCode) {
+    // }
+    // if (cartDetails.totalAmt >= data.data[0]?.attributes.cartMinAmt) {
+    //   setErrorMessage(
+    //     `Minimum Cart Amount ₹ ${discountDetails[0]?.attributes?.cartMinAmt}`
+    //   );
+    //   setTimeout(() => {
+    //     setErrorMessage(" ");
+    //   }, 2000);
+    // }
+    // if (currentDate <= data.data[0]?.attributes.validTill) {
+    //   setErrorMessage("This Coupan is Expired");
+    // }
+    if (
+      data.data[0]?.attributes.code === isCode?.discountCode &&
+      data.data[0]?.attributes.validTill >= currentDate &&
+      data.data[0]?.attributes.cartMinAmt <= cartDetails.totalAmt
+    ) {
+      setShowCoupan(true);
+      setSuccessMessage("Coupan Applied!");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+      dispatch(cartActions.discountDetails(data.data));
+      localStorage.setItem("discountDetails", JSON.stringify(data.data));
+    } else {
+      if (data.data[0]?.attributes.code !== isCode?.discountCode) {
+        setErrorMessage("Invalid code");
+      }
+      if (data.data[0]?.attributes.cartMinAmt >= cartDetails.totalAmt) {
+        setErrorMessage(
+          `Minimum Cart Amount ₹ ${data.data[0]?.attributes?.cartMinAmt}`
+        );
+        setTimeout(() => {
+          setErrorMessage(" ");
+        }, 2000);
+      }
+      if (data.data[0]?.attributes.validTill <= currentDate) {
+        setErrorMessage("This Coupan is Expired");
+      }
+    }
   };
 
   const getValidCode = (code) => {
@@ -113,18 +172,17 @@ const OrderSummary = ({ buttonText }) => {
     );
   };
 
-  let currentDate = new Date().toJSON().slice(0, 10);
   useEffect(() => {
     if (discountDetails?.length) {
-      setCheckCode(
-        discountDetails[0]?.attributes.code === isCode?.discountCode
-      );
-      setCheckExpirayDate(
-        currentDate <= discountDetails[0]?.attributes.validTill
-      );
-      setCheckCartAmt(
-        cartDetails.totalAmt >= discountDetails[0]?.attributes.cartMinAmt
-      );
+      // setCheckCode(
+      //   discountDetails[0]?.attributes.code === isCode?.discountCode
+      // );
+      // setCheckExpirayDate(
+      //   currentDate <= discountDetails[0]?.attributes.validTill
+      // );
+      // setCheckCartAmt(
+      //   cartDetails.totalAmt >= discountDetails[0]?.attributes.cartMinAmt
+      // );
       setCheckValue(discountDetails[0]?.attributes.value);
     }
     // if (discountDetails?.length === 0) {
@@ -139,31 +197,34 @@ const OrderSummary = ({ buttonText }) => {
     // }
   }, [discountDetails]);
   useEffect(() => {
-    if ((checkCode && checkCartAmt && checkExpirayDate) || showCoupan) {
+    if (showCoupan) {
       setDiscountAmt(Math.round(cartDetails.totalAmt * (checkValue / 100)));
       setShowCoupan(true);
     }
-    if (discountDetails?.length > 0) {
-      if (!checkCode) {
-      }
-      if (!checkCartAmt) {
-        setErrorMessage(
-          `Minimum Cart Amount ₹ ${discountDetails[0]?.attributes?.cartMinAmt}`
-        );
-      }
-      if (!checkExpirayDate) {
-        setErrorMessage("This Coupan is Expired");
-      }
-    }
+    // if (discountDetails?.length > 0) {
+    //   if (!checkCode && !showCoupan) {
+    //   }
+    //   if (!checkCartAmt && !showCoupan) {
+    //     setErrorMessage(
+    //       `Minimum Cart Amount ₹ ${discountDetails[0]?.attributes?.cartMinAmt}`
+    //     );
+    //     setTimeout(() => {
+    //       setErrorMessage(" ");
+    //     }, 2000);
+    //   }
+    //   if (!checkExpirayDate && !showCoupan) {
+    //     setErrorMessage("This Coupan is Expired");
+    //   }
+    // }
 
-    if (showCoupan) {
-      setSuccessMessage("Coupan Applied!");
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
+    // if (showCoupan) {
+    //   setSuccessMessage("Coupan Applied!");
+    //   setTimeout(() => {
+    //     setSuccessMessage("");
+    //   }, 3000);
 
-      setErrorMessage("");
-    }
+    //   setErrorMessage("");
+    // }
     if (
       discountDetails?.length > 0 &&
       cartDetails?.totalAmt < discountDetails[0]?.attributes?.cartMinAmt
@@ -175,19 +236,12 @@ const OrderSummary = ({ buttonText }) => {
         setErrorMessage("   ");
       }, 2000);
       setShowCoupan(false);
-      // dispatch(cartActions.discountDetails({}));
-      // localStorage.removeItem("discountDetails");
+      dispatch(cartActions.discountDetails({}));
+      localStorage.removeItem("discountDetails");
       deleteFromStorage("showCoupan");
       deleteFromStorage("discountAmt");
     }
-  }, [
-    checkCode,
-    checkCartAmt,
-    checkExpirayDate,
-    discountDetails,
-    checkValue,
-    cartDetails,
-  ]);
+  }, [discountDetails, checkValue, cartDetails]);
 
   useEffect(() => {
     if (showCoupan) {
@@ -197,11 +251,11 @@ const OrderSummary = ({ buttonText }) => {
       saveToStorage("discountAmt", discountAmt);
     }
     setFinalAmt(
-      showCoupan && discountDetails?.length
+      discountDetails?.length > 0
         ? cartDetails.totalAmt - discountAmt
         : cartDetails.totalAmt
     );
-  }, [discountAmt]);
+  }, [discountAmt, discountDetails, cartDetails, showCoupan]);
 
   useEffect(() => {
     if (productDetails?.length) {
@@ -240,33 +294,6 @@ const OrderSummary = ({ buttonText }) => {
     deleteFromStorage("discountAmt");
   };
 
-  // let options = {
-  //   key: "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
-  //   amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-  //   currency: "INR",
-  //   name: "Acme Corp",
-  //   description: "Test Transaction",
-  //   image: "https://example.com/your_logo",
-  //   order_id: "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-  //   callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
-  //   prefill: {
-  //     name: "Gaurav Kumar",
-  //     email: "gaurav.kumar@example.com",
-  //     contact: "9999999999",
-  //   },
-  //   notes: {
-  //     address: "Razorpay Corporate Office",
-  //   },
-  //   theme: {
-  //     color: "#3399cc",
-  //   },
-  // };
-  // let rzp1 = new Razorpay(options);
-  // document.getElementById("rzp-button1").onclick = function (e) {
-  //   rzp1.open();
-  //   e.preventDefault();
-  // };
-
   return (
     <>
       <div className="bwcart-right">
@@ -289,7 +316,7 @@ const OrderSummary = ({ buttonText }) => {
                 {toIndianCurrency(
                   cartDetails?.subTotal
                     ? cartDetails?.subTotal
-                    : orderDetails?.attributes?.amount
+                    : orderDetails?.data?.amount
                 )}
               </span>
               <span className="itmname">Shipping & Handling</span>
@@ -329,32 +356,9 @@ const OrderSummary = ({ buttonText }) => {
                     ? showCoupan
                       ? finalAmt
                       : cartDetails?.totalAmt
-                    : orderDetails?.attributes?.amount
+                    : orderDetails?.data?.amount
                 )}
               </span>
-            </div>
-
-            <div className="bw-right-chk-batn">
-              {buttonText == "" ? (
-                <></>
-              ) : (
-                <button
-                  onClick={handleClick}
-                  disabled={
-                    router.asPath == "/cart" && productDetails?.length < 0
-                  }
-                  className={
-                    router.asPath == "/cart" &&
-                    productDetails >= 0 &&
-                    "disabled-button"
-                  }
-                >
-                  <svg viewBox="0 0 24 24">
-                    <path d="M 13.619141 1.7519531 C 13.319328 1.7000156 13 1.9189844 13 2.2714844 L 13 4 L 10 4 C 9.448 4 9 4.448 9 5 C 9 5.552 9.448 6 10 6 L 13 6 L 13 7.7285156 C 13 8.1975156 13.568391 8.4316094 13.900391 8.0996094 L 16.423828 5.5761719 C 16.741828 5.2571719 16.741828 4.7418281 16.423828 4.4238281 L 13.900391 1.8984375 C 13.817391 1.8154375 13.719078 1.7692656 13.619141 1.7519531 z M 4.0742188 2.0039062 L 3.0039062 2.0078125 C 2.4519063 2.0108125 2.0058125 2.4616719 2.0078125 3.0136719 C 2.0108125 3.5656719 2.4616719 4.0108125 3.0136719 4.0078125 L 4.0839844 4.0039062 L 7.5117188 11.908203 L 6.3144531 13.824219 C 5.9144531 14.464219 5.8937656 15.272641 6.2597656 15.931641 C 6.6257656 16.590641 7.3221719 17 8.0761719 17 L 19 17 C 19.552 17 20 16.552 20 16 C 20 15.448 19.552 15 19 15 L 8.0761719 15 L 8.0117188 14.882812 L 9.1875 13 L 16.521484 13 C 17.247484 13 17.916578 12.606656 18.267578 11.972656 L 21.896484 5.4414062 C 22.164484 4.9594062 21.989812 4.3500312 21.507812 4.0820312 C 21.024812 3.8130313 20.416438 3.9877031 20.148438 4.4707031 L 16.521484 11 L 9.2851562 11 L 5.9296875 3.234375 C 5.6186875 2.486375 4.8852187 1.9999062 4.0742188 2.0039062 z M 8 18 A 2 2 0 0 0 6 20 A 2 2 0 0 0 8 22 A 2 2 0 0 0 10 20 A 2 2 0 0 0 8 18 z M 18 18 A 2 2 0 0 0 16 20 A 2 2 0 0 0 18 22 A 2 2 0 0 0 20 20 A 2 2 0 0 0 18 18 z" />
-                  </svg>{" "}
-                  {buttonText}
-                </button>
-              )}
             </div>
 
             {router.asPath == "/cart" && (
@@ -388,9 +392,9 @@ const OrderSummary = ({ buttonText }) => {
                           discountDetails[0]?.attributes.code
                         }
                         className={`inpu-butn ${
-                          router.asPath == "/cart" &&
-                          productDetails >= 0 &&
-                          "disabled-button"
+                          router.asPath == "/cart" && productDetails >= 0
+                            ? "disabled-button"
+                            : ""
                         }`}
                       >
                         {getdiscountCodeLoding ? (
@@ -419,19 +423,43 @@ const OrderSummary = ({ buttonText }) => {
                   <span className="success-message">{sucessMessage}</span>
                 ) : (
                   <span className="error-message">{errorMessage}</span>
-                )}
-
-                <div className="bw-right-chk-batn">
-                  <button onClick={continueClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                      <path d="M19.16 21.94h4.51l-9.83-9.83 9.83-9.83h-4.51l-9.85 9.83 9.85 9.83zm-8.94 0h4.51L4.9 12.11l9.85-9.83h-4.53L.39 12.11l9.83 9.83z" />
-                    </svg>{" "}
-                    Continue Shopping
-                  </button>
-                </div>
+                )}{" "}
+              </div>
+            )}
+            <div className="bw-right-chk-batn">
+              {buttonText == "" ? (
+                <></>
+              ) : (
+                <button
+                  onClick={handleClick}
+                  disabled={
+                    router.asPath == "/cart" && productDetails?.length < 0
+                  }
+                  className={
+                    router.asPath == "/cart" &&
+                    productDetails >= 0 &&
+                    "disabled-button"
+                  }
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M 13.619141 1.7519531 C 13.319328 1.7000156 13 1.9189844 13 2.2714844 L 13 4 L 10 4 C 9.448 4 9 4.448 9 5 C 9 5.552 9.448 6 10 6 L 13 6 L 13 7.7285156 C 13 8.1975156 13.568391 8.4316094 13.900391 8.0996094 L 16.423828 5.5761719 C 16.741828 5.2571719 16.741828 4.7418281 16.423828 4.4238281 L 13.900391 1.8984375 C 13.817391 1.8154375 13.719078 1.7692656 13.619141 1.7519531 z M 4.0742188 2.0039062 L 3.0039062 2.0078125 C 2.4519063 2.0108125 2.0058125 2.4616719 2.0078125 3.0136719 C 2.0108125 3.5656719 2.4616719 4.0108125 3.0136719 4.0078125 L 4.0839844 4.0039062 L 7.5117188 11.908203 L 6.3144531 13.824219 C 5.9144531 14.464219 5.8937656 15.272641 6.2597656 15.931641 C 6.6257656 16.590641 7.3221719 17 8.0761719 17 L 19 17 C 19.552 17 20 16.552 20 16 C 20 15.448 19.552 15 19 15 L 8.0761719 15 L 8.0117188 14.882812 L 9.1875 13 L 16.521484 13 C 17.247484 13 17.916578 12.606656 18.267578 11.972656 L 21.896484 5.4414062 C 22.164484 4.9594062 21.989812 4.3500312 21.507812 4.0820312 C 21.024812 3.8130313 20.416438 3.9877031 20.148438 4.4707031 L 16.521484 11 L 9.2851562 11 L 5.9296875 3.234375 C 5.6186875 2.486375 4.8852187 1.9999062 4.0742188 2.0039062 z M 8 18 A 2 2 0 0 0 6 20 A 2 2 0 0 0 8 22 A 2 2 0 0 0 10 20 A 2 2 0 0 0 8 18 z M 18 18 A 2 2 0 0 0 16 20 A 2 2 0 0 0 18 22 A 2 2 0 0 0 20 20 A 2 2 0 0 0 18 18 z" />
+                  </svg>{" "}
+                  {buttonText}
+                </button>
+              )}
+            </div>
+            {router.asPath == "/cart" && (
+              <div className="bw-right-chk-batn">
+                <button onClick={continueClick}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M19.16 21.94h4.51l-9.83-9.83 9.83-9.83h-4.51l-9.85 9.83 9.85 9.83zm-8.94 0h4.51L4.9 12.11l9.85-9.83h-4.53L.39 12.11l9.83 9.83z" />
+                  </svg>{" "}
+                  Continue Shopping
+                </button>
               </div>
             )}
           </div>
+
           {Object.keys(cartDetails).length > 0 && <ShopingInstruction />}
         </div>
       </div>

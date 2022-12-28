@@ -689,6 +689,7 @@ body {
   color: #0a0a0a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* overflow: hidden; */
 }
 img {
   display: inline-block;
@@ -1164,8 +1165,11 @@ h6 {
 a {
   line-height: inherit;
   color: #1779ba;
-  text-decoration: none;
+  text-decoration: none !important;
   cursor: pointer;
+}
+.ac-page-nav ul {
+  padding: 0;
 }
 a:focus,
 a:hover {
@@ -6978,7 +6982,10 @@ p {
   margin-top: 1em;
 }
 .margin-top-2 {
-  margin-top: 2em;
+  margin: 3em 0;
+}
+.bg-grey .margin-top-2 {
+  margin: 2em 0 0 0;
 }
 .top-four-sec {
   display: grid;
@@ -7084,7 +7091,6 @@ p {
 .top-logo-2 .inp-butt {
   display: block;
   position: relative;
-  overflow: hidden;
 }
 .top-logo-2 .inp-butt input {
   margin: 0;
@@ -7222,7 +7228,7 @@ p {
   background: none;
   float: left;
 }
-.csmenu > ul > li > ul > li a {
+.csmenu > ul > li > ul > li span {
   color: #fff;
   padding: 5px 15px;
   width: 95%;
@@ -7230,6 +7236,7 @@ p {
   border-bottom: 1px dotted #999999;
   text-align: left;
   font-size: 1em;
+  text-transform: uppercase;
 }
 .csmenu > ul > li > ul > li > ul {
   display: block;
@@ -7747,15 +7754,31 @@ p {
   font-size: 1em;
   color: gray;
 }
+
 .pro-card-con {
-  display: flex;
-  flex-wrap: wrap;
   align-items: start;
-  /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 20px; */
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+  gap: 30px;
+  cursor: pointer;
 }
+@media (max-width: 600px) {
+  .pro-card-con {
+    grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 600px) {
+  .pro-card-con {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .pro-card-con {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* 
 @media only Screen and (min-width: 200px) and (max-width: 767px) {
   .pro-card-con {
@@ -7767,10 +7790,10 @@ p {
   }
 } */
 .prod-card {
-  /* display: grid;
+  display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
-  grid-gap: 10px; */
+  grid-gap: 10px;
   padding: 0.5em;
   border: 1px solid #d9d9d9;
 
@@ -7786,6 +7809,7 @@ p {
 .prod-card figure img {
   display: block;
   margin: 0 auto;
+  width: 100%;
 }
 .prod-card .prod-details {
   display: grid;
@@ -8366,6 +8390,7 @@ p {
 .rel-products-con .prod-card {
   margin: 5px;
   width: 360px;
+  cursor: pointer;
 }
 #emi-modal .accordion-title {
   padding: 0.7em 0.5em;
@@ -9113,4 +9138,16 @@ p {
 .layout-container {
   min-height: 100vh;
   position: relative;
+}
+
+.inv-card {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid grey;
+  margin-top: 20px;
+}
+.addressStyle {
+  display: flex;
+  margin: 10px 0;
 }

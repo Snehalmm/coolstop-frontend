@@ -1,15 +1,15 @@
-import Breadcrumbs from "../components/Common/Breadcrumbs";
-import Features from "../components/Home/Features";
-import PendingOrderTable from "../components/Product/PendingOrderTable";
-import { pendingOrderBreadcrums } from "../utils/data/breadcrumbs";
-import { NextSeo } from "next-seo";
-import { Path } from "../utils/apiService";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../stores/slices/userSlice";
-import { useEffect, useState } from "react";
-import useGetApi from "../utils/useGetApi";
-import { getFromStorage } from "../utils/storage";
+import Breadcrumbs from '../components/Common/Breadcrumbs';
+import Features from '../components/Home/Features';
+import PendingOrderTable from '../components/Product/PendingOrderTable';
+import { pendingOrderBreadcrums } from '../utils/data/breadcrumbs';
+import { NextSeo } from 'next-seo';
+import { Path } from '../utils/apiService';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../stores/slices/userSlice';
+import { useEffect, useState } from 'react';
+import useGetApi from '../utils/useGetApi';
+import { getFromStorage } from '../utils/storage';
 
 const PendingOrders = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const PendingOrders = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    let getUserDetails = getFromStorage("userDetails");
+    let getUserDetails = getFromStorage('userDetails');
     dispatch(userActions.adduser(getUserDetails));
   }, []);
   const {

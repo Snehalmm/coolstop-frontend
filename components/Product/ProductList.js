@@ -1,16 +1,16 @@
-import Filters from "../Common/Filters";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { filterActions } from "../../stores/slices/filterSlice";
-import { toIndianCurrency } from "../../utils/services";
-import { serverUrl } from "../../utils/config";
-import StarRating from "../Product/StarRating";
-import { useRouter } from "next/router";
-import { deleteFromStorage } from "../../utils/storage";
-import Loader from "../Common/Loader";
-import ReactPaginate from "react-paginate";
+import Filters from '../Common/Filters';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterActions } from '../../stores/slices/filterSlice';
+import { toIndianCurrency } from '../../utils/services';
+import { serverUrl } from '../../utils/config';
+import StarRating from '../product/StarRating';
+import { useRouter } from 'next/router';
+import { deleteFromStorage } from '../../utils/storage';
+import Loader from '../Common/Loader';
+import ReactPaginate from 'react-paginate';
 // import Pagination from "../Common/Pagination";
 // import { paginate } from "../../utils/paginate";
 // import ReactPaginate from "react-paginate";
@@ -26,6 +26,7 @@ const Products = ({
   offset,
   setCount,
   count,
+  filteredProductList,
 }) => {
   const router = useRouter();
 
@@ -47,14 +48,14 @@ const Products = ({
     });
   };
   useEffect(() => {
-    deleteFromStorage("orderDetails");
+    deleteFromStorage('orderDetails');
   }, []);
 
   const handleChange = (e) => {
     const { value } = e.target;
     let url = {};
 
-    if (value !== "") {
+    if (value !== '') {
       dispatch(filterActions.addsort(value));
       url = {
         pathname: router.pathname,
@@ -71,7 +72,7 @@ const Products = ({
           ...router.query,
         },
       };
-      dispatch(filterActions.addsort(""));
+      dispatch(filterActions.addsort(''));
     }
     router.push(url, undefined, {
       shallow: true,
@@ -91,9 +92,7 @@ const Products = ({
       shallow: true,
     });
     // router.push(`/products?count=${offset}&offset=${offset * newCount}`);
-    // console.log(
-    //   router,
-    // );
+
     // if (offset >= 10) {
     //   // if (router.asPath === `/products`) {
     //   router.push(`/products?offset=${offset * (newCount - 1)}`);
@@ -181,6 +180,9 @@ const Products = ({
   const countList = PageCountDropDown.filter(
     (item) => Number(totalProductCount) > item
   );
+  const filterCountList = Math.ceil(
+    Number(filteredProductList?.length) / Number(count)
+  );
 
   const handlePageClick = (event) => {
     let newCount = event.selected * count;
@@ -194,6 +196,10 @@ const Products = ({
     router.push(url, undefined, {
       shallow: true,
     });
+    window.scrollTo(0, 0);
+  };
+  const onCardClick = (slug) => {
+    router.push(`/products/${slug}`);
   };
   return (
     <>
@@ -225,24 +231,24 @@ const Products = ({
                     value={sortFilter[0]}
                     onChange={handleChange}
                   >
-                    <option value="" selected={sortFilter[0] == ""}>
+                    <option value="" selected={sortFilter[0] == ''}>
                       Sort By
                     </option>
                     <option
                       value="topSeller"
-                      selected={sortFilter[0] == "topSeller"}
+                      selected={sortFilter[0] == 'topSeller'}
                     >
                       Top Seller
                     </option>
                     <option
                       value="csp%3Aasc"
-                      selected={sortFilter[0] == "csp%3Aasc"}
+                      selected={sortFilter[0] == 'csp%3Aasc'}
                     >
                       Low To High
                     </option>
                     <option
                       value="csp%3Adesc"
-                      selected={sortFilter[0] == "csp%3Adesc"}
+                      selected={sortFilter[0] == 'csp%3Adesc'}
                     >
                       High To Low
                     </option>
@@ -255,12 +261,18 @@ const Products = ({
                       >
                         {PageCountDropDown.slice(0, countList.length + 1).map(
                           (data, i) => {
-                            return <option key={i}>{data}</option>;
+                            return (
+                              <option key={i}>
+                                {totalProductCount <= 10
+                                  ? totalProductCount
+                                  : data}
+                              </option>
+                            );
                           }
                         )}
                       </select>
                       {/* <span className="result-width"> */}
-                      {"  "}{" "}
+                      {'  '}{' '}
                       <b className="result-width">
                         Out of {totalProductCount} results
                       </b>
@@ -269,26 +281,10 @@ const Products = ({
                   </div>
                 </div>
               </div>
-              <div className="pagicon-4">
+              {/* <div className="pagicon-4">
                 <div className="pagi-selec">
                   <nav aria-label="Pagination">
                     <ul className="pagination product-top-pagi">
-                      {/* <li className="pagination-previous">
-                        <div className="pagicon-3">
-                          <div className="pagi-selec">
-                            <select
-                              name="sortByProducts"
-                              onChange={productDropDownCount}
-                            >
-                              {PageCountDropDown.map((data, i) => {
-                                return <option key={i}>{data}</option>;
-                              })}
-                            </select>{" "}
-                            <b>{totalProductCount}</b>
-                          </div>
-                        </div>
-                      </li> */}
-
                       {totalPageCount > 1 && (
                         <>
                           <li
@@ -318,15 +314,18 @@ const Products = ({
                     </ul>
                   </nav>
                 </div>
-              </div>
-              <div className="pagicon-5">
-                <span className="pag-num">
-                  Page {currentPage} of {totalPageCount}
-                </span>
-              </div>
+              </div> */}
+              {totalPageCount !== NaN && (
+                <div className="pagicon-5">
+                  <span className="pag-num">
+                    Page {currentPage} of {totalPageCount}
+                  </span>
+                </div>
+              )}
             </div>
             {loading ? (
               <div className="loading">
+                {/* <h1>Please wait</h1> */}
                 <Loader height={100} width={100} />
               </div>
             ) : (
@@ -350,11 +349,12 @@ const Products = ({
 
                     return (
                       item.attributes.publishedAt !== null && (
-                        <div className="prod-card" key={index}>
-                          <Link
-                            href={`/products/${item.attributes.slug}`}
-                            as={`/products/${item.attributes.slug}`}
-                          >
+                        <div
+                          className="prod-card"
+                          key={index}
+                          onClick={() => onCardClick(item.attributes.slug)}
+                        >
+                          <div>
                             {productImage !== null && (
                               <figure>
                                 <Image
@@ -365,7 +365,7 @@ const Products = ({
                                 />
                               </figure>
                             )}
-                          </Link>
+                          </div>
 
                           <div className="prod-details">
                             <div className="prod-details-1">
@@ -400,8 +400,8 @@ const Products = ({
                                   size={25}
                                   value={item.attributes.reviewStar}
                                   disabled={true}
-                                  activeColor={"#FFA534"}
-                                  inactiveColor={"#ddd"}
+                                  activeColor={'#FFA534'}
+                                  inactiveColor={'#ddd'}
                                 />
                               </span>
                             </div>
@@ -418,9 +418,9 @@ const Products = ({
                 ) : (
                   <h4
                     style={{
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      margin: "20px",
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      margin: '20px',
                     }}
                   >
                     Product Not Found
@@ -436,7 +436,7 @@ const Products = ({
               onPageChange={handlePageChange}
             /> */}
 
-            {totalPageCount > 0 && (
+            {totalPageCount > 1 && (
               <div className="prod-bott-pagi">
                 <ReactPaginate
                   nextLabel=">"
