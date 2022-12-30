@@ -32,12 +32,12 @@ const Success = () => {
               white_check_mark eyes raised_hands 11:55. */}
             </p>
             <p style={{ textTransform: "uppercase" }}>
-              YOUR ORDER ID: {orderDetails?.data?.id}
+              YOUR ORDER ID: {orderDetails?.data?.order_id}
             </p>
           </div>
 
           <div>
-            <Link href="/pending-orders" className="button" type="submit">
+            <Link href="/paid-orders" className="button" type="submit">
               {" "}
               {/* GO TO HOME */}
               GO TO ORDERS

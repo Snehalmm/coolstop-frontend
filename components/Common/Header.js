@@ -70,12 +70,7 @@ const Header = ({ categories, getGlobalData }) => {
   } = useGetApi();
 
   useEffect(() => {
-    console.log("im out", userDetails);
-    if (
-      Object.keys(userDetails)?.length > 0 ||
-      getPageName == "/payment-method"
-    ) {
-      console.log("im in");
+    if (Object.keys(userDetails)?.length > 0) {
       userDataApi(
         `/api/users/${userDetails?.user?.id}?populate=*`,
         userDetails?.jwt,

@@ -122,7 +122,7 @@ const PaymentDetails = () => {
                 <div className="payment-method-order-id-container">
                   <dd>
                     Your Order ID
-                    <span>{orderDetails?.id}</span>
+                    <span>{orderDetails?.data?.order_id}</span>
                   </dd>
                 </div>
               </div>

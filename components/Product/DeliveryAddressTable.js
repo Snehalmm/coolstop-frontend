@@ -10,20 +10,67 @@ import { useState, useEffect } from "react";
 import { userActions } from "../../stores/slices/userSlice";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { getFromStorage, saveToStorage } from "../../utils/storage";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 const DeliveryAddressTable = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [showDiscountAmt, setShowDiscountAmt] = useState(null);
   const [addressdata, setAddressData] = useState({});
+  const userAddressDetails = useSelector((state) => {
+    return state.user.addressDetails;
+  });
+  const [formValue, setFormValue] = useState({
+    townOrCity: userAddressDetails
+      ? userAddressDetails?.shippingAddress?.townOrCity
+      : "",
+    address1: userAddressDetails?.shippingAddress?.address1
+      ? userAddressDetails?.shippingAddress?.address1
+      : "",
+    address2: userAddressDetails?.shippingAddress?.address2
+      ? userAddressDetails?.shippingAddress?.address2
+      : "",
+    state: userAddressDetails?.shippingAddress?.state
+      ? userAddressDetails?.shippingAddress?.state
+      : "",
+    postcode: userAddressDetails?.shippingAddress?.postcode
+      ? userAddressDetails?.shippingAddress?.postcode
+      : "",
+    firstname: userAddressDetails?.firstname
+      ? userAddressDetails?.firstname
+      : "",
+    lastname: userAddressDetails?.lastname ? userAddressDetails?.lastname : "",
+    cscontactno: userAddressDetails?.contactNo
+      ? userAddressDetails?.contactNo
+      : "",
+    email: userAddressDetails?.email ? userAddressDetails?.email : "",
+    cbadr1: userAddressDetails?.billingAddress?.address1
+      ? userAddressDetails?.billingAddress?.address1
+      : "",
+    cbadr2: userAddressDetails?.billingAddress?.address2
+      ? userAddressDetails?.billingAddress?.address2
+      : "",
+    cbstate: userAddressDetails?.billingAddress?.state
+      ? userAddressDetails?.billingAddress?.state
+      : "",
+    cbcity: userAddressDetails?.billingAddress?.townOrCity
+      ? userAddressDetails?.billingAddress?.townOrCity
+      : "",
+    cbpostcode: userAddressDetails?.billingAddress?.postcode
+      ? userAddressDetails?.billingAddress?.postcode
+      : "",
+    cbcontactno: userAddressDetails?.contactNo
+      ? userAddressDetails?.contactNo
+      : "",
+  });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    setValue,
-  } = useForm();
+  } = useForm({
+    mode: "onBlur", // "onChange"
+  });
 
   const {
     isLoading: createOrderLoading,
@@ -47,9 +94,7 @@ const DeliveryAddressTable = () => {
   const userDetails = useSelector((state) => {
     return state.user.userDetails;
   });
-  const userAddressDetails = useSelector((state) => {
-    return state.user.addressDetails;
-  });
+
   const discountDetails = useSelector((state) => {
     return state.cart.discountDetails;
   });
@@ -62,11 +107,55 @@ const DeliveryAddressTable = () => {
     let getDiscountDetails = localStorage.getItem("discountDetails");
     dispatch(cartActions.discountDetails(JSON.parse(getDiscountDetails)));
     setShowDiscountAmt(getFromStorage("discountAmt"));
-    setAddressData(userDetails?.user?.shippingAddress);
   }, []);
 
   useEffect(() => {
     setAddressData(userAddressDetails);
+    setFormValue({
+      townOrCity: userAddressDetails
+        ? userAddressDetails?.shippingAddress?.townOrCity
+        : "",
+      address1: userAddressDetails?.shippingAddress?.address1
+        ? userAddressDetails?.shippingAddress?.address1
+        : "",
+      address2: userAddressDetails?.shippingAddress?.address2
+        ? userAddressDetails?.shippingAddress?.address2
+        : "",
+      state: userAddressDetails?.shippingAddress?.state
+        ? userAddressDetails?.shippingAddress?.state
+        : "",
+      postcode: userAddressDetails?.shippingAddress?.postcode
+        ? userAddressDetails?.shippingAddress?.postcode
+        : "",
+      firstname: userAddressDetails?.firstname
+        ? userAddressDetails?.firstname
+        : "",
+      lastname: userAddressDetails?.lastname
+        ? userAddressDetails?.lastname
+        : "",
+      cscontactno: userAddressDetails?.contactNo
+        ? userAddressDetails?.contactNo
+        : "",
+      email: userAddressDetails?.email ? userAddressDetails?.email : "",
+      cbadr1: userAddressDetails?.billingAddress?.address1
+        ? userAddressDetails?.billingAddress?.address1
+        : "",
+      cbadr2: userAddressDetails?.billingAddress?.address2
+        ? userAddressDetails?.billingAddress?.address2
+        : "",
+      cbstate: userAddressDetails?.billingAddress?.state
+        ? userAddressDetails?.billingAddress?.state
+        : "",
+      cbcity: userAddressDetails?.billingAddress?.townOrCity
+        ? userAddressDetails?.billingAddress?.townOrCity
+        : "",
+      cbpostcode: userAddressDetails?.billingAddress?.postcode
+        ? userAddressDetails?.billingAddress?.postcode
+        : "",
+      cbcontactno: userAddressDetails?.contactNo
+        ? userAddressDetails?.contactNo
+        : "",
+    });
   }, [userAddressDetails]);
 
   const successHandler = (data) => {
@@ -76,9 +165,25 @@ const DeliveryAddressTable = () => {
       router.push("/payment-method");
     }
   };
+  const changeHandler = (key, value) => {
+    console.log("changeHandlerkey", key, value, formValue);
+    let exFormValue = formValue;
+    exFormValue[key] = value;
+    console.log("changeHandlerkey exFormValue", { ...exFormValue });
+    setFormValue({ ...exFormValue });
+    // let data = {
+    //   key: e.target.value,
+    // };
+    // setAddressData(data);
+    // saveToStorage("billingaddress", data);
+    // dispatch(userActions.addAddress(data));
+  };
+
+  // const formValue={
+  //   name:
+  // }
   const onSubmit = (data) => {
     let createObj = {};
-
     const findArray = [];
     cartItems?.map((item) => {
       createObj = {
@@ -112,18 +217,20 @@ const DeliveryAddressTable = () => {
         discount_coupon: discountDetails ? discountDetails[0]?.id : null,
         subtotal: cartDetails.totalAmt,
         shippingAddress: {
-          address1: data.address1,
-          address2: data.address2,
-          townOrCity: data.townOrCity,
-          state: data.state,
-          postcode: data.postcode,
+          address1: formValue.address1,
+          address2: formValue?.address2,
+          townOrCity: formValue?.townOrCity,
+          state: formValue?.state,
+          postcode: formValue?.postcode,
         },
         billingAddress: {
-          address1: show ? data.cbadr1 : data.address1,
-          address2: show ? data.cbadr2 : data.address2,
-          state: show ? data.cbstate : data.state,
-          townOrCity: show ? data.cbcity : data.townOrCity,
-          postcode: show ? Number(data.cbpostcode) : Number(data.postcode),
+          address1: show ? formValue.cbadr1 : formValue.address1,
+          address2: show ? formValue.cbadr2 : formValue.address2,
+          state: show ? formValue.cbstate : formValue.state,
+          townOrCity: show ? formValue.cbcity : formValue.townOrCity,
+          postcode: show
+            ? Number(formValue.cbpostcode)
+            : Number(formValue.postcode),
         },
         users_permissions_user: userDetails?.user?.id,
       },
@@ -134,23 +241,24 @@ const DeliveryAddressTable = () => {
       contactNo: userDetails?.user?.contactNo,
       emailId: userDetails?.user?.email
         ? userDetails?.user?.email
-        : data?.email,
-      billingAddress: {
-        address1: data.address1,
-        address2: data.address2,
-        townOrCity: data.townOrCity,
-        state: data.state,
-        postcode: data.postcode,
-      },
+        : addressdata?.email,
       shippingAddress: {
-        address1: show ? data.cbadr1 : data.address1,
-        address2: show ? data.cbadr2 : data.address2,
-        state: show ? data.cbstate : data.state,
-        townOrCity: show ? data.cbcity : data.townOrCity,
-        postcode: show ? Number(data.cbpostcode) : Number(data.postcode),
+        address1: formValue?.address1,
+        address2: formValue?.address2,
+        townOrCity: formValue?.townOrCity,
+        state: formValue?.state,
+        postcode: formValue?.postcode,
+      },
+      billingAddress: {
+        address1: show ? formValue.cbadr1 : formValue.address1,
+        address2: show ? formValue.cbadr2 : formValue.address2,
+        state: show ? formValue.cbstate : formValue.state,
+        townOrCity: show ? formValue.cbcity : formValue.townOrCity,
+        postcode: show
+          ? Number(formValue.cbpostcode)
+          : Number(formValue.postcode),
       },
     };
-
     createOrderApi(
       "/api/orders/pretransaction",
       orderData,
@@ -162,10 +270,10 @@ const DeliveryAddressTable = () => {
       putData,
       userDetails?.jwt
     );
+
     setAddressData(data);
     saveToStorage("billingaddress", data);
     dispatch(userActions.addAddress(data));
-    // }
   };
 
   const checkHandler = (e) => {
@@ -179,16 +287,6 @@ const DeliveryAddressTable = () => {
     }
   };
 
-  const handleChange = (e) => {
-    console.log("townOrCity", e.target.value);
-    let data = {
-      [e.target.name]: e.target.value,
-    };
-    setAddressData(data);
-    saveToStorage("billingaddress", data);
-    dispatch(userActions.addAddress(data));
-  };
-
   // useEffect(() => {
   //   // setAddressData(userDetails?.user?.shippingAddress);
   //   saveToStorage("billingaddress", userDetails?.user?.shippingAddress);
@@ -197,16 +295,20 @@ const DeliveryAddressTable = () => {
 
   console.log(
     "csStae",
-    addressdata,
-    // userDetails?.user?.shippingAddress,
+    formValue,
     userAddressDetails,
+    userAddressDetails?.shippingAddress?.townOrCity,
+    userAddressDetails?.shippingAddress?.townOrCity
+      ? userAddressDetails?.shippingAddress?.townOrCity
+      : "null"
+    // userDetails?.user?.shippingAddress,
+    // userAddressDetails,
     // userDetails?.user?.shippingAddress?.townOrCity &&
-    userAddressDetails?.townOrCity && userAddressDetails?.townOrCity
-      ? "Erohan"
-      : "nckndckdn"
+    // userAddressDetails?.shippingAddress?.townOrCity ? "Erohan" : "nckndckdn",
+    // JSON.stringify(userAddressDetails?.shippingAddress?.townOrCity),
+    // userAddressDetails?.shippingAddress?.townOrCity
   );
 
-  // console.log("userDetails", userDetails);
   return (
     <>
       <section className="grid-container">
@@ -228,16 +330,20 @@ const DeliveryAddressTable = () => {
                     <input
                       type="text"
                       id="csfname"
-                      {...register("csfname", {
-                        required: userAddressDetails?.firstname ? false : true,
+                      name="firstname"
+                      {...register("firstname", {
+                        required: formValue?.firstname ? false : true,
+                        onChange: (e) =>
+                          changeHandler("firstname", e.target.value),
                       })}
-                      defaultValue={userDetails?.user?.firstname}
+                      defaultValue={formValue?.firstname}
                     />
-                    {errors.csfname && errors.csfname.type === "required" && (
-                      <span className=" error-message">
-                        Please enter your first name
-                      </span>
-                    )}
+                    {errors.firstname &&
+                      errors.firstname.type === "required" && (
+                        <span className=" error-message">
+                          Please enter your first name
+                        </span>
+                      )}
                   </div>
 
                   <div className="ckh-frm-2">
@@ -245,13 +351,15 @@ const DeliveryAddressTable = () => {
                     <input
                       type="text"
                       id="cslname"
-                      {...register("cslname", {
-                        required: userAddressDetails?.lastname ? false : true,
+                      name="cslname"
+                      {...register("lastname", {
+                        required: formValue?.lastname ? false : true,
+                        onChange: (e) =>
+                          changeHandler("lastname", e.target.value),
                       })}
-                      defaultValue={userDetails?.user?.lastname}
-                      // onChange={(e) => setAddressData(e.target.value)}
+                      defaultValue={formValue?.lastname}
                     />
-                    {errors.cslname && errors.cslname.type === "required" && (
+                    {errors.lastname && errors.lastname.type === "required" && (
                       <span className=" error-message">
                         Please enter your last name
                       </span>
@@ -265,19 +373,22 @@ const DeliveryAddressTable = () => {
                     <input
                       type="email"
                       id="rmail"
-                      defaultValue={userDetails?.user?.email}
+                      name="email"
+                      defaultValue={formValue?.email}
                       {...register("email", {
-                        required: userAddressDetails?.email ? false : true,
+                        required: formValue?.email ? false : true,
                         pattern:
                           /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        onChange: (e) => changeHandler("email", e.target.value),
                       })}
-                      // onChange={(e) => setAddressData(e.target.value)}
                     />
-                    {errors.email && errors.email.type === "required" && (
-                      <span className=" error-message">
-                        Please enter your email address
-                      </span>
-                    )}
+                    {errors?.email &&
+                      errors.email.type ===
+                        "required"(
+                          <span className=" error-message">
+                            Please enter your email address
+                          </span>
+                        )}
                     {errors.email && errors.email.type === "pattern" && (
                       <p className="error-message">
                         Please write a valid email
@@ -292,13 +403,15 @@ const DeliveryAddressTable = () => {
                       maxLength="10"
                       autoComplete="off"
                       id="cscontactno"
-                      defaultValue={userDetails?.user?.contactNo}
+                      name="cscontactno"
+                      defaultValue={formValue?.cscontactno}
                       {...register("cscontactno", {
-                        required: userAddressDetails?.contactNo ? false : true,
+                        required: formValue?.cscontactno ? false : true,
                         pattern:
                           /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+                        onChange: (e) =>
+                          changeHandler("cscontactno", e.target.value),
                       })}
-                      // onChange={(e) => setAddressData(e.target.value)}
                     />
                     {errors.cscontactno &&
                       errors.cscontactno.type === "required" && (
@@ -319,15 +432,18 @@ const DeliveryAddressTable = () => {
                     <input
                       type="text"
                       id="csadr1"
+                      name="address1"
+                      defaultValue={formValue?.address1}
                       {...register("address1", {
-                        required: userAddressDetails?.shippingAddress?.address1
-                          ? false
-                          : true,
+                        required: formValue?.address1 ? false : true,
+                        onChange: (e) =>
+                          changeHandler("address1", e.target.value),
                       })}
-                      defaultValue={
-                        userDetails?.user?.shippingAddress?.address1
-                      }
-                      // onChange={(e) => setAddressData(e.target.value)}
+
+                      // defaultValue={
+                      //   userAddressDetails?.shippingAddress?.address1
+                      // }
+                      // onChange={changeHandler}
                     />
                     {errors.address1 && errors.address1.type === "required" && (
                       <span className="error-message">
@@ -345,28 +461,39 @@ const DeliveryAddressTable = () => {
                       {...register("address2", {
                         required: false,
                       })}
-                      defaultValue={
-                        userDetails?.user?.shippingAddress?.address2
-                      }
+                      defaultValue={formValue?.address2}
                     />
                   </div>
 
                   <div className="ckh-frm-7">
-                    <label htmlFor="cscity">Town or City</label>
+                    <label htmlFor="townOrCity">Town or City</label>
+                    <input
+                      type="text"
+                      id="townOrCity"
+                      name="townOrCity"
+                      defaultValue={formValue?.townOrCity}
+                      // placeholder="bill"
+                      {...register("townOrCity", {
+                        required: formValue?.townOrCity ? false : true,
+                        onChange: (e) =>
+                          changeHandler("townOrCity", e.target.value),
+                      })}
+                    />
+
+                    {/* <label htmlFor="cscity">Town or City</label>
                     <input
                       type="text"
                       id="cscity"
-                      {...register("townOrCity", {
-                        required: userAddressDetails?.shippingAddress
-                          ?.townOrCity
-                          ? false
-                          : true,
-                      })}
                       defaultValue={
-                        userDetails?.user?.shippingAddress?.townOrCity
+                        userAddressDetails?.shippingAddress?.townOrCity
                       }
+                      {...register("townOrCity", {
+                        required: true,
+                        value: userAddressDetails?.shippingAddress?.townOrCity,
+                      })}
+
                       // onChange={handleChange}
-                    />
+                    /> */}
                     {errors.townOrCity &&
                       errors.townOrCity.type === "required" && (
                         <span className=" error-message">
@@ -379,26 +506,25 @@ const DeliveryAddressTable = () => {
                     <label htmlFor="csstate">State</label>
                     <select
                       id="csstate"
+                      name="state"
                       {...register("state", {
-                        required: userAddressDetails?.shippingAddress?.state
-                          ? false
-                          : true,
+                        required: formValue?.state ? false : true,
+                        onChange: (e) => changeHandler("state", e.target.value),
                       })}
-                      // onChange={(e) => setAddressData(e.target.value)}
                     >
-                      <option>
-                        {userDetails?.user?.shippingAddress?.state}
-                      </option>
+                      <option>{formValue?.state}</option>
                       {States.map((state, index) => (
                         <option key={index}>{state.state_name}</option>
                       ))}
                     </select>
 
-                    {errors.state && errors.state.type === "required" && (
-                      <span className=" error-message">
-                        Please select your State
-                      </span>
-                    )}
+                    {errors?.state &&
+                      errors?.state.type ===
+                        "required"(
+                          <span className=" error-message">
+                            Please select your State
+                          </span>
+                        )}
                   </div>
                   <div className="ckh-frm-9">
                     <label htmlFor="cspostcode">Postcode</label>
@@ -406,24 +532,24 @@ const DeliveryAddressTable = () => {
                       type="text"
                       maxLength="6"
                       id="cspostcode"
+                      name="postcode"
+                      defaultValue={formValue?.postcode}
                       // readOnly
                       {...register("postcode", {
-                        required: userAddressDetails?.shippingAddress?.postcode
-                          ? false
-                          : true,
+                        required: formValue?.postcode ? false : true,
                         pattern: /^(\d{4}|\d{6})$/,
+                        onChange: (e) =>
+                          changeHandler("postcode", e.target.value),
                       })}
-                      defaultValue={
-                        userDetails?.user?.shippingAddress?.postcode
-                      }
-                      // onChange={(e) => setAddressData(e.target.value)}
                     />
 
-                    {errors.postcode && errors.postcode.type === "required" && (
-                      <span className="error-message">
-                        Please enter your post code
-                      </span>
-                    )}
+                    {errors.postcode &&
+                      errors.postcode.type ===
+                        "required"(
+                          <span className="error-message">
+                            Please enter your post code
+                          </span>
+                        )}
                     {errors.postcode && errors.postcode.type === "pattern" && (
                       <span className="error-message">
                         Please write a valid post code
@@ -516,14 +642,16 @@ const DeliveryAddressTable = () => {
                         id="cbcontactno"
                         {...register("cbcontactno", {
                           required: show
-                            ? userDetails?.user?.contactNo
+                            ? formValue?.cbcontactno
                               ? false
                               : true
                             : false,
                           pattern:
                             /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+                          onChange: (e) =>
+                            changeHandler("cbcontactno", e.target.value),
                         })}
-                        defaultValue={show ? userDetails?.user?.contactNo : ""}
+                        defaultValue={show ? formValue?.cbcontactno : ""}
                       />
                       {errors.cbcontactno &&
                         errors.cbcontactno.type === "required" && (
@@ -546,16 +674,14 @@ const DeliveryAddressTable = () => {
                         id="cbadr1"
                         {...register("cbadr1", {
                           required: show
-                            ? userDetails?.user?.billingAddress?.address1
+                            ? formValue?.cbadr1
                               ? false
                               : true
                             : false,
+                          onChange: (e) =>
+                            changeHandler("cbadr1", e.target.value),
                         })}
-                        defaultValue={
-                          show
-                            ? userDetails?.user?.billingAddress?.address1
-                            : null
-                        }
+                        defaultValue={show ? formValue.cbadr1 : null}
                       />
                       {errors.cbadr1 && errors.cbadr1.type === "required" && (
                         <span className="error-message">
@@ -572,11 +698,7 @@ const DeliveryAddressTable = () => {
                         {...register("cbadr2", {
                           required: false,
                         })}
-                        defaultValue={
-                          show
-                            ? userDetails?.user?.billingAddress?.address2
-                            : null
-                        }
+                        defaultValue={show ? formValue?.cbadr2 : null}
                       />
                     </div>
 
@@ -587,16 +709,14 @@ const DeliveryAddressTable = () => {
                         id="cbcity"
                         {...register("cbcity", {
                           required: show
-                            ? userDetails?.user?.billingAddress?.townOrCity
+                            ? formValue?.cbcity
                               ? false
                               : true
                             : false,
+                          onChange: (e) =>
+                            changeHandler("cbcity", e.target.value),
                         })}
-                        defaultValue={
-                          show
-                            ? userDetails?.user?.billingAddress?.townOrCity
-                            : null
-                        }
+                        defaultValue={show ? formValue?.cbcity : null}
                       />
                       {errors.cbcity && errors.cbcity.type === "required" && (
                         <span className=" error-message">
@@ -611,18 +731,14 @@ const DeliveryAddressTable = () => {
                         id="cbstate"
                         {...register("cbstate", {
                           required: show
-                            ? userDetails?.user?.billingAddress?.state
+                            ? formValue?.state
                               ? false
                               : true
                             : false,
                         })}
-                        defaultValue={
-                          show ? userDetails?.user?.billingAddress?.state : null
-                        }
+                        defaultValue={show ? formValue?.state : null}
                       >
-                        <option>
-                          {userDetails?.user?.billingAddress?.state}
-                        </option>
+                        <option>{formValue?.state}</option>
                         {States.map((state, index) => (
                           <option value={state.state_id} key={index}>
                             {state.state_name}
@@ -645,17 +761,13 @@ const DeliveryAddressTable = () => {
                         // readOnly
                         {...register("cbpostcode", {
                           required: show
-                            ? userDetails?.user?.billingAddress?.postcode
+                            ? formValue?.cbpostcode
                               ? false
                               : true
                             : false,
                           pattern: /^(\d{4}|\d{6})$/,
                         })}
-                        defaultValue={
-                          show
-                            ? userDetails?.user?.billingAddress?.postcode
-                            : null
-                        }
+                        defaultValue={show ? formValue?.cbpostcode : null}
                       />
 
                       {errors.cbpostcode &&
