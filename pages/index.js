@@ -1,10 +1,10 @@
-import Features from "../components/home/Features";
+import Features from "../components/Home/Features";
 
-import Brand from "../components/home/Brand";
-import Banner from "../components/common/Banner";
-import TopSeller from "../components/home/TopSeller";
-import Reviews from "../components/home/Reviews";
-import Blogs from "../components/common/Blogs";
+import Brand from "../components/Home/Brand";
+import Banner from "../components/Common/Banner";
+import TopSeller from "../components/Home/TopSeller";
+import Reviews from "../components/Home/Reviews";
+import Blogs from "../components/Common/Blogs";
 import React, { useEffect } from "react";
 import { Path } from "../utils/apiService";
 import { userActions } from "../stores/slices/userSlice";
@@ -13,7 +13,7 @@ import { serverUrl, token } from "../utils/config";
 import { NextSeo } from "next-seo";
 import { getFromStorage } from "../utils/storage";
 import { useRouter } from "next/router";
-import ProductsList from "../components/home/ProductsList";
+import ProductsList from "../components/Home/ProductsList";
 
 export default function Home(props) {
   const router = useRouter();

@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { userActions } from "../../stores/slices/userSlice";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { getFromStorage, saveToStorage } from "../../utils/storage";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 const DeliveryAddressTable = () => {
   const dispatch = useDispatch();
   const router = useRouter();
