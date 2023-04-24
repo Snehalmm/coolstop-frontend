@@ -9,7 +9,7 @@ const ContactUs = () => {
         Coming soon Contact us
       </h1>
     </>
-  );
+  );    
 };
 
 export default ContactUs;
