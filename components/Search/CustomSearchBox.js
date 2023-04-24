@@ -1,7 +1,7 @@
 import { connectSearchBox } from "react-instantsearch-dom";
 import { useState } from "react";
 
-function SearchBox({ refine }) {
+function SearchBox({ refine, setShowHits, resultsRef }) {
   const [searchInput, setSearchInput] = useState([]);
 
   return (
@@ -10,7 +10,10 @@ function SearchBox({ refine }) {
         placeholder="Search Products"
         onChange={(e) => {
           setSearchInput(e.currentTarget.value), refine(e.currentTarget.value);
+          setShowHits(true);
         }}
+        autoComplete="off"
+        ref={resultsRef}
         // value={query}
         type="search"
         name="search"

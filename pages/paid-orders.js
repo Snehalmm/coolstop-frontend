@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Features from "../components/Home/Features";
+import Features from "../components/home/Features";
 import PendingOrderTable from "../components/Product/PendingOrderTable";
-import Breadcrumbs from "../components/Common/Breadcrumbs";
+import Breadcrumbs from "../components/common/Breadcrumbs";
 import { paidOrderBreadcrums } from "../utils/data/breadcrumbs";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";

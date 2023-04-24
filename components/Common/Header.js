@@ -20,7 +20,9 @@ const Header = ({ categories, getGlobalData }) => {
   const searchCatagory = useSelector((state) => state.filter.searchCatagory);
 
   let getPageName = router.pathname == "/payment-method";
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     let getProducts = getFromStorage("products");
     dispatch(cartActions.updateProduct(getProducts));
@@ -29,6 +31,7 @@ const Header = ({ categories, getGlobalData }) => {
     // let getSelectCatagory = getFromStorage('searchCatagory') || '';
     // dispatch(filterActions.addSearchCatagoryFilter(getSelectCatagory));
   }, []);
+
   useEffect(() => {
     if (
       Object.keys(router?.query).includes("search") &&
@@ -142,8 +145,6 @@ const Header = ({ categories, getGlobalData }) => {
                     <Image
                       src={`${serverUrl}${getGlobalData?.data?.attributes?.logo?.data?.attributes?.url}`}
                       alt="img"
-                      // width={200}
-                      // height={200}
                       width="0"
                       height="0"
                       sizes="100vw"
@@ -160,11 +161,12 @@ const Header = ({ categories, getGlobalData }) => {
                     id="all-cat"
                     onChange={searchSelectHandle}
                   >
-                    <option value="all-cat">All Categories</option>
+                    <option defaultValue="all-cat">All Categories</option>
                     {categories?.data.map((item, i) => {
                       return (
                         <option
-                          value={item?.attributes?.slug}
+                          key={i}
+                          defaultValue={item?.attributes?.slug}
                           selected={myCat == item?.attributes?.slug}
                         >
                           {item?.attributes?.name}
@@ -181,20 +183,31 @@ const Header = ({ categories, getGlobalData }) => {
 
               <ul className="top-logo-3">
                 <li>
-                  <a className="emi-ima" href="#">
+                  {/* <a className="emi-ima" href="#">
                     <Image
                       src="/images/emi-but.svg"
                       alt="img"
                       width={200}
                       height={200}
                     ></Image>
-                  </a>
+                  </a> */}
+                </li>
+                <li className="cart-item">
+                  <Link className="mycar-but" href="/cart" as="/cart">
+                    {cartItemsCount > 0 && (
+                      <span className="item-count">{cartItemsCount}</span>
+                    )}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 27">
+                      <path d="M21.2 15.3H9.8c-.8 0-1.3.5-1.3 1.3s.5 1.3 1.3 1.3h12.7v2.6H9.8c-2.2 0-3.8-1.7-3.8-3.9 0-1.6.8-2.9 2.1-3.6l-3-9.5H.9V.9H6c.5 0 1 .4 1.1.9l1 3H25v2.6l-3.8 7.9zM9.8 21.8c1.4 0 2.5 1.2 2.5 2.6S11.2 27 9.8 27s-2.5-1.2-2.5-2.6 1.1-2.6 2.5-2.6zm10.1 0c1.4 0 2.5 1.2 2.5 2.6S21.3 27 19.9 27s-2.5-1.2-2.5-2.6 1.1-2.6 2.5-2.6z" />
+                    </svg>
+                    <span className="logo-title">Cart</span>
+                  </Link>
                 </li>
                 <li>
                   <Link
                     href={
                       (userDetails !== null &&
-                        Object.keys(userDetails)?.length > 0) ||
+                        Object?.keys(userDetails)?.length > 0) ||
                       (userDetails !== null &&
                         Object.keys(userDetails)?.length > 0 &&
                         cartItemsCount)
@@ -202,20 +215,12 @@ const Header = ({ categories, getGlobalData }) => {
                         : "/login"
                     }
                   >
+                    {/* <Image src={AccountIcon}></Image> */}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">
                       <path d="M13.1 26.6C5.9 26.6 0 20.7 0 13.3 0 6 5.9 0 13.1 0c7.2 0 13.1 6 13.1 13.3.1 7.4-5.8 13.3-13.1 13.3zm0-24C7.3 2.6 2.6 7.4 2.6 13.3c0 3.2 1.4 6.1 3.6 8 1.2-3.3 3.9-5.5 7-5.5s5.7 2.2 7 5.5c2.2-2 3.6-4.8 3.6-8C23.7 7.4 19 2.6 13.1 2.6zm0 12c-2.2 0-4-1.8-4-4.1s1.8-4.1 4-4.1 4 1.8 4 4.1c.1 2.3-1.7 4.1-4 4.1z" />
                     </svg>
+                    <span className="logo-title">Account</span>
                   </Link>
-                </li>
-                <li>
-                  <Link className="mycar-but" href="/cart" as="/cart">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 27">
-                      <path d="M21.2 15.3H9.8c-.8 0-1.3.5-1.3 1.3s.5 1.3 1.3 1.3h12.7v2.6H9.8c-2.2 0-3.8-1.7-3.8-3.9 0-1.6.8-2.9 2.1-3.6l-3-9.5H.9V.9H6c.5 0 1 .4 1.1.9l1 3H25v2.6l-3.8 7.9zM9.8 21.8c1.4 0 2.5 1.2 2.5 2.6S11.2 27 9.8 27s-2.5-1.2-2.5-2.6 1.1-2.6 2.5-2.6zm10.1 0c1.4 0 2.5 1.2 2.5 2.6S21.3 27 19.9 27s-2.5-1.2-2.5-2.6 1.1-2.6 2.5-2.6z" />
-                    </svg>
-                  </Link>
-                  {cartItemsCount > 0 && (
-                    <sup className="count">{cartItemsCount}</sup>
-                  )}
                 </li>
               </ul>
             </section>

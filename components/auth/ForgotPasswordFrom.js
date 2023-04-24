@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import usePostApi from '../../utils/usePostApi';
 import { Path } from '../../utils/apiService';
 import { useRouter } from 'next/router';
-import Loader from '../Common/Loader';
+import Loader from '../common/Loader';
 
 const ForgotPasswordFrom = () => {
   const router = useRouter();
@@ -40,9 +40,11 @@ const ForgotPasswordFrom = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="form-container">
         <div className="wrapper">
-          <h2 className="title">Forgot your password?</h2>
+          <div className="title title-login ">
+            <span>Forgot your password?</span>
+          </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <p className="description">Enter your email recover your account</p>
@@ -59,7 +61,6 @@ const ForgotPasswordFrom = () => {
               {errorMsg}
             </p>
             <div className="row">
-              <i className="fas fa-user"></i>
               <input
                 placeholder="email"
                 type="text"

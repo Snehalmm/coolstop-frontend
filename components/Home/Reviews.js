@@ -8,8 +8,11 @@ const Reviews = ({ reviews }) => {
       <div className="black-bg-rev">
         <section className="grid-container">
           <div className="reviews-block">
-            <div className="revblock">
-              <h4>What Our Customers Are Saying</h4>
+            <div className="revblockHeading">
+              {/* <h4>What Our Customers Are Saying</h4> */}
+              <h4>
+                Customer <span className="cm-line-break">Reviews</span>
+              </h4>
             </div>
             {reviewsData !== null &&
               reviewsData.data.map((item, index) => {

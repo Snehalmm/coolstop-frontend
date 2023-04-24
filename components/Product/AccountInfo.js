@@ -7,7 +7,7 @@ import { Path } from "../../utils/apiService";
 import { userActions } from "../../stores/slices/userSlice";
 import useDeleteApi from "../../utils/useDeleteApi";
 import { deleteNewsLetterEndpoint } from "../../utils/apiService";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 import { deleteFromStorage, getFromStorage } from "../../utils/storage";
 import { token } from "../../utils/config";
 

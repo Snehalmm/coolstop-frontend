@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import ReviewModel from '../../Modal/ReviewModel';
-import EmiView from '../../Modal/EmiView';
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-import { cartActions } from '../../../stores/slices/cartSlice';
-import { toIndianCurrency } from '../../../utils/services';
-import StarRating from '../StarRating';
+import React, { useState, useEffect } from "react";
+import ReviewModel from "../../Modal/ReviewModel";
+import EmiView from "../../Modal/EmiView";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { cartActions } from "../../../stores/slices/cartSlice";
+import { toIndianCurrency } from "../../../utils/services";
+import StarRating from "../../Common/StarRating";
 
 const ProductInfo = ({ data, item }) => {
   const router = useRouter();
@@ -53,7 +53,7 @@ const ProductInfo = ({ data, item }) => {
     };
     dispatch(cartActions.addProduct(cartItemObj));
 
-    router.push('/cart');
+    router.push("/cart");
   };
 
   return (
@@ -68,8 +68,8 @@ const ProductInfo = ({ data, item }) => {
                 size={25}
                 value={data.reviewStar}
                 disabled={true}
-                activeColor={'#FFA534'}
-                inactiveColor={'#ddd'}
+                activeColor={"#FFA534"}
+                inactiveColor={"#ddd"}
               />
               1 out of 1 customers rated 100%
             </span>
@@ -82,8 +82,8 @@ const ProductInfo = ({ data, item }) => {
               size={25}
               value={data.reviewStar}
               disabled={true}
-              activeColor={'#FFA534'}
-              inactiveColor={'#ddd'}
+              activeColor={"#FFA534"}
+              inactiveColor={"#ddd"}
             />
             <p>Rate This Item</p>
             <a
@@ -108,7 +108,7 @@ const ProductInfo = ({ data, item }) => {
               <div className="ppg-csp">&#8377;{toIndianCurrency(data.csp)}</div>
               <div className="dis-badge">
                 <span>
-                  {Number(getDiscount) < 10 ? `0${getDiscount}` : getDiscount}%{' '}
+                  {Number(getDiscount) < 10 ? `0${getDiscount}` : getDiscount}%{" "}
                   <br />
                   off
                 </span>

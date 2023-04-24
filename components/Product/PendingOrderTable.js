@@ -1,10 +1,10 @@
 import MyAccountList from "./MyAccountList";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import Moment from "moment";
 import { useState } from "react";
-import Invoice from "../Home/InvoiceB";
+import Invoice from "../home/InvoiceB";
 import { toIndianCurrency } from "../../utils/services";
 
 const PendingOrderTable = ({

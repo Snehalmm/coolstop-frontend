@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { userActions } from "../../stores/slices/userSlice";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { getFromStorage, saveToStorage } from "../../utils/storage";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 const DeliveryAddressTable = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -166,10 +166,8 @@ const DeliveryAddressTable = () => {
     }
   };
   const changeHandler = (key, value) => {
-    console.log("changeHandlerkey", key, value, formValue);
     let exFormValue = formValue;
     exFormValue[key] = value;
-    console.log("changeHandlerkey exFormValue", { ...exFormValue });
     setFormValue({ ...exFormValue });
     // let data = {
     //   key: e.target.value,
@@ -286,28 +284,6 @@ const DeliveryAddressTable = () => {
       document.getElementById("billingdiv").style.display = "none";
     }
   };
-
-  // useEffect(() => {
-  //   // setAddressData(userDetails?.user?.shippingAddress);
-  //   saveToStorage("billingaddress", userDetails?.user?.shippingAddress);
-  //   dispatch(userActions.addAddress(userDetails?.user?.shippingAddress));
-  // }, []);
-
-  console.log(
-    "csStae",
-    formValue,
-    userAddressDetails,
-    userAddressDetails?.shippingAddress?.townOrCity,
-    userAddressDetails?.shippingAddress?.townOrCity
-      ? userAddressDetails?.shippingAddress?.townOrCity
-      : "null"
-    // userDetails?.user?.shippingAddress,
-    // userAddressDetails,
-    // userDetails?.user?.shippingAddress?.townOrCity &&
-    // userAddressDetails?.shippingAddress?.townOrCity ? "Erohan" : "nckndckdn",
-    // JSON.stringify(userAddressDetails?.shippingAddress?.townOrCity),
-    // userAddressDetails?.shippingAddress?.townOrCity
-  );
 
   return (
     <>
@@ -740,7 +716,7 @@ const DeliveryAddressTable = () => {
                       >
                         <option>{formValue?.state}</option>
                         {States.map((state, index) => (
-                          <option value={state.state_id} key={index}>
+                          <option defaultValue={state.state_id} key={index}>
                             {state.state_name}
                           </option>
                         ))}

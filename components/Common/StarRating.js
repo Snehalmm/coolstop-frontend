@@ -37,4 +37,5 @@ const StarRating = ({
     </div>
   );
 };
+
 export default StarRating;

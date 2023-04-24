@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { toIndianCurrency } from "../../utils/services";
 import useGetApi from "../../utils/useGetApi";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 import { Path } from "../../utils/apiService";
 import Image from "next/image";
 import { token } from "../../utils/config";
@@ -112,13 +112,6 @@ const OrderSummary = ({
     setCheckExpirayDate(currentDate <= data.data[0]?.attributes.validTill);
     setCheckCartAmt(
       cartDetails.totalAmt >= data.data[0]?.attributes.cartMinAmt
-    );
-
-    console.log(
-      "data",
-      data.data[0]?.attributes.code === isCode?.discountCode,
-      currentDate <= data.data[0]?.attributes.validTill,
-      data.data[0]?.attributes.cartMinAmt <= cartDetails.totalAmt
     );
 
     // if (data.data[0]?.attributes.code === isCode?.discountCode) {

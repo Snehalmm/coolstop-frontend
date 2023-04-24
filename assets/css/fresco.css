@@ -1622,12 +1622,8 @@
 
 /* Login Form */
 
-.form-container {
-  max-width: 380px;
-  padding: 0 20px;
-  margin: 50px auto;
-}
-.sign-form-container {
+.container {
+  max-width: 440px;
   padding: 0 20px;
   margin: 50px auto;
 }
@@ -1641,7 +1637,7 @@
 
 .wrapper .title {
   height: 90px;
-  background: #471c4c;
+  /* background: rgb(45, 138, 213 0); */
   border-radius: 5px 5px 0 0;
   color: #fff;
   font-size: 30px;
@@ -1652,20 +1648,13 @@
 }
 
 .wrapper form {
-  padding: 30px 25px 25px 25px;
+  padding: 30px 15px 10px 15px;
 }
-
-.wrapper form .row {
-  height: 45px;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.wrapper form .row input {
+.wrapper form .row input,
+.wrapper form .row button {
   height: 100%;
   width: 100%;
   outline: none;
-  padding-left: 60px;
   border-radius: 5px;
   border: 1px solid lightgrey;
   font-size: 16px;
@@ -1695,14 +1684,37 @@ form .row input::placeholder {
   justify-content: center;
 }
 
-.wrapper form .pass {
+/* .wrapper form .pass {
   margin: -8px 0 20px 0;
+} */
+
+.form-label {
+  color: #495057;
+  font-size: 14px;
+  font-weight: 500;
+}
+.form-container,
+.sign-form-container {
+  padding: 0 20px;
+  margin: 50px auto;
 }
 
-.wrapper form .pass a {
+.form-container {
+  max-width: 380px;
+}
+
+.wrapper form .fg-pass a,
+.wrapper .signup-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #471c4c;
-  font-size: 17px;
+  font-size: 13px;
+  font-weight: 500;
   text-decoration: none;
+}
+.wrapper .signup-link {
+  padding-bottom: 10px;
 }
 
 .wrapper form .pass a:hover {
@@ -1711,23 +1723,22 @@ form .row input::placeholder {
 
 .button {
   background-color: #471c4c;
+  /* Green */
   border: none;
   color: white;
-  padding: 12px 32px;
-  /* text-align: center;
-  text-decoration: none;
-  display: inline-block; */
+  padding: 10px;
 }
 
-.wrapper form .signup-link {
+.wrapper .signup-link {
   text-align: center;
-  margin-top: 20px;
-  font-size: 17px;
+  font-size: 13px;
 }
 
-.wrapper form .signup-link a {
+.wrapper .signup-link a {
   color: #471c4c;
   text-decoration: none;
+  font-size: 13px;
+  padding-left: 5px;
 }
 
 form .signup-link a:hover {
@@ -2145,7 +2156,17 @@ li.slick-active button {
     width: 33%;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 480px) {
+  .card-header {
+    display: block;
+  }
+  .invoice-num {
+    width: 100%;
+    margin-top: 15px;
+  }
+  .invoice-card .card {
+    width: 90%;
+  }
   .home-productlist {
     flex-direction: column;
   }
@@ -2155,4 +2176,34 @@ li.slick-active button {
 }
 .home-all-prod-tit {
   margin: 15px 0;
+}
+
+.title-login {
+  background-image: linear-gradient(to right, #ac4c2c, #1c4474);
+  /* background-color: #471c4c; */
+}
+
+/* 9bbe23 */
+.view-text {
+  text-align: center;
+  margin: 10px 0;
+}
+.view-text span {
+  /* text-decoration: underline; */
+  cursor: pointer;
+  color: rgb(149, 15, 15);
+}
+.view-text span:hover {
+  color: #471c4c;
+}
+.top-logo-3 .cart-item {
+  position: relative;
+}
+.item-count {
+  position: absolute;
+  top: -8px;
+  right: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #471c4c;
 }

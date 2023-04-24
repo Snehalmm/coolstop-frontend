@@ -110,8 +110,11 @@ const Navbar = ({ categories }) => {
                       );
                     })}
                     <li>
-                      <a href="#">AC Servicing</a>
-                    </li>
+                      <a href="#"> AC Servicing </a>
+                    </li>{" "}
+                    {/* <li style={{ margin: '0 10px' }}>
+                      <Link href="/products"> All Products </Link>
+                    </li> */}
                   </ul>
                 </div>
                 <a className="wha-app-con" href="#">

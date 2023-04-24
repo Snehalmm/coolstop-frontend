@@ -15,6 +15,8 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const loggedIn = getFromStorage("userDetails");
+    const cartItems = getFromStorage("products");
+
     if (
       (router.pathname === "/register" || router.pathname === "/login") &&
       loggedIn
@@ -35,6 +37,12 @@ function MyApp({ Component, pageProps }) {
     }
     if (router.pathname === "/track-orders" && !loggedIn) {
       router.push("/login");
+    }
+    if (router.pathname === "/checkout" && cartItems?.length === 0) {
+      router.push("/");
+    }
+    if (router.pathname === "/payment-method" && cartItems?.length === 0) {
+      router.push("/");
     }
   }, []);
 

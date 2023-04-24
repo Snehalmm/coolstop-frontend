@@ -8,12 +8,13 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../stores/slices/userSlice";
 import { token } from "../../utils/config";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 import {
   saveToStorage,
   getFromStorage,
   deleteFromStorage,
 } from "../../utils/storage";
+import { BiLockOpenAlt } from "react-icons/Bi";
 
 const login = () => {
   const [errorMsg, setErrorMsg] = useState([]);
@@ -92,23 +93,30 @@ const login = () => {
     <>
       <div className="form-container">
         <div className="wrapper">
-          <div className="title">
+          <div className="title title-login">
             <span>Login Form</span>
           </div>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              color: "red",
+              marginTop: "10px",
+              marginBottom: 0,
+            }}
+          >
+            {errorMsg}
+          </span>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <p
+            <div
+              className="row"
               style={{
-                display: "flex",
-                justifyContent: "center",
-                color: "red",
-                marginTop: "10px",
-                marginBottom: 0,
+                margin: "10px 0",
               }}
             >
-              {errorMsg}
-            </p>
-            <div className="row">
-              <i className="fas fa-user"></i>
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
               <input
                 type="email"
                 placeholder="Email "
@@ -128,8 +136,15 @@ const login = () => {
               <p className="error-message">Please write a valid email</p>
             )}
 
-            <div className="row">
-              <i className="fas fa-lock"></i>
+            <div
+              className="row"
+              style={{
+                margin: "10px 0",
+              }}
+            >
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
               <input
                 type="password"
                 placeholder="Password"
@@ -151,28 +166,27 @@ const login = () => {
               <p className="error-message">{errors.password?.message}</p>
             )}
 
-            <div className="pass">
-              <Link href="/forgot-password">Forgot password? </Link>
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <span className="row">
               {loginLoading ? (
                 <Loader height={50} width={50} />
               ) : (
-                <button className="button" type="submit">
-                  Login
-                </button>
+                <>
+                  <button className="button" type="submit">
+                    Log in
+                  </button>
+                </>
               )}
-            </div>
-
-            <div className="signup-link">
-              Not a member?{" "}
-              <Link href="/register" className="signup-link">
-                {" "}
-                Signup now
+            </span>
+            <span className="fg-pass">
+              <Link href="/forgot-password">
+                <BiLockOpenAlt /> Forgot your password?
               </Link>
-            </div>
+            </span>
           </form>
+
+          <div className="signup-link">
+            Not a member? <Link href="/register">Signup now</Link>
+          </div>
         </div>
       </div>
     </>

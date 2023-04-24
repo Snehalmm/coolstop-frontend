@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { serverUrl } from "../../../utils/config";
 import { useState, useEffect } from "react";
-import StarRating from "../StarRating";
+import StarRating from "../../Common/StarRating";
 import { toIndianCurrency } from "../../../utils/services";
 import { useRouter } from "next/router";
 
@@ -132,7 +132,7 @@ const RelatedProducts = ({ dataRating, data }) => {
                                 <StarRating
                                   count={5}
                                   size={25}
-                                  value={dataRating.reviewStar}
+                                  defaultValue={dataRating.reviewStar}
                                   disabled={true}
                                   activeColor={"#FFA534"}
                                   inactiveColor={"#ddd"}

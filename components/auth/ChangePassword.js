@@ -5,7 +5,7 @@ import usePostApi from '../../utils/usePostApi';
 import { useSelector } from 'react-redux';
 import { token } from '../../utils/config';
 import { useRouter } from 'next/router';
-import Loader from '../Common/Loader';
+import Loader from '../common/Loader';
 
 const ChangePassword = ({ showPasswordModal, setShowPasswordModal }) => {
   const [errorMsg, setErrorMsg] = useState([]);

@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from 'react';
-// import AdressModal from '../Modal/AdressModal';
-// import ShippingAdressModal from '../Modal/ShippingAdressModal';
+// import AdressModal from '../modal/AdressModal';
+// import ShippingAdressModal from '../modal/ShippingAdressModal';
 
 // const AddressBook = () => {
 //   const [adressModal, setAdressModal] = useState();

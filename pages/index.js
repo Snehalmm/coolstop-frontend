@@ -1,7 +1,6 @@
 import Features from "../components/Home/Features";
-
 import Brand from "../components/Home/Brand";
-import Banner from "../components/Common/Banner";
+import Banner from "../components/common/Banner";
 import TopSeller from "../components/Home/TopSeller";
 import Reviews from "../components/Home/Reviews";
 import Blogs from "../components/Common/Blogs";
@@ -26,6 +25,19 @@ export default function Home(props) {
     if (getUserDetails) {
       dispatch(userActions.adduser(getUserDetails));
     }
+
+    window.__be = window.__be || {};
+    window.__be.id = "64413750c306720006c2db7d";
+    (function () {
+      var be = document.createElement("script");
+      be.type = "text/javascript";
+      be.async = true;
+      be.src =
+        ("https:" == document.location.protocol ? "https://" : "http://") +
+        "cdn.chatbot.com/widget/plugin.js";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(be, s);
+    })();
   }, []);
 
   return (

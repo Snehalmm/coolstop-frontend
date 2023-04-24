@@ -1,7 +1,7 @@
-import Features from "../components/Home/Features";
+import Features from "../components/home/Features";
 import { cartBreadcrums } from "../utils/data/breadcrumbs";
 import ShoppingCart from "../components/Product/ShoppingCart";
-import Breadcrumbs from "../components/Common/Breadcrumbs";
+import Breadcrumbs from "../components/common/Breadcrumbs";
 import { NextSeo } from "next-seo";
 import { serverUrl } from "../utils/config";
 import Script from "next/script";

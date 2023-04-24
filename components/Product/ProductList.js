@@ -1,17 +1,17 @@
-import Filters from '../Common/Filters';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import { filterActions } from '../../stores/slices/filterSlice';
-import { toIndianCurrency } from '../../utils/services';
-import { serverUrl } from '../../utils/config';
-import StarRating from '../Product/StarRating';
-import { useRouter } from 'next/router';
-import { deleteFromStorage } from '../../utils/storage';
-import Loader from '../Common/Loader';
-import ReactPaginate from 'react-paginate';
-// import Pagination from "../Common/Pagination";
+import Filters from "../common/Filters";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { filterActions } from "../../stores/slices/filterSlice";
+import { toIndianCurrency } from "../../utils/services";
+import { serverUrl } from "../../utils/config";
+import StarRating from "../Common/StarRating";
+import { useRouter } from "next/router";
+import { deleteFromStorage } from "../../utils/storage";
+import Loader from "../common/Loader";
+import ReactPaginate from "react-paginate";
+// import Pagination from "../common/Pagination";
 // import { paginate } from "../../utils/paginate";
 // import ReactPaginate from "react-paginate";
 
@@ -48,14 +48,14 @@ const Products = ({
     });
   };
   useEffect(() => {
-    deleteFromStorage('orderDetails');
+    deleteFromStorage("orderDetails");
   }, []);
 
   const handleChange = (e) => {
     const { value } = e.target;
     let url = {};
 
-    if (value !== '') {
+    if (value !== "") {
       dispatch(filterActions.addsort(value));
       url = {
         pathname: router.pathname,
@@ -72,7 +72,7 @@ const Products = ({
           ...router.query,
         },
       };
-      dispatch(filterActions.addsort(''));
+      dispatch(filterActions.addsort(""));
     }
     router.push(url, undefined, {
       shallow: true,
@@ -228,27 +228,27 @@ const Products = ({
                   <select
                     name="sortByProducts"
                     // id="sortBy"
-                    value={sortFilter[0]}
+                    defaultValue={sortFilter[0]}
                     onChange={handleChange}
                   >
-                    <option value="" selected={sortFilter[0] == ''}>
+                    <option value="" selected={sortFilter[0] == ""}>
                       Sort By
                     </option>
                     <option
                       value="topSeller"
-                      selected={sortFilter[0] == 'topSeller'}
+                      selected={sortFilter[0] == "topSeller"}
                     >
                       Top Seller
                     </option>
                     <option
                       value="csp%3Aasc"
-                      selected={sortFilter[0] == 'csp%3Aasc'}
+                      selected={sortFilter[0] == "csp%3Aasc"}
                     >
                       Low To High
                     </option>
                     <option
                       value="csp%3Adesc"
-                      selected={sortFilter[0] == 'csp%3Adesc'}
+                      selected={sortFilter[0] == "csp%3Adesc"}
                     >
                       High To Low
                     </option>
@@ -272,7 +272,7 @@ const Products = ({
                         )}
                       </select>
                       {/* <span className="result-width"> */}
-                      {'  '}{' '}
+                      {"  "}{" "}
                       <b className="result-width">
                         Out of {totalProductCount} results
                       </b>
@@ -400,8 +400,8 @@ const Products = ({
                                   size={25}
                                   value={item.attributes.reviewStar}
                                   disabled={true}
-                                  activeColor={'#FFA534'}
-                                  inactiveColor={'#ddd'}
+                                  activeColor={"#FFA534"}
+                                  inactiveColor={"#ddd"}
                                 />
                               </span>
                             </div>
@@ -418,9 +418,9 @@ const Products = ({
                 ) : (
                   <h4
                     style={{
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      margin: '20px',
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      margin: "20px",
                     }}
                   >
                     Product Not Found

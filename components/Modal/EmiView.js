@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React, { useState } from "react";
+import Image from "next/image";
 
 const EmiView = (props) => {
   const [opendropDown, setOpendropDown] = useState(null);
@@ -20,20 +20,20 @@ const EmiView = (props) => {
     <>
       <div
         className={`reveal-overlay ${
-          props.showMe ? 'scale-in-up mui-enter mui-enter-active' : ''
+          props.showMe ? "scale-in-up mui-enter mui-enter-active" : ""
         }`}
-        style={{ display: props.showMe ? 'block' : 'none', top: '39px' }}
+        style={{ display: props.showMe ? "block" : "none", top: "39px" }}
       >
         <div
           className={`small reveal rev-modal-style bounce-in-out ${
-            props.showMe ? 'scale-in-up mui-enter mui-enter-active' : ''
+            props.showMe ? "scale-in-up mui-enter mui-enter-active" : ""
           }`}
           id="emi-modal"
           data-reveal
           data-close-on-click="true"
           data-animation-in="scale-in-up"
           data-animation-out="scale-out-down"
-          style={{ display: props.showMe ? 'block' : 'none' }}
+          style={{ display: props.showMe ? "block" : "none" }}
         >
           <h4>EMI PAYMENT OPTION</h4>
           <span className="retrive-password-text">
@@ -49,10 +49,10 @@ const EmiView = (props) => {
             <li
               id="bajaj"
               className={`accordion-item ${
-                opendropDown === 'bajaj' ? 'is-active' : null
+                opendropDown === "bajaj" ? "is-active" : ""
               }`}
               data-accordion-item
-              onClick={() => onOpenHandle('bajaj')}
+              onClick={() => onOpenHandle("bajaj")}
             >
               <a href="#" className="accordion-title">
                 <Image
@@ -60,14 +60,14 @@ const EmiView = (props) => {
                   alt="Bajaj Finance"
                   width={10}
                   height={10}
-                />{' '}
+                />{" "}
                 Bajaj Finance
               </a>
 
               <div
                 className="accordion-content"
                 data-tab-content
-                style={{ display: opendropDown === 'bajaj' ? 'block' : null }}
+                style={{ display: opendropDown === "bajaj" ? "block" : null }}
               >
                 <table className="responsive-card-table striped">
                   <thead>
@@ -96,10 +96,10 @@ const EmiView = (props) => {
             <li
               id="hdfc"
               className={`accordion-item ${
-                opendropDown === 'hdfc' ? 'is-active' : null
+                opendropDown === "hdfc" ? "is-active" : ""
               }`}
               data-accordion-item
-              onClick={() => onOpenHandle('hdfc')}
+              onClick={() => onOpenHandle("hdfc")}
             >
               <a href="#" className="accordion-title">
                 <Image
@@ -107,14 +107,14 @@ const EmiView = (props) => {
                   alt="HDFC Bank"
                   width={10}
                   height={10}
-                />{' '}
+                />{" "}
                 HDFC Bank
               </a>
 
               <div
                 className="accordion-content"
                 data-tab-content
-                style={{ display: opendropDown === 'hdfc' ? 'block' : null }}
+                style={{ display: opendropDown === "hdfc" ? "block" : null }}
               >
                 <table className="responsive-card-table striped">
                   <thead>
@@ -143,10 +143,10 @@ const EmiView = (props) => {
             <li
               id="icici"
               className={`accordion-item ${
-                opendropDown === 'icici' ? 'is-active' : null
+                opendropDown === "icici" ? "is-active" : ""
               }`}
               data-accordion-item
-              onClick={() => onOpenHandle('icici')}
+              onClick={() => onOpenHandle("icici")}
             >
               <a className="accordion-title">
                 <Image
@@ -154,14 +154,14 @@ const EmiView = (props) => {
                   alt="ICICI Bank"
                   width={10}
                   height={10}
-                />{' '}
+                />{" "}
                 ICICI Bank
               </a>
 
               <div
                 className="accordion-content"
                 data-tab-content
-                style={{ display: opendropDown === 'icici' ? 'block' : null }}
+                style={{ display: opendropDown === "icici" ? "block" : null }}
               >
                 <table className="responsive-card-table striped">
                   <thead>

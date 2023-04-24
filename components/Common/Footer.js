@@ -42,7 +42,7 @@ const Footer = ({ getGlobalData }) => {
 
   const userDetails = useSelector((state) => state.user.userDetails);
 
-  const successHandler = () => {
+  const successHandler = (data) => {
     setSuccessMessage(" You have successfully subscribed to our newsletter.");
     setTimeout(function () {
       setSuccessMessage("");
@@ -77,7 +77,7 @@ const Footer = ({ getGlobalData }) => {
                             {item.link !== null ? (
                               <Link href={item.link}>{item.name}</Link>
                             ) : (
-                              item.name
+                              <Link href="#">{item.name}</Link>
                             )}
                           </li>
                         );

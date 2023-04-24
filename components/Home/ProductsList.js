@@ -3,10 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { serverUrl } from "../../utils/config";
 import { toIndianCurrency } from "../../utils/services";
-import StarRating from "../Product/StarRating";
+import StarRating from "../Common/StarRating";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { useRouter } from "next/router";
+import { Slide } from "react-toastify";
 
 const ProductsList = ({ data }) => {
   const router = useRouter();
@@ -57,13 +58,17 @@ const ProductsList = ({ data }) => {
       <section>
         <div className="grid-container">
           <div className="sec-title home-all-prod-tit">
-            <h1 style={{ marginBottom: "20px" }}>All Products</h1>
+            {" "}
+            <Link href="/products">
+              {" "}
+              <h1 style={{ marginBottom: "20px" }}>All Products</h1>
+            </Link>
           </div>
         </div>
       </section>
 
       <section>
-        <div className="grid-container">
+        <div className="grid-container home-prod-slider">
           <Slider {...slideSettings}>
             {data?.length > 0 &&
               data?.map((item, index) => {
@@ -108,7 +113,7 @@ const ProductsList = ({ data }) => {
                         </Link>
 
                         <div className="prod-details">
-                          <div className="prod-details-1">
+                          {/* <div className="prod-details-1">
                             <a href="#">
                               {brandImage !== null && (
                                 <Image
@@ -119,37 +124,37 @@ const ProductsList = ({ data }) => {
                                 />
                               )}
                             </a>
-                          </div>
-                          <div className="prod-details-2">
+                          </div> */}
+                          <div className="prod-details-2   ">
                             <h2>
                               <a href="#">{item.attributes.name}</a>
                             </h2>
                           </div>
-                          <div className="prod-details-3">
+                          {/* <div className="prod-details-3">
                             <span className="slp">
                               ₹{toIndianCurrency(item.attributes.csp)}
                             </span>
                             <span className="mrp">
                               <s>₹{toIndianCurrency(item.attributes.mrp)}</s>
                             </span>
-                          </div>
+                          </div> */}
                           <div className="prod-details-4">
                             <span className="b-rating">
                               <StarRating
                                 count={5}
                                 size={25}
-                                value={item.attributes.reviewStar}
+                                defaultValue={item.attributes.reviewStar}
                                 disabled={true}
                                 activeColor={"#FFA534"}
                                 inactiveColor={"#ddd"}
                               />
                             </span>
                           </div>
-                          <div className="prod-details-5">
+                          {/* <div className="prod-details-5">
                             <span className="emi">
                               No Cost EMI | Standard EMI From ₹ 1,188
                             </span>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -158,6 +163,9 @@ const ProductsList = ({ data }) => {
               })}
           </Slider>
         </div>
+        {/* <div className="view-text">
+          <span className="">View More</span>
+        </div> */}
       </section>
 
       {/* <section className="grid-container">

@@ -1,6 +1,6 @@
-import ProgressBar from '../components/Common/ProgressBar';
+import ProgressBar from '../components/common/ProgressBar';
 
-import PaymentSuccess from '../components/Common/PaymentSuccess';
+import PaymentSuccess from '../components/common/PaymentSuccess';
 
 const Confirmation = () => {
   const progressBarData = [
