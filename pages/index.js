@@ -3,7 +3,7 @@ import Brand from "../components/Home/Brand";
 import Banner from "../components/common/Banner";
 import TopSeller from "../components/Home/TopSeller";
 import Reviews from "../components/Home/Reviews";
-import Blogs from "../components/Common/Blogs";
+import Blogs from "../components/common/Blogs";
 import React, { useEffect } from "react";
 import { Path } from "../utils/apiService";
 import { userActions } from "../stores/slices/userSlice";

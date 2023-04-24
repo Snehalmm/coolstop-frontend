@@ -1,4 +1,4 @@
-import Breadcrumbs from "../components/Common/Breadcrumbs";
+import Breadcrumbs from "../components/common/Breadcrumbs";
 import { contactUsBreadCrums } from "../utils/data/breadcrumbs";
 
 const ContactUs = () => {

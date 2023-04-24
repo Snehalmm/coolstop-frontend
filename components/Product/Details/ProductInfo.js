@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { cartActions } from "../../../stores/slices/cartSlice";
 import { toIndianCurrency } from "../../../utils/services";
-import StarRating from "../../Common/StarRating";
+import StarRating from "../../common/StarRating";
 
 const ProductInfo = ({ data, item }) => {
   const router = useRouter();

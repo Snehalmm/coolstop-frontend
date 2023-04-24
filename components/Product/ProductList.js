@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterActions } from "../../stores/slices/filterSlice";
 import { toIndianCurrency } from "../../utils/services";
 import { serverUrl } from "../../utils/config";
-import StarRating from "../Common/StarRating";
+import StarRating from "../common/StarRating";
 import { useRouter } from "next/router";
 import { deleteFromStorage } from "../../utils/storage";
 import Loader from "../common/Loader";
