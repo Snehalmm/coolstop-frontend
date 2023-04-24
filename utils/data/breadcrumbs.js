@@ -131,7 +131,7 @@ const faqBreadcrums = [
     title: 'FAQ',
   },
 ];
-const contactUsBreadCrums = [
+const contactUsBreadCrumb = [
   {
     id: 1,
     link: '/',
@@ -167,6 +167,6 @@ export {
   pendingOrderBreadcrums,
   trackOrderBreadcrums,
   faqBreadcrums,
-  contactUsBreadCrums,
+  contactUsBreadCrumb,
   aboutUsBreadCrums,
 };
