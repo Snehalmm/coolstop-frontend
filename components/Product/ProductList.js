@@ -11,10 +11,10 @@ import { useRouter } from "next/router";
 import { deleteFromStorage } from "../../utils/storage";
 import Loader from "../Common/Loader";
 import ReactPaginate from "react-paginate";
-// import Pagination from "../common/Pagination";
+// import Pagination from "../Common/Pagination";
 // import { paginate } from "../../utils/paginate";
 // import ReactPaginate from "react-paginate";
-
+  
 const Products = ({
   totalProductCount,
   data,
