@@ -1,5 +1,5 @@
 import MyAccountList from "./MyAccountList";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import Moment from "moment";

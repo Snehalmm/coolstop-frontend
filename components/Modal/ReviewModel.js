@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import usePostApi from "../../utils/usePostApi";
 import { useForm } from "react-hook-form";
 import { Path } from "../../utils/apiService";
-import StarRating from "../common/StarRating";
+import StarRating from "../Common/StarRating";
 import { useSelector } from "react-redux";
 import { token } from "../../utils/config";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 
 const ReviewModel = (props) => {
   const [authError, setAuthError] = useState("");

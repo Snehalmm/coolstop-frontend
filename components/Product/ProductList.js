@@ -1,4 +1,4 @@
-import Filters from "../common/Filters";
+import Filters from "../Common/Filters";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterActions } from "../../stores/slices/filterSlice";
 import { toIndianCurrency } from "../../utils/services";
 import { serverUrl } from "../../utils/config";
-import StarRating from "../common/StarRating";
+import StarRating from "../Common/StarRating";
 import { useRouter } from "next/router";
 import { deleteFromStorage } from "../../utils/storage";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 import ReactPaginate from "react-paginate";
 // import Pagination from "../common/Pagination";
 // import { paginate } from "../../utils/paginate";

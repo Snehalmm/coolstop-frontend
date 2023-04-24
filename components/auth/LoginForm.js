@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../stores/slices/userSlice";
 import { token } from "../../utils/config";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 import {
   saveToStorage,
   getFromStorage,

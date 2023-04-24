@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../stores/slices/cartSlice";
 import { toIndianCurrency } from "../../utils/services";
 import useGetApi from "../../utils/useGetApi";
-import Loader from "../common/Loader";
+import Loader from "../Common/Loader";
 import { Path } from "../../utils/apiService";
 import Image from "next/image";
 import { token } from "../../utils/config";

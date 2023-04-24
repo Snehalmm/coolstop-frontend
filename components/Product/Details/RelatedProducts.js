@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { serverUrl } from "../../../utils/config";
 import { useState, useEffect } from "react";
-import StarRating from "../../common/StarRating";
+import StarRating from "../../Common/StarRating";
 import { toIndianCurrency } from "../../../utils/services";
 import { useRouter } from "next/router";
 

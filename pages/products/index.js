@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Features from "../../components/Home/Features";
 import ProductList from "../../components/Product/ProductList";
 import { productsBreadcrumb } from "../../utils/data/breadcrumbs";
-import Breadcrumbs from "../../components/common/Breadcrumbs";
+import Breadcrumbs from "../../components/Common/Breadcrumbs";
 import { Path } from "../../utils/apiService";
 import { serverUrl, token } from "../../utils/config";
 import { NextSeo } from "next-seo";

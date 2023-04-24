@@ -1,5 +1,5 @@
-import Breadcrumbs from '../components/common/Breadcrumbs';
-import Features from '../components/home/Features';
+import Breadcrumbs from '../components/Common/Breadcrumbs';
+import Features from '../components/Home/Features';
 import PendingOrderTable from '../components/Product/PendingOrderTable';
 import { pendingOrderBreadcrums } from '../utils/data/breadcrumbs';
 import { NextSeo } from 'next-seo';

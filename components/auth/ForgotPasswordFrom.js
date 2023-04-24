@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import usePostApi from '../../utils/usePostApi';
 import { Path } from '../../utils/apiService';
 import { useRouter } from 'next/router';
-import Loader from '../common/Loader';
+import Loader from '../Common/Loader';
 
 const ForgotPasswordFrom = () => {
   const router = useRouter();

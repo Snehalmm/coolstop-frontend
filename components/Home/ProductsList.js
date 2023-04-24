@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { serverUrl } from "../../utils/config";
 import { toIndianCurrency } from "../../utils/services";
-import StarRating from "../common/StarRating";
+import StarRating from "../Common/StarRating";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { useRouter } from "next/router";

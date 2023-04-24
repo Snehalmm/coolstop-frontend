@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import ProgressBar from "../components/common/ProgressBar";
+import ProgressBar from "../components/Common/ProgressBar";
 import DeliveryAddressTable from "../components/Product/DeliveryAddressTable";
-import Features from "../components/home/Features";
-import Breadcrumbs from "../components/common/Breadcrumbs";
+import Features from "../components/Home/Features";
+import Breadcrumbs from "../components/Common/Breadcrumbs";
 import { checkoutBreadcrums } from "../utils/data/breadcrumbs";
 import CheckoutForm from "../components/Product/CheckoutForm";
 import { useRouter } from "next/router";
