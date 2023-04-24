@@ -130,7 +130,7 @@ const faqBreadcrums = [
     link: '/faq',
     title: 'FAQ',
   },
-];
+];  
 const contactUsBreadCrumb = [
   {
     id: 1,
